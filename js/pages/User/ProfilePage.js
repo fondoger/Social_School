@@ -282,8 +282,11 @@ export default class ProfilePage extends React.Component {
         </View>
         <View style={{position:'absolute', top:ScreenWidth/2.2-51, width:ScreenWidth, alignItems:'center'}}>
           <TouchableWithoutFeedback onPress={()=>{}}>
-          <Image style={{width:96, height:96, borderRadius:48, borderColor:'#fff', borderWidth:3}}
-            source={{uri:user.avatar}} />
+            <View style={{borderWidth:3, borderRadius:50, borderColor:'#fff'}}>
+              <UserAvatar {...this.props} user={user} size={96} hideLogo={true} style={{margin:-1}} onPress={()=>{
+                this.props.navigation.navigate('Common_ImageViewerPage', {initialImage: 0, images: [{source: {uri: user.avatar+'!mini5'}}]});
+              }}/>
+            </View>
           </TouchableWithoutFeedback>
         </View>
         <Animated.View style={{position:'absolute', top:0, left:0, right:0, height:ScreenWidth/2.2, 

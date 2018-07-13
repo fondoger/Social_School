@@ -18,6 +18,7 @@ import { getGMTTimeDiff } from '../utils/Util';
 import Storage from '../utils/Storage';
 import UserAvatar from './UserAvatar';
 import MyToast from './MyToast';
+import ContextMenu from './ContextMenu';
 
 export default class StatusReplyItem extends React.Component {
 
@@ -65,7 +66,7 @@ export default class StatusReplyItem extends React.Component {
       {name: '复制评论', callback: () => MyToast.show('点击了复制')}, 
       option
     ];
-    this.props.screenProps.showContextMenu(options, e);
+    ContextMenu.showMenu(options, e);
   }
 
   _updateStatusReplyLike = () => {

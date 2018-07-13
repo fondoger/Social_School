@@ -104,7 +104,7 @@ class FirstPage extends React.Component {
   renderSwiperItem(activity) {
     return (
       activity?
-      <TouchableWithoutFeedback onPress={()=>this.props.screenProps.showToast('点击了活动: '+activity.title)}>
+      <TouchableWithoutFeedback onPress={()=>MyToast.show('点击了活动: '+activity.title)}>
         <Image style={{flex:1, aspectRatio:2.5}}
                source={{uri: activity.picture}} />
       </TouchableWithoutFeedback>:
@@ -129,7 +129,7 @@ class FirstPage extends React.Component {
       // 6. 活动时间, 必须
       // 7. 活动地点 (可能有)
       <TouchableHighlight key={activity.id} style={{ marginBottom:8,}}
-          onPress={()=>this.props.screenProps.showToast('点击了'+activity.title)}>
+          onPress={()=>MyToast.show('点击了'+activity.title)}>
         <View style={{backgroundColor:'#fff', padding:12}}>
           <Text style={{color:'#222', fontSize:18}}>{activity.title}</Text>
           <Text style={{marginTop:8, marginBottom:12, fontSize:15}}>{activity.description}</Text>

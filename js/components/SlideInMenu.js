@@ -33,8 +33,9 @@ export default class SlideInMenu extends React.Component {
   static instance = null;
 
   static setInstance(instance) {
+    console.log(instance.constructor.name);
     if (instance instanceof SlideInMenu)
-      ContextMenu.instance = instance;
+      SlideInMenu.instance = instance;
     else
       console.error('instance is not SlideInMenu');
   }
@@ -61,7 +62,7 @@ export default class SlideInMenu extends React.Component {
     if (!this.state.visible)
       return null
     return (
-        <TouchableWithoutFeedback onPress={this.hideSlideInComponent}>
+        <TouchableWithoutFeedback onPress={this._hideSlideInComponent.bind(this)}>
           <View style={{position:'absolute', top:0, right:0, left:0, bottom:0}}>
               <View style={{flex:1, backgroundColor:'#000', opacity:this.state.componentOverlayOpacity}} />
               <Animated.View
@@ -77,18 +78,18 @@ export default class SlideInMenu extends React.Component {
   }
 
   static showMenu(...args)  {
-    const instance = getInstance();
+    const instance = SlideInMenu.getInstance();
     instance._showMenu(...args);
   }
 
   static showSlideInComponent(...args) {
-    const instance = getInstance();
+    const instance = SlideInMenu.getInstance();
     instance._showSlideInComponent(...args);
   }
 
   static hideSlideInComponent(...args) {
-    const instance = getInstance();
-    instance.hideSlideInComponent(...args);
+    const instance = SlideInMenu.getInstance();
+    instance._hideSlideInComponent(...args);
   }
 
 
@@ -130,13 +131,13 @@ export default class SlideInMenu extends React.Component {
   }
 
   _showMenu(items, selectedIndexCallback) {
-    this.showSlideInComponent(()=>{
+    this._showSlideInComponent(()=>{
       return (
         <View style={{backgroundColor:'#fff', paddingTop:4, paddingBottom:4}}>
           {
             items.map((text, index)=>(
               <TouchableWithoutFeedback key={index.toString()} 
-                  onPress={()=>{selectedIndexCallback(index); this.hideSlideInComponent();}}>
+                  onPress={()=>{selectedIndexCallback(index); this._hideSlideInComponent();}}>
                 <View style={{height:40, backgroundColor:'#fff', paddingLeft:16, justifyContent:'center'}}>
                   <Text style={{fontSize:16, color:'#222'}}>{text}</Text>
                 </View>
@@ -149,7 +150,7 @@ export default class SlideInMenu extends React.Component {
   }
 
   onBackButtonPressAndroid = () => {
-    this.hideSlideInComponent();
+    this._hideSlideInComponent();
     return true;
   }
 

@@ -19,13 +19,13 @@ export default class UserAvatar extends React.Component {
   }
 
   render() {
-    const {hideLogo, user, group } = this.props;
+    const {hideLogo, user, group, onPress } = this.props;
     const user_vip_logo = require('../../img/user_vip.png');
     const avatar = user ? user.avatar: group.avatar;
     const size = this.props.size || 46;
     return (
       <TouchableWithoutFeedback 
-          onPress={this.onPress||this._defaultOnAvatarPress}>
+          onPress={onPress||this._defaultOnAvatarPress}>
         <View style={[this.props.style, {height:size, width:size}]}>
           <Image style={[StyleSheet.absoluteFill, {width:size, 
                         height:size, borderRadius:size/2}]} 

@@ -69,7 +69,7 @@ class PriceEditDialog extends React.Component {
             { this.state.priceValueValid ? null : <Text style={{color:'#ff9800'}}>价格不合法</Text>}
           </View>
           <View>
-            <TouchableHighlight style={{marginTop:24, height:40}} onPress={()=>{this.props.hide()}}>
+            <TouchableHighlight style={{marginTop:24, height:40}} onPress={ModalMenu.hide}>
               <View style={{flex:1, alignItems:'center', justifyContent:'center', backgroundColor:'#f44'}}>
                 <Text style={{color:'#fff'}}>确定</Text>
               </View>
@@ -183,21 +183,21 @@ export default class PersonalPage extends React.Component {
   }
 
   onPriceFieldPress = () => {
-    this.props.screenProps.showModalComponent((props) => 
-      <PriceEditDialog  {...props} 
+    ModalMenu.showComponent(() => 
+      <PriceEditDialog
         price={this.state.priceValue} 
         onPriceChange={this.onPriceChange} />
     );
   }
 
   onCategoryFieldPress = () => {
-    this.props.screenProps.showSlideInMenu(categories, (selectedIndex) => {
+    SlideInMenu.showMenu(categories, (selectedIndex) => {
       this.setState({selectedCategoryIndex: selectedIndex});
     });
   }
 
   onLocationFieldPress = () => {
-    this.props.screenProps.showSlideInMenu(locations, (selectedIndex) => {
+    SlideInMenu.showMenu(locations, (selectedIndex) => {
       this.setState({selectedLocationIndex: selectedIndex});
     });
   }

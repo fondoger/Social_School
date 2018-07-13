@@ -19,7 +19,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import ScrollableTabView, { DefaultTabBar } from 'react-native-scrollable-tab-view';
+import { TabView, renderScene, TabBar } from 'react-native-tab-view';
 
 const emoji = [
 "😀", "😁", "😂", "😅", "😆", 
@@ -52,29 +52,13 @@ const emojiKeyboardHeight = 250;
 const blockIconNum = 23;
 const blocks = Math.ceil(emoji.length / blockIconNum);
 
-class TabBarDot extends React.Component {
-
-  render() {
-    return (
-      <View style={[styles.tabsDot, this.props.style, ]}>
-      { 
-        this.props.tabs.map((tab, i) => (
-          <TouchableOpacity key={i.toString()}
-              style={[styles.tabDot,{backgroundColor: (this.props.activeTab === i? '#ccc': '#fff')}]}>
-            <View style={styles.dot}></View>
-          </TouchableOpacity>
-        ))
-      }
-      </View>
-    );
-  }
-}
 
 class EmojiKeyboard extends React.Component {
 
-  constructor(props) {
-      super(props);
-  }
+  state = {
+    selected: 0,
+    routes: [],
+  };
 
   componentDidMount() {
     this.groupView = [];
@@ -98,7 +82,10 @@ class EmojiKeyboard extends React.Component {
               </TouchableOpacity>
           </View>
         );
-    }    
+    }
+    const routes = this.groupView.map((item, index)=>({key: index.toString()}));
+    console.log(routes);
+    this.setState({routes})
   }
 
   _onBackspacePress() {
@@ -132,22 +119,138 @@ class EmojiKeyboard extends React.Component {
     if (!this.props.show)
       return null;
     return (
-      <Animated.View style={this.props.style,styles.container}>
-        <ScrollableTabView
+      <View style={styles.container}>
+        <TabView
+          navigationState={this.state}
+          onIndexChange={(index)=>{this.setState({index: index})}}
           tabBarPosition='bottom'
-          renderTabBar={() => <TabBarDot {...this.props} />}
-          initialPage={0}
-          tabBarActiveTextColor="#fc7d30"
-          tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
-          >
-          {
-            this.groupView
-          }
-        </ScrollableTabView>
-      </Animated.View>
+          renderScene={(args)=> {
+            console.log(args);
+            return this.groupView[args.route.key]
+          }}
+          renderTabBar={(props)=>{
+            //console.log(props);
+            return (
+              <View style={{backgroundColor:'#f00', flexDirection:'row', justifyContent:'center'}}> 
+              {
+                this.groupView.map((item, index)=>(
+                  <View style={[{width:5, height:5, borderRadius: 2.5, backgroundColor: '#666', margin: 5}, index===this.state.index?{backgroundColor:'#222'}:null]} />
+                ))
+              }
+                
+              </View>   
+            )         
+          }}
+          // renderTabBar={(props)=>
+          //   <TabBar
+          //     {...props}
+          //     layout={{width:20}}
+          //     style={{width:20, backgroundColor: null}}
+          //     renderLabel={()=>null}
+          //     renderIcon={()=>null}
+          //     indicatorStyle={styles.dot}
+          //   />
+          // }
+        >
+        </TabView>
+      </View>
     )
+    // return (
+    //   <Animated.View style={this.props.style,styles.container}>
+    //     <ScrollableTabView
+    //       tabBarPosition='bottom'
+    //       renderTabBar={() => <TabBarDot {...this.props} />}
+    //       initialPage={0}
+    //       tabBarActiveTextColor="#fc7d30"
+    //       tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
+    //       >
+    //       {
+    //         this.groupView
+    //       }
+    //     </ScrollableTabView>
+    //   </Animated.View>
+    // )
   }
 }
+
+// class EmojiKeyboard extends React.Component {
+
+//   constructor(props) {
+//       super(props);
+//   }
+
+//   componentDidMount() {
+//     this.groupView = [];
+//     for (let i = 0; i < blocks; i++) {
+//         let emoji_block = [];
+//         for (let j = 0; j < blockIconNum; j++) {
+//           emoji_block.push(this.renderEmojiIcon(i*blockIconNum+j));
+//         }
+//         this.groupView.push(
+//           <View style={styles.groupView} key={'block'+i}
+//                 tabLabel={'block'+i}>
+//               {
+//                 emoji_block
+//               }
+//               <TouchableOpacity
+//                 activeOpacity={0.6}
+//                 onPress={this._onBackspacePress.bind(this)}
+//                 style={[styles.emojiTouch, styles.delete]}
+//                 >
+//                 <Text style={styles.backspaceButton}>&#xe69f;</Text>
+//               </TouchableOpacity>
+//           </View>
+//         );
+//     }    
+//   }
+
+//   _onBackspacePress() {
+//     if (this.props.onBackspacePress)
+//       this.props.onBackspacePress();
+//   }
+
+//   _onEmoticonPress(emojiValue) {
+//     if (this.props.onEmoticonPress)
+//       this.props.onEmoticonPress(emojiValue);
+//   }
+
+//   renderEmojiIcon(index) {
+//     const value = emoji[index];
+//     const desc = emoji_desc[index];
+//     return (
+//       <TouchableHighlight
+//         underlayColor={'#f1f1f1'}
+//         onPress={()=>this._onEmoticonPress.bind(this)(value)}
+//         style={styles.emojiTouch}
+//         key={index.toString()}
+//         >
+//         <Text style={styles.emoji} >
+//           {value}
+//         </Text>
+//       </TouchableHighlight>
+//     )
+//   }
+
+//   render() {
+//     if (!this.props.show)
+//       return null;
+//     return (
+//       <Animated.View style={this.props.style,styles.container}>
+//         <ScrollableTabView
+//           tabBarPosition='bottom'
+//           renderTabBar={() => <TabBarDot {...this.props} />}
+//           initialPage={0}
+//           tabBarActiveTextColor="#fc7d30"
+//           tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
+//           >
+//           {
+//             this.groupView
+//           }
+//         </ScrollableTabView>
+//       </Animated.View>
+//     )
+//   }
+// }
 
 const {height, width} = require('Dimensions').get('window');
 
@@ -204,7 +307,7 @@ const styles = StyleSheet.create({
     width: 60,
     borderRightWidth: 1,
     borderColor: 'rgba(178,178,178,.3)',
-    backgroundColor: '#fff'
+    backgroundColor: '#888'
   },
   tabs: {
     height: 40,
@@ -235,7 +338,7 @@ const styles = StyleSheet.create({
     marginRight: 5
   },
   dot: {
-    backgroundColor: '#f1f1f1',
+    backgroundColor: '#444',
     width: 6,
     height: 6,
     borderRadius: 3,

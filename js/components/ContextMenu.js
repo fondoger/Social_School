@@ -55,7 +55,7 @@ export default class ContextMenu extends React.Component {
     return (
       <View style={{backgroundColor: '#fff', alignItems: 'center',
             height: MenuHeight, width: MenuWidth, flexDirection: 'row', }} >
-        <IconFont icon='&#xe870;' color='#333' size={20} style={{paddingLeft: 12, paddingRight: 12}}/>
+        <IconFont icon={option.icon} color='#333' size={20} style={{paddingLeft: 15, paddingRight: 15}}/>
         <Text style={{flex: 1, color: '#333', fontSize: 16, lineHeight: 20}}>{option.name}</Text>
       </View>
     )
@@ -70,8 +70,8 @@ export default class ContextMenu extends React.Component {
           <View style={{top:0, left:0, right:0, bottom:0, position:'absolute'}}>
             <Animated.View style={{
                 position:'absolute', left: this.state.posX, top: this.state.posY,
-                transform: [{scale: this.state.scaleAnim}], elevation: 5,
-                borderRadius: 2, opacity: this.state.opaciAnim, overflow: 'hidden'}}>
+                transform: [{scale: this.state.scaleAnim}], elevation: 6,
+                borderRadius: 3, opacity: this.state.opaciAnim, overflow: 'hidden'}}>
               {
                 options.map((option, index) => (
                   <TouchableHighlight
@@ -93,7 +93,7 @@ export default class ContextMenu extends React.Component {
   static instance = null;
 
   static setInstance(instance) {
-    console.log(typeof instance);
+    console.log(instance.constructor.name);
     if (instance instanceof ContextMenu)
       ContextMenu.instance = instance;
     else

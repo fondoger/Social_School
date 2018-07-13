@@ -43,6 +43,9 @@ import Sale_EditSalePage from './js/pages/Sale/EditSalePage';
 
 import MediumTransPage from './js/pages/Common/MediumTransPage';
 
+// Remove react-navigation Bug warning, temporarily solution
+import { YellowBox } from 'react-native'; 
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
 
 const MainTabs = createBottomTabNavigator({

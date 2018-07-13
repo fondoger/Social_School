@@ -5,6 +5,7 @@ import Theme from '../utils/Theme';
 import Upyun from '../utils/Upyun';
 import ImagePicker from 'react-native-image-crop-picker';
 import MyToast from './MyToast';
+import ModalMenu from './ModalMenu';
 
 export default class ImageSelector extends React.Component {
 
@@ -95,7 +96,7 @@ export default class ImageSelector extends React.Component {
       compressImageQuality: 0.95,
     }
 
-    this.props.screenProps.showModalMenu([
+    ModalMenu.showMenu([
       {name:'拍照', callback:()=>{ImagePicker.openCamera(cameraConfig).then(this.onImageSelected)}},
       {name:'相册', callback:()=>{ImagePicker.openPicker(pickerConfig).then(this.onImagesSelected)}},
     ]);

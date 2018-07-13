@@ -19,7 +19,7 @@ import API from '../../utils/API_v1';
 import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers, } from 'react-native-popup-menu';
 import { getPassedTime, getSaleTime } from '../../utils/Util';
 import Storage from '../../utils/Storage';
-import { MyToast } from '../../components';
+import { MyToast, ModalMenu } from '../../components';
 
 const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;
@@ -278,7 +278,7 @@ export default class SalePage extends React.Component {
         });
       }},
     ];
-    this.props.screenProps.showModalMenu(options);
+    ModalMenu.showMenu(options);
   }
 
   renderCommentBar = () => {

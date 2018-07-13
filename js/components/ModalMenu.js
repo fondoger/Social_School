@@ -21,6 +21,23 @@ import Theme from '../utils/Theme';
 
 export default class ModalMenu extends React.Component {
 
+  static instance = null;
+
+  static setInstance(instance) {
+    console.log(instance.constructor.name);
+    if (instance instanceof ModalMenu)
+      ModalMenu.instance = instance;
+    else
+      console.error('instance is not SlideInMenu');
+  }
+
+  static getInstance() {
+    if (this.instance === null) {
+      console.error('Please call setInstance() first!');
+    }
+    return this.instance;
+  }
+
   constructor(props) {
     super (props);
     this.state = {
@@ -37,31 +54,51 @@ export default class ModalMenu extends React.Component {
     if (!this.state.visible)
       return null
     return (
-        <TouchableWithoutFeedback onPress={this.hide}>
+        <TouchableWithoutFeedback onPress={this._hide}>
           <View style={{top:0, left:0, right:0, bottom:0, position:'absolute',}}>
               <Animated.View style={{flex:1, backgroundColor:'#000', opacity:this.state.modalOpacity}} >
               </Animated.View>
               <Animated.View style={{top:0, left:0, right:0, bottom:0, opacity: this.state.contentOpacity,
                 position: 'absolute', justifyContent: 'center', alignItems: 'center'}}>
-                  <this.state.renderComponent hide={this.hide}/>
+                  <this.state.renderComponent />
               </Animated.View>
           </View>
         </TouchableWithoutFeedback>
     )     
   }
 
-  hide = () => {
+  static showMenu(...args) {
+    const instance = ModalMenu.getInstance();
+    instance._showMenu(...args);
+  }
+
+  static showLoading(...args) {
+    const instance = ModalMenu.getInstance();
+    instance._showLoading(...args);
+  }
+
+  static showComponent(...args) {
+    const instance = ModalMenu.getInstance();
+    instance._showComponent(...args);
+  }
+
+  static hide(...args) {
+    const instance = ModalMenu.getInstance();
+    instance._hide();
+  }
+
+  _hide = () => {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
     Animated.timing(this.state.contentOpacity, {
       duration: 100,
       toValue: 0,
-      easing: Easing.out(Easing.cubic),
+      easing: Easing.elastic(1),
       useNativeDriver: true
     }).start();
     Animated.timing(this.state.modalOpacity, {
-      duration: 100,
+      duration: 200,
       toValue: 0,
-      easing: Easing.out(Easing.cubic),
+      easing: Easing.elastic(1),
       useNativeDriver: true
     }).start();
     setTimeout(()=>{
@@ -78,30 +115,23 @@ export default class ModalMenu extends React.Component {
         useNativeDriver: true
       }).start();
     setTimeout(()=>{
-      // Animated.timing(this.state.contentOpacity, {
-      //   duration: 50,
-      //   toValue: 1,
-      //   easing: Easing.out(Easing.cubic),
-      //   useNativeDriver: true
-      // }).start();
       this.state.contentOpacity.setValue(1);
     }, 80);
   }
 
-  showLoading(text, modalOpacity=0.3) {
+  _showLoading(text, modalOpacity=0.3) {
     this.setState({visible:true, renderComponent: this.renderLoading, text: text});
-    this._show();
-    return this.hide;
+    this._show(modalOpacity);
   }
 
-  showMenu(options, modalOpacity=0.6) {
+  _showMenu(options, modalOpacity=0.6) {
     this.setState({visible:true, renderComponent: this.renderOptions, options:options});
-    this._show();
+    this._show(modalOpacity);
   }
 
-  showComponent(component, modalOpacity=0.6) {
+  _showComponent(component, modalOpacity=0.6) {
     this.setState({visible:true, renderComponent: component});
-    this._show();
+    this._show(modalOpacity);
   }
 
   renderOptions = () => {
@@ -111,7 +141,7 @@ export default class ModalMenu extends React.Component {
           paddingTop:6, paddingBottom:6, borderRadius:3,}}>
         {
           this.state.options.map((item, i) => (
-            <TouchableHighlight key={i} onPress={()=>{this.hide(); item.callback();}}>
+            <TouchableHighlight key={i} onPress={()=>{this._hide(); item.callback();}}>
               <View style={{backgroundColor: '#fff', justifyContent: 'center', height: 50, width: 250}} >
                 <Text style={{color: '#222', fontSize: 16, paddingLeft:20,}}>{item.name}</Text>
               </View>
@@ -133,7 +163,7 @@ export default class ModalMenu extends React.Component {
   }
 
   onBackButtonPressAndroid = () => {
-    this.hide();
+    this._hide();
     return true;
   }
 

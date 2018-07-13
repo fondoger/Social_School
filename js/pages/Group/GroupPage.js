@@ -117,8 +117,9 @@ export default class GroupPage extends React.Component {
 
   onMoreButtonPress(e) {
     const options = [
-      {name: '收藏微博', callback: () => MyToast.show('收藏')},
-      {name: '复制正文', callback: () => MyToast.show('复制正文')},
+      {name: '发表贴子', icon: '\ue66c', callback: () => MyToast.show('发表帖子')},
+      {name: '团体微博', icon: '\ue62d', callback: () => MyToast.show('团体微博')},
+      {name: '发起活动', icon: '\ue6c5', callback: () => MyToast.show('发起活动')},
     ];
     ContextMenu.showIconMenu(options, {pageX: ScreenWidth-8, pageY: headerHeight});
   }
@@ -161,7 +162,7 @@ export default class GroupPage extends React.Component {
             </View>
             <View style={{width: ScreenWidth, height: ScreenWidth/2.5, backgroundColor: 'rgba(0,0,0,0.2)',
                           position: 'absolute', top: 0, left: 0}} />
-            <View style={{width: ScreenWidth, background: '#fff', paddingLeft: 16}}>
+            <View style={{width: ScreenWidth, backgroundColor: '#fff', paddingLeft: 16}}>
               <View style={{height: 44, flexDirection:'row', padding:8, paddingRight:12}} >
                 <View style={{flex:1}} />
                 <SelectButton 

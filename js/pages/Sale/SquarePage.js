@@ -173,19 +173,19 @@ export default class SquarePage extends React.Component {
   }
 
   onCategoryFieldPress = () => {
-    this.props.screenProps.showSlideInMenu(categories, (selectedIndex) => {
+    SlideInMenu.showMenu(categories, (selectedIndex) => {
       this.setState({selectedCategoryIndex: selectedIndex}, this.refreshSales);
     });
   }
 
   onLocationFieldPress = () => {
-    this.props.screenProps.showSlideInMenu(locations, (selectedIndex) => {
+    SlideInMenu.showMenu(locations, (selectedIndex) => {
       this.setState({selectedLocationIndex: selectedIndex}, this.refreshSales);
     });
   }
 
   onPriceFieldPress = () => {
-    this.props.screenProps.showSlideInMenu(priceOrders, (selectedIndex) => {
+    SlideInMenu.showMenu(priceOrders, (selectedIndex) => {
       this.setState({selectedPriceOrderIndex: selectedIndex});
     });
   }

@@ -90,10 +90,10 @@ export default class StatusPage extends React.Component {
     this.setState({refreshing: true,});
     const { status, replies, } = this.state;
     API.Status.get({id:status.id}, (responseJson)=>{
-      this.props.screenProps.showToast('刷新成功');
+      MyToast.show('刷新成功');
       this.setState({ status: responseJson, refreshing: false});
     }, (error) => {
-      this.props.screenProps.showToast('刷新失败');
+      MyToast.show('刷新失败');
       this.setState({ refreshing: false});
     });
     this.handleLoadMore({reload:true});
@@ -137,15 +137,14 @@ export default class StatusPage extends React.Component {
   }
 
   handleMoreButton = () => {
-    console.log(this.props.screenProps.showSlideInMenu);
-    this.props.screenProps.showSlideInMenu(['删除微博', '复制正文', '收藏微博'], (selected) => {
+    SlideInMenu.showMenu(['删除微博', '复制正文', '收藏微博'], (selected) => {
       if (selected == 0)
         API.Status.delete({id: this.state.status.id}, (responseJson)=>{
-          this.props.screenProps.showToast('删除成功');
+          MyToast.show('删除成功');
           setTimeout(()=>{
             this.props.navigation.goBack();
           }, 1000);
-        }, (err)=>{this.props.screenProps.showToast('删除失败😭')});
+        }, (err)=>{MyToast.show('删除失败😭')});
     }) ;   
   }
 
@@ -187,10 +186,10 @@ export default class StatusPage extends React.Component {
         replies.push(responseJson);
         this.setState({replies});
       }
-      this.props.screenProps.showToast('回复成功!', {length:'long'});
+      MyToast.show('回复成功!', {length:'long'});
       callback(true);
     }, (error)=>{
-      this.props.screenProps.showToast('啊呀, 粗错啦, 回复失败!', {type:'warning', length:'long'});
+      MyToast.show('啊呀, 粗错啦, 回复失败!', {type:'warning', length:'long'});
       callback(false);
     });
   }
@@ -260,7 +259,7 @@ export default class StatusPage extends React.Component {
           style={[{marginTop:8}, Styles.borderBlockItem]}>
         <View style={{flexDirection:'row', padding:12, backgroundColor:'#fff'}} >
           <View style={{flex:1}}> 
-            <Text style={{fontSize:16, color:'#444', fontWeight:'555', marginBottom:4}}
+            <Text style={{fontSize:16, color:'#444', fontWeight:'500', marginBottom:4}}
               >{status.user.username}</Text>
             <Text style={{fontSize:12, color:'#888'}} >{status.user.self_intro}</Text>
           </View>

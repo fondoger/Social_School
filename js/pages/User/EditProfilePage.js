@@ -15,7 +15,7 @@ import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
 import ImagePicker from 'react-native-image-crop-picker';
 import Upyun from '../../utils/Upyun';
-import { MyToast, StatuesesItem, GroupPostItem } from '../../components';
+import { MyToast, StatuesesItem, GroupPostItem, ModalMenu, SlideInMenu } from '../../components';
 
 const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;
@@ -43,23 +43,23 @@ export default class EditProfilePage extends React.Component {
     API.User.put({gender:gender}, (responseJson)=>{
       this.setState({user: responseJson});
       Storage.setItem('user', responseJson);
-    }, (error)=>{ this.props.screenProps.shotToast('出错啦');})
+    }, (error)=>{ MyToast.show('出错啦');})
   }
 
   onImageSelected = (image) => {
-    const closeCallback = this.props.screenProps.showModalLoading('正在上传图片');
+    ModalMenu.showLoading('正在上传图片');
     Upyun.upload({fileUri:image.path, prefix:'avatar'}, (uploaded_url)=>{
       API.User.put({avatar:uploaded_url}, (responseJson)=>{
-        closeCallback();
+        ModalMenu.hide();
         Storage.setItem('user', responseJson);
         this.setState({user: responseJson});
         MyToast.show('修改头像成功');
       }, (err) => {
-        closeCallback();
+        ModalMenu.hide();
         MyToast.show('出错啦');
       });
     }, (err)=>{
-      closeCallback();
+      ModalMenu.hide();
       MyToast.show('上传图片失败');
     })
   }
@@ -75,19 +75,18 @@ export default class EditProfilePage extends React.Component {
       cropperToolbarColor: Theme.themeColor,
       cropperStatusBarColor: Theme.themeColor,
     };
-    const hideModal = this.props.screenProps.hideModal;
-    this.props.screenProps.showModalComponent( (props) =>
+    ModalMenu.showComponent( () => (
       <TouchableWithoutFeedback>
         <View style={{padding:20, backgroundColor:'#fff', borderRadius:3,}}>
           <Text style={{color:'#222', fontSize:18}}>选择头像</Text>
           <View style={{marginTop:12, flexDirection:'row'}}>
-            <TouchableHighlight style={{marginRight:16}} onPress={()=>{ImagePicker.openCamera(pickerConfig).then(this.onImageSelected); props.hide()}}>
+            <TouchableHighlight style={{marginRight:16}} onPress={()=>{ImagePicker.openCamera(pickerConfig).then(this.onImageSelected); ModalMenu.hide()}}>
               <View style={{backgroundColor:'#fff', alignItems:'center', padding:12, paddingLeft:24, paddingRight:24}}>
                 <Text style={{fontFamily:'iconfont', fontSize:36, color:'#3498db'}}>&#xe872;</Text>
                 <Text style={{color:'#444', fontSize:14}}>拍照</Text>
               </View>
             </TouchableHighlight>
-            <TouchableHighlight style={{marginLeft:16}} onPress={()=>{ImagePicker.openPicker(pickerConfig).then(this.onImageSelected); props.hide()}}>
+            <TouchableHighlight style={{marginLeft:16}} onPress={()=>{ImagePicker.openPicker(pickerConfig).then(this.onImageSelected); ModalMenu.hide()}}>
               <View style={{backgroundColor:'#fff', alignItems:'center', padding:12, paddingLeft:24, paddingRight:24}}>
                 <Text style={{fontFamily:'iconfont', fontSize:36, color:'#9b59b6'}}>&#xe889;</Text>
                 <Text style={{color:'#444', fontSize:14}}>相册</Text>
@@ -96,12 +95,12 @@ export default class EditProfilePage extends React.Component {
           </View>
         </View>
       </TouchableWithoutFeedback>
-    );
+    ));
   }
 
   onGenderPress = () => {
     const user = this.state.user;
-    this.props.screenProps.showSlideInMenu(['男', '女', '未知'], (selected) => {
+    SlideInMenu.showMenu(['男', '女', '未知'], (selected) => {
       if (selected == 0)
         this.changeGenderTo(1);
       else if (selected == 1)

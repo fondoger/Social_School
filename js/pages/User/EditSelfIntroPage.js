@@ -26,14 +26,14 @@ export default class EditUsernamePage extends React.Component {
   componentDidMount() {
     this.props.navigation.setParams({
       handleFinish: () => {
-        const closeCallback = this.props.screenProps.showModalLoading("正在保存");
+        ModalMenu.showLoading("正在保存");
         API.User.put({self_intro:this.state.self_intro}, (responseJson)=>{
-          closeCallback();
+          ModalMenu.hide();
           Storage.setItem('user', responseJson);
           MyToast.show('修改成功');
           this.props.navigation.goBack();
         }, (error)=>{
-          closeCallback()
+          ModalMenu.hide();
           MyToast.show(error.message||'未知错误');
         });
       },

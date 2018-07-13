@@ -18,9 +18,9 @@ export default class MyToast extends React.Component {
   static instance = null;
 
   static setInstance(instance) {
-    console.log(instance);
+    console.log(instance.constructor.name);
     if (instance instanceof MyToast)
-      ContextMenu.instance = instance;
+      MyToast.instance = instance;
     else
       console.error('instance should be MyToast!');
   }
@@ -33,8 +33,8 @@ export default class MyToast extends React.Component {
   }
 
   static show(...args) { 
-    const instance = getInstance();
-    this.thisObject._show(...args);
+    const instance = MyToast.getInstance();
+    instance._show(...args);
   }
 
   static INFO = '#288EFB';

@@ -12,7 +12,7 @@ import {
   Dimensions,
   StyleSheet,
 } from 'react-native';
-
+import { withNavigation } from 'react-navigation';
 import Theme from '../utils/Theme';
 import TimelinePage from './TimelinePage';
 import TrendingPage from './TrendingPage';
@@ -25,6 +25,7 @@ export default class HomeScreenTab extends React.Component {
   
   static navigationOptions = {
     title: '首页',
+    header: null,
   }
 
   state = {
@@ -39,7 +40,7 @@ export default class HomeScreenTab extends React.Component {
     return (
       <View style={{flexDirection: 'row', height: Theme.headerHeight, backgroundColor: Theme.themeColor, elevation: 1, shadowOpacity: 0}}>
         <View style={{flex: 4, alignItems: 'flex-start'}} >
-          <TouchableHighlight onPress={()=>{this.props.navigation.navigate('SearchPage')}}>
+          <TouchableHighlight onPress={()=>{this.props.navigation.navigate('Common_SearchPage')}}>
             <View style={{flexDirection: 'row', justifyContent: 'center', height: 43, alignItems:'flex-end', width:48, padding: 8, backgroundColor:Theme.themeColor}}>
               <IconFont color='#fff' size={20} icon={'\ue623'} />
             </View>
@@ -70,7 +71,7 @@ export default class HomeScreenTab extends React.Component {
       <TabView 
         navigationState={this.state}
         renderScene={SceneMap({
-          first: () => <TimelinePage navigation={_this.props.navigation} screenProps={_this.props.screenProps}/>,
+          first: withNavigation(TimelinePage),
           second: () => <TrendingPage navigation={_this.props.navigation} screenProps={_this.props.screenProps}/>,
         })}
         onIndexChange={()=>{}}

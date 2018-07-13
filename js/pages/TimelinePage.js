@@ -21,7 +21,7 @@ import textToContentArray from '../utils/Util';
 import Emotion from  '../utils/Emotion';
 import API from '../utils/API_v1';
 import Storage from '../utils/Storage';
-import { MyToast, Loading, SaleItem, StatusesItem, GroupPostItem, ModalMenu } from '../components';
+import { MyToast, Loading, SaleItem, StatusesItem, GroupPostItem, ModalMenu, ContextMenu } from '../components';
 
 const pageTheme = {
   borderColor: '#d8d8d8',
