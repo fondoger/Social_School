@@ -11,9 +11,8 @@ import {
 } from 'react-native';
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
-import StatusesItem from '../../components/StatusesItem';
-import GroupPostItem from '../../components/GroupPostItem';
 import Storage from '../../utils/Storage';
+import { Loading, UserAvatar, StatusesItem, GroupPostItem } from '../../components';
 
 
 export default class RelationshipsPage extends React.Component {
@@ -23,9 +22,7 @@ export default class RelationshipsPage extends React.Component {
     const title = navParams.type === 'user_followed' ? `${navParams.user.followed} ${person}关注的人` :
                  navParams.type === 'user_followers' ? `${navParams.user.followers} 关注${person}的人` :
                  navParams.type === 'user_groups' ? `${navParams.user.groups_enrolled} ${person}加入的团体` : null;
-    return {
-      title: title,
-    }
+    return { title: title, }
   };
 
   constructor(props) {
@@ -63,11 +60,9 @@ export default class RelationshipsPage extends React.Component {
 
   renderUserItem(user) {
     return (
-      <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('UserPage', {user:user})}>
+      <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('User_ProfilePage', {user:user})}>
       <View style={{flexDirection:'row', backgroundColor:'#fff', padding:12}}>
-        <View style={{width:48, height:48}}>
-          <Image style={{width:48, height:48, borderRadius:24}} source={{uri:user.avatar+'!thumbnail'}}/>
-        </View>
+        <UserAvatar user={user} size={48} />
         <View style={{flex:1, marginLeft:12}}>
           <Text style={{color:'#444', fontSize:14, fontWeight:'bold', marginTop:2, marginBottom:2}}>{user.username}</Text>
           <Text style={{fontSize:13}}>{user.self_intro}</Text>
