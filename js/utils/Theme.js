@@ -7,6 +7,8 @@ export default {
     tabBarHeight: 50,
     themeColor: '#2096f3',
     themeColorDeep: '#1872ba',
+    themeColorLight: '#53a9ed',
+    backgroundColor: '#f2f4f5',
     headerColorLight: '#fafbfd',
     headerColorLightTint: '#444',
     secondaryColor: '#228f1b',

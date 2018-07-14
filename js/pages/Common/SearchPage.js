@@ -7,6 +7,8 @@ import {
   FlatList, 
   TextInput,
   StyleSheet,
+  PixelRatio,
+  Keyboard,
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from 'react-native';
@@ -28,6 +30,36 @@ const user_A = {
 };
 
 
+class Chip extends React.Component {
+  state = {
+    onPressing: false,
+  }
+  setActiveStyle() {
+    this.inner.setNativeProps({backgroundColor:'#ced0d0'}); 
+    this.text.setNativeProps({style:{color:'#fff'}});
+  }
+  setInactiveStyle() {
+    this.inner.setNativeProps({backgroundColor:Theme.backgroundColor}); 
+    this.text.setNativeProps({style:{color:'#222'}})
+  }
+  render() {
+    const { text } = this.props;
+    return (
+      <View style={styles.chipOuter} key={text}>
+        <TouchableWithoutFeedback 
+            onPressIn={this.setActiveStyle.bind(this)}
+            onPressOut={this.setInactiveStyle.bind(this)}
+            onPress={this.props.onPress} >
+          <View style={styles.chipInner} ref={ref=>this.inner=ref}>
+            <Text style={styles.chipText} ref={ref=>this.text=ref}>{text}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    )
+  }
+}
+
+
 export default class UserTab extends React.Component {
 
   static navigationOptions = {
@@ -41,8 +73,10 @@ export default class UserTab extends React.Component {
       load_more_error: false,
       load_more_ing: false,
       has_next: true,
+      textValue: '',
       keyword: '',
       textInputFocused: false,
+      showInitialPage: true,
     }
   }
 
@@ -58,9 +92,14 @@ export default class UserTab extends React.Component {
   }
 
   onSearchItemPress() {
+    if (this.state.textValue === null)
+      return;
+    this.state.keyword = this.state.textValue;
     this.state.items = [];
     this.state.load_more_ing = false;
     this.state.has_next = true;
+    this.state.showInitialPage = false;
+    Keyboard.dismiss();
     this.handleLoadMore();
   }
 
@@ -75,8 +114,8 @@ export default class UserTab extends React.Component {
             style={styles.textInput}
             multiline={false}
             placeholder="动态、用户、团体、二手"
-            value={this.state.keyword}
-            onChangeText={(text)=>this.setState({keyword: text})}
+            value={this.state.textValue}
+            onChangeText={(text)=>this.setState({textValue: text})}
             underlineColorAndroid="transparent"
             selectionColor='rgba(255,255,255,.75)'
             placeholderTextColor='rgba(255,255,255,.4)'
@@ -88,7 +127,7 @@ export default class UserTab extends React.Component {
             this.state.keyword === '' ? null:
             <IconFont icon="&#xe691;" size={20} color="#fff"
                       style={{margin:6, marginBottom:4}}
-                      onPress={()=>this.setState({keyword: ''})}/>
+                      onPress={()=>this.setState({textValue: ''})}/>
           }
           </View>
       </View>
@@ -96,14 +135,14 @@ export default class UserTab extends React.Component {
   }
 
   renderSearchHint() {
-    if (!this.state.textInputFocused || this.state.keyword === "")
+    if (!this.state.textInputFocused || this.state.textValue === "")
       return null;
     return (
       <View style={{position:'absolute', flex:1, flexDirection:'row', paddingLeft:16, paddingRight:16, paddingTop:4}}>
         <View style={{flex:1, flexDirection:'row', elevation: 8, backgroundColor:'#fff'}}>
           <TouchableHighlight onPress={this.onSearchItemPress.bind(this)} style={{flex:1, flexDirection:'row'}} >
             <View style={{backgroundColor:'#fff', padding: 16, flex:1}}>
-              <Text style={{color:Theme.themeColorDeep, fontSize:16,}}>搜索 "{this.state.keyword}"</Text>
+              <Text style={{color:Theme.themeColorDeep, fontSize:16,}}>搜索 “{this.state.textValue}”</Text>
             </View>
           </TouchableHighlight>
         </View>
@@ -126,18 +165,22 @@ export default class UserTab extends React.Component {
   }
 
   render() {
+    const { showInitialPage } = this.state;
     return (
       <View style={styles.container} >
         { this.renderSearchBar() }
         <View>
-          <FlatList
-            data={this.state.items}
-            keyExtractor={(item, index) => item.id.toString()}
-            renderItem={({item, index}) => {return this.renderUserItem(item);}}
-            onEndReached={this.handleLoadMore}
-            ItemSeparatorComponent={()=><View style={{height:0.5, backgroundColor:'#eee'}}></View>}
-            ListFooterComponent={this.renderFooter.bind(this)}
-          />  
+          { 
+            showInitialPage ? this.renderInitialPage():
+            <FlatList
+              data={this.state.items}
+              keyExtractor={(item, index) => item.id.toString()}
+              renderItem={({item, index}) => {return this.renderUserItem(item);}}
+              onEndReached={this.handleLoadMore}
+              ItemSeparatorComponent={()=><View style={{height:0.5, backgroundColor:'#eee'}}></View>}
+              ListFooterComponent={this.renderFooter.bind(this)}
+            /> 
+          } 
           { this.renderSearchHint() }
         </View>
       </View>
@@ -154,14 +197,26 @@ export default class UserTab extends React.Component {
     )
   }
 
+  onChipPress(text) {
+    this.setState({textValue: text}, ()=>{
+      this.onSearchItemPress();
+    });
+  } 
+
   renderInitialPage() {
     const hot_search = ['新声力量', '毛不易', '石头计划', '镇魂', '乐华七子NEXT', 
       'Wrecking Ball', 'Hymn For The Weekend', '模特', '偶像练习生'];
     return (
-      <View style={styles.container}>
+      <View style={{flex: 1}}>
         <View>
           <Text>热门搜索</Text>
-          <View></View>
+          <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+          {
+            hot_search.map((item, index)=>(
+              <Chip text={item} onPress={()=>this.onChipPress(item)}/>)
+            )
+          }
+          </View>
         </View>
       </View>
     )
@@ -172,6 +227,7 @@ export default class UserTab extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Theme.backgroundColor,
   },
   searchBar: {
     flexDirection: 'row',
@@ -194,5 +250,24 @@ const styles = StyleSheet.create({
     flex:1, 
     fontSize:16,
     color: '#fff',
+  },
+  chipOuter: {
+    backgroundColor:'#ced0d0', 
+    padding: 1, 
+    height:32, 
+    borderRadius:16,
+    margin: 5,
+  },
+  chipInner: {
+    height: 30, 
+    borderRadius:15, 
+    alignItems:'center', 
+    justifyContent:'center',
+    paddingLeft: 15,
+    paddingRight: 15,
+    backgroundColor: Theme.backgroundColor,
+  },
+  chipText: {
+    color: '#222',
   },
 });

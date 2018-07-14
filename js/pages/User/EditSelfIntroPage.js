@@ -9,6 +9,7 @@ import {
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
+import { ModalMenu } from '../../components';
 
 export default class EditUsernamePage extends React.Component {
 
