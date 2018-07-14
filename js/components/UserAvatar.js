@@ -6,10 +6,11 @@ import {
   StyleSheet,
   TouchableWithoutFeedback, 
 } from 'react-native';
+import { withNavigation } from 'react-navigation';
 
 const defaultAvatar = 'http://asserts.fondoger.cn/default/default_avatar.jpg!thumbnail';
 
-export default class UserAvatar extends React.Component {
+class UserAvatar extends React.Component {
 
   _defaultOnAvatarPress = () => {
     if (this.props.user)
@@ -46,3 +47,5 @@ export default class UserAvatar extends React.Component {
     )
   }
 }
+
+export default withNavigation(UserAvatar);

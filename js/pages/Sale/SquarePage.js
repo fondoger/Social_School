@@ -14,6 +14,7 @@ import API from '../../utils/API_v1';
 import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers, } from 'react-native-popup-menu';
 import Storage from '../../utils/Storage';
 import { getSaleTime } from '../../utils/Util';
+import { SlideInMenu } from '../../components';
 
 const locations = ['不限', '学院路校区', '沙河校区'];
 const categories = ['不限', '学习&书籍', '数码&电器', '生活&日用', '户外&文体', '票券&其他'];

@@ -93,11 +93,12 @@ export default class ContextMenu extends React.Component {
   static instance = null;
 
   static setInstance(instance) {
-    console.log(instance.constructor.name);
-    if (instance instanceof ContextMenu)
-      ContextMenu.instance = instance;
-    else
-      console.error('instance is not ContextMenu');
+    if (instance != null) {
+      if (instance instanceof ContextMenu)
+        ContextMenu.instance = instance;
+      else
+        console.error('instance is not ContextMenu');
+    }
   }
 
   static getInstance() {

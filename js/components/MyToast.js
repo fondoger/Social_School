@@ -18,11 +18,12 @@ export default class MyToast extends React.Component {
   static instance = null;
 
   static setInstance(instance) {
-    console.log(instance.constructor.name);
-    if (instance instanceof MyToast)
-      MyToast.instance = instance;
-    else
-      console.error('instance should be MyToast!');
+    if (instance != null) {
+      if (instance instanceof MyToast)
+        MyToast.instance = instance;
+      else
+        console.error('instance should be MyToast!');
+    }
   }
 
   static getInstance() {

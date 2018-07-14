@@ -36,6 +36,7 @@ export default class RelationshipsPage extends React.Component {
   }
 
   componentDidMount() {
+    this.handleLoadMore();
   }
 
   handleLoadMore = () => {

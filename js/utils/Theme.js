@@ -5,7 +5,6 @@ export default {
     statusBarHeight: (Platform.OS === 'ios' ? 20 : StatusBar.currentHeight),
     headerHeight: 48,
     tabBarHeight: 50,
-    //themeColor: '#2F9EFB',
     themeColor: '#2096f3',
     themeColorDeep: '#1872ba',
     headerColorLight: '#fafbfd',

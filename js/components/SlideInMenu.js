@@ -33,11 +33,12 @@ export default class SlideInMenu extends React.Component {
   static instance = null;
 
   static setInstance(instance) {
-    console.log(instance.constructor.name);
-    if (instance instanceof SlideInMenu)
-      SlideInMenu.instance = instance;
-    else
-      console.error('instance is not SlideInMenu');
+    if (instance != null) {
+      if (instance instanceof SlideInMenu)
+        SlideInMenu.instance = instance;
+      else
+        console.error('instance is not SlideInMenu');
+    }
   }
 
   static getInstance() {

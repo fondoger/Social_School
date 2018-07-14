@@ -24,11 +24,12 @@ export default class ModalMenu extends React.Component {
   static instance = null;
 
   static setInstance(instance) {
-    console.log(instance.constructor.name);
-    if (instance instanceof ModalMenu)
-      ModalMenu.instance = instance;
-    else
-      console.error('instance is not SlideInMenu');
+    if (instance != null) {     
+      if (instance instanceof ModalMenu)
+        ModalMenu.instance = instance;
+      else
+        console.error('instance is not ModalMenu');
+    }
   }
 
   static getInstance() {

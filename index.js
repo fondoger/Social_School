@@ -13,8 +13,8 @@ import {
   ModalMenu,
   ContextMenu,
   SlideInMenu,
+  IconFont,
 } from './js/components';
-
 
 import Common_LoginPage from './js/pages/Common/LoginPage';
 import Common_RegisterPage from './js/pages/Common/RegisterPage';
@@ -135,25 +135,10 @@ const RootStack = createStackNavigator({
     gesturesEnabled: true,
     headerLeft: ({tintColor}) => (
       <TouchableWithoutFeedback onPress={()=>navigation.goBack()}>
-        <View style={{width:60, alignItems:'center', padding:12, paddingTop:13}}>
-          <Text style={{fontFamily:'iconfont', fontSize:24, color:tintColor,}}>&#xe622;</Text>
-        </View>
+        <IconFont icon='&#xe622;' style={{width:60, alignItems:'center', padding:12, paddingTop:13}} size={24} color={tintColor} />
       </TouchableWithoutFeedback>
     ),
   }),
-//   transitionConfig: ()=> {
-//     return {
-//       screenInterpolator: (sceneProps) => {
-//         const { scenes } = sceneProps;
-//         const topRouteName = scenes[scenes.length-1].route.routeName;
-//         if (topRouteName.slice(0,4) === 'Sale' || topRouteName === 'Status_StatusPage') {
-//           StatusBar.setBarStyle('dark-content');
-//         } else {
-//           StatusBar.setBarStyle('light-content');
-//         }
-//     }
-//   }
-// },
 });
 
 function getActiveRouteName(navigationState) {
@@ -184,14 +169,11 @@ class App extends React.Component {
     }
   }
 
-  screenProps = new Object();
-
   render() {
     return (
       <View style={{flex:1}}>
         <StatusBar translucent={true} backgroundColor='rgba(0,0,0,0)' barStyle="light-content"/>
         <RootStack
-          screenProps={this.screenProps}
           onNavigationStateChange={this.handleNavigationStateChange}
         />
         <MyToast ref={(ref)=>{MyToast.setInstance(ref);}} />
