@@ -14,11 +14,9 @@ import {
 } from 'react-native';
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
-import StatusesItem from '../../components/StatusesItem';
-import GroupPostItem from '../../components/GroupPostItem';
 import Storage from '../../utils/Storage';
 import { StackNavigator } from 'react-navigation';
-import Loading from '../../components/Loading';
+import { Loading, StatusesItem, GroupPostItem } from '../../components';
 
 const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;

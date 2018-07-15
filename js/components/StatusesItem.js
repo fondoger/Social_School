@@ -82,7 +82,9 @@ export default class StatusesItem extends React.Component {
     const item = this.state.status;
     const isGroupStatus = item.type === API.Status.GROUPSTATUS;
     const display_name = isGroupStatus ? item.group.groupname:item.user.username;
-    const self_intro = isGroupStatus?`By ${item.user.username}`:item.user.self_intro;
+    let self_intro = isGroupStatus?`, By ${item.user.username}`: item.user.self_intro;
+    if (self_intro !== '')
+      self_intro = ', ' + self_intro;
     return (
       <View style={{flexDirection:'row', paddingLeft:12, paddingTop:12, alignItems:'center'}}>
         <UserAvatar navigation={this.props.navigation} size={40} 
@@ -90,9 +92,9 @@ export default class StatusesItem extends React.Component {
           group={isGroupStatus?item.group:null} />
         <View style={{paddingLeft:12}}>
           <Text style={{fontSize:14, color:'#333', fontWeight:'bold'}}
-                onPress={this.onProfilePress}>{display_name}</Text>
+                onPress={this.onProfilePress}>{display_name}<Text style={{color: '#bbb', fontWeight: 'normal'}}>{self_intro}</Text></Text>
           <Text style={{fontSize:12, color:'#888'}}
-                onPress={this.jumpToUserProfilePage}>{self_intro}</Text>
+                onPress={this.jumpToUserProfilePage}>{getGMTTimeDiff(item.timestamp)}</Text>
         </View>
         { this.props.inDetailedPage ? null: 
           <TouchableWithoutFeedback onPress={this.handleLongPress} >
@@ -103,6 +105,7 @@ export default class StatusesItem extends React.Component {
         }
       </View>
     )
+    // <Text style={{marginRight:16, color:'#697480', fontSize:12, flex:1, textAlign:'right'}}>{getGMTTimeDiff(item.timestamp)}</Text>
   }
 
   render() {
@@ -167,7 +170,7 @@ export default class StatusesItem extends React.Component {
             <Text style={{marginLeft:2, color:'#697480', fontSize:10}}>{item.likes==0?'赞':item.likes}</Text>
           </View>
         </TouchableWithoutFeedback>
-        <Text style={{marginRight:16, color:'#697480', fontSize:12, flex:1, textAlign:'right'}}>{getGMTTimeDiff(item.timestamp)}</Text>
+        
       </View>
     )
   }

@@ -12,8 +12,9 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { Loading, UserAvatar, IconFont } from '../../components';
-import { API, Theme } from '../../utils';
+import { createMaterialTopTabNavigator } from 'react-navigation';
+import { Loading, UserAvatar, IconFont, MyToast, DividingLine, HeaderLeft } from '../../components';
+import { API, Theme,  Storage } from '../../utils';
 
 const user_A = {
     "avatar": "http://asserts.fondoger.cn/avatar/168261373d6cb92d80987fce1c9a604c.webp",
@@ -30,85 +31,188 @@ const user_A = {
 };
 
 
-class Chip extends React.Component {
-  state = {
-    onPressing: false,
+
+class UserTab extends React.Component {
+  static navigationOptions = { title: '用户' };
+  constructor(props) {
+    super(props);
+    this.state = {
+      items: [],
+      load_more_ing: false,
+      load_more_err: false,
+      has_next: true,
+      prevKeyword: '',
+    };
   }
-  setActiveStyle() {
-    this.inner.setNativeProps({backgroundColor:'#ced0d0'}); 
-    this.text.setNativeProps({style:{color:'#fff'}});
+
+  componentDidMount() {
+    //MyToast.show("componentDidMount: UserTab");
+    console.log("componentDidMount: UserTab");
+    console.log("initial props:");
+    console.log(this.props);
+    this.listener = this.props.navigation.addListener('willFocus', playload => {
+      console.log('willFocus: UserTab');
+      console.log(playload);
+      if (this.props.screenProps.keyword !== this.state.prevKeyword) {
+        this.handleLoadMore();
+      }
+    });
   }
-  setInactiveStyle() {
-    this.inner.setNativeProps({backgroundColor:Theme.backgroundColor}); 
-    this.text.setNativeProps({style:{color:'#222'}})
+
+  componentWillUnMount() {
+    this.listener.remove();
   }
-  render() {
-    const { text } = this.props;
+
+  componentDidUpdate(prevProps, prevState) {
+    // called when once parent calls setState(),
+    if (prevProps.screenProps.keyword !== this.props.screenProps.keyword) {
+      this.state.items = [];
+      this.state.has_next = true;
+      this.state.load_more_ing = false;
+      if (this.props.navigation.isFocused)
+        this.handleLoadMore();
+    }
+  }
+
+  handleLoadMore() {
+    if (this.state.load_more_ing || !this.state.has_next)
+      return
+    console.log('fetch remote data, keyword:' + this.props.screenProps.keyword);
+    this.setState({
+      prevKeyword: this.props.screenProps.keyword,
+      load_more_err: false,
+      load_more_ing: true,
+    });
+    API.User.get({keyword:this.props.screenProps.keyword, limit:10, offset:this.state.items.length}, (responseJson)=>{
+      const items = [...this.state.items, ...responseJson]
+      this.setState({load_more_ing: false, items:items, has_next: responseJson.length==10});
+    }, (error)=>{
+      this.setState({load_more_ing: false, load_more_err: true});
+    });
+  }
+
+  renderUserItem(user) {
     return (
-      <View style={styles.chipOuter} key={text}>
-        <TouchableWithoutFeedback 
-            onPressIn={this.setActiveStyle.bind(this)}
-            onPressOut={this.setInactiveStyle.bind(this)}
-            onPress={this.props.onPress} >
-          <View style={styles.chipInner} ref={ref=>this.inner=ref}>
-            <Text style={styles.chipText} ref={ref=>this.text=ref}>{text}</Text>
+      <View>
+        <TouchableHighlight onPress={()=>this.props.navigation.navigate('User_ProfilePage', {user:user})}>
+          <View style={{flexDirection:'row', backgroundColor:Theme.backgroundColor, padding:8}}>
+            <UserAvatar user={user} size={50} />
+            <View style={{flex:1, marginLeft:8, justifyContent:'center'}}>
+              <Text style={{color:'#444', fontSize:14, fontWeight:'bold', marginBottom:2}}>{user.username}</Text>
+              <Text style={{fontSize:13}}>{user.self_intro}</Text>
+            </View>
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableHighlight>
+        <DividingLine color='#ddd' paddingLeft={68} />
       </View>
     )
+  }
+  render() {
+    return (
+      <FlatList
+        data={this.state.items}
+        keyExtractor={(item, index) => item.id.toString()}
+        renderItem={({item, index}) => {return this.renderUserItem(item);}}
+        onEndReached={this.handleLoadMore.bind(this)}
+        ItemSeparatorComponent={()=><View style={{height:0.5, backgroundColor:'#eee'}}></View>}
+        ListFooterComponent={this.renderFooter.bind(this)}
+      /> 
+    )
+  }
+
+  renderFooter() {
+    // 1. 在load_more_err时，显示重试提示信息
+    // 2. has_next, 在没有更多内容时，若内容为空则显示找不到，若内容不为空，则显示没有更多内容
+    // 3. 上述两种情况, error=true, 
+    // 3. load_more_ing 的作用是防止重复调用handle_load_more()
+    const { load_more_err, has_next, items } = this.state;
+    const error = load_more_err || !has_next;
+    const error_msg = load_more_err ? '加载失败, 点此重试': 
+                      items.length ==  0 ? `找不到与"${this.props.screenProps.keyword}"相关的内容` : '' ;
+    return (
+      <Loading 
+        style={{height:items.length==0?180:60}} 
+        error={error} 
+        error_msg={error_msg} 
+        onRetry={this.handleLoadMore.bind(this)}
+      />
+    )
+  }
+
+}
+
+
+class StatusTab extends React.Component {
+  static navigationOptions = { title: '内容' };
+
+  render() {
+    return <View />
   }
 }
 
 
-export default class UserTab extends React.Component {
+const SearchResultTabs = createMaterialTopTabNavigator({
+  StatusTab: StatusTab,
+  UserTab: UserTab,
+},{
+  lazy: true,
+  backBehavior: 'none',
+  tabBarOptions: {
+    useNativeDriver: true,
+    activeTintColor: Theme.themeColor,
+    inactiveTintColor: '#333333',
+    allowFontScaling: false,
+    style: {
+      backgroundColor: '#feffff',
+      height: 38,
+      elevation: 0,
+      shadowOpacity: 0,
+    },
+    indicatorStyle: {
+      backgroundColor: Theme.themeColor,
+    },
+    labelStyle: {
+      marginTop: 1.5,
+      fontSize: 14,
+    },
+  },
+});
 
-  static navigationOptions = {
-    header: null,
-  }
+export default class SearchPage extends React.Component {
+
+  static navigationOptions = { header: null, }
 
   constructor(props) {
     super(props);
     this.state = {
       items: [],
-      load_more_error: false,
-      load_more_ing: false,
-      has_next: true,
       textValue: '',
       keyword: '',
       textInputFocused: false,
       showInitialPage: true,
+      search_history: Storage.search_history || [],
     }
   }
 
-  handleLoadMore = () => {
-    if (this.state.load_more_ing || !this.state.has_next)
-      return
-    API.User.get({keyword:this.state.keyword, limit:10, offset:this.state.items.length}, (responseJson)=>{
-      const items = [...this.state.items, ...responseJson]
-      this.setState({load_more_ing: false, items:items, has_next: responseJson.length==10});
-    }, (error)=>{
-      this.setState({load_more_ing: false, load_more_error: true});
-    });
-  }
-
   onSearchItemPress() {
-    if (this.state.textValue === null)
+    if (this.state.textValue === '')
       return;
-    this.state.keyword = this.state.textValue;
-    this.state.items = [];
-    this.state.load_more_ing = false;
-    this.state.has_next = true;
-    this.state.showInitialPage = false;
+    this.setState((prevState, props)=>({
+      keyword: prevState.textValue,
+      showInitialPage: false,
+    }));
     Keyboard.dismiss();
-    this.handleLoadMore();
+    this.updateHistory(this.state.textValue);
   }
-
-  renderSearchBar() {
-    return (
-      <View style={styles.searchBar}>
+/*
         <TouchableWithoutFeedback onPress={()=>this.props.navigation.goBack()}>
           <IconFont icon='&#xe622;' style={{width:60, alignItems:'center', padding:12, paddingTop:13}} size={24} color='#fff' />
         </TouchableWithoutFeedback>
+        */
+  renderSearchBar() {
+    return (
+      <View style={styles.searchBar}>
+        <HeaderLeft tintColor='#fff'/>
         <View style={styles.textInputWrap} >
           <TextInput 
             style={styles.textInput}
@@ -124,9 +228,9 @@ export default class UserTab extends React.Component {
             onSubmitEditing={this.onSearchItemPress.bind(this)}
           />
           {
-            this.state.keyword === '' ? null:
-            <IconFont icon="&#xe691;" size={20} color="#fff"
-                      style={{margin:6, marginBottom:4}}
+            this.state.textValue === '' ? null:
+            <IconFont icon="&#xe691;" hint="clear text button" 
+                      size={20} color="#fff" tyle={{margin:6, marginBottom:4}}
                       onPress={()=>this.setState({textValue: ''})}/>
           }
           </View>
@@ -138,8 +242,8 @@ export default class UserTab extends React.Component {
     if (!this.state.textInputFocused || this.state.textValue === "")
       return null;
     return (
-      <View style={{position:'absolute', flex:1, flexDirection:'row', paddingLeft:16, paddingRight:16, paddingTop:4}}>
-        <View style={{flex:1, flexDirection:'row', elevation: 8, backgroundColor:'#fff'}}>
+      <View style={{position:'absolute', paddingLeft:16, paddingRight:16, paddingTop:4, left: 0, top: 0, right: 0, bottom: 0}}>
+        <View style={{flexDirection:'row', elevation: 8, backgroundColor:'#fff'}}>
           <TouchableHighlight onPress={this.onSearchItemPress.bind(this)} style={{flex:1, flexDirection:'row'}} >
             <View style={{backgroundColor:'#fff', padding: 16, flex:1}}>
               <Text style={{color:Theme.themeColorDeep, fontSize:16,}}>搜索 “{this.state.textValue}”</Text>
@@ -150,50 +254,19 @@ export default class UserTab extends React.Component {
     )
   }
 
-  renderUserItem(user) {
-    return (
-      <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('User_ProfilePage', {user:user})}>
-        <View style={{flexDirection:'row', backgroundColor:'#fff', padding:12}}>
-          <UserAvatar user={user} size={48} />
-          <View style={{flex:1, marginLeft:12}}>
-            <Text style={{color:'#444', fontSize:14, fontWeight:'bold', marginTop:2, marginBottom:2}}>{user.username}</Text>
-            <Text style={{fontSize:13}}>{user.self_intro}</Text>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    )
-  }
-
   render() {
     const { showInitialPage } = this.state;
     return (
       <View style={styles.container} >
         { this.renderSearchBar() }
-        <View>
-          { 
+        <View style={{flex: 1, flexDirection:'row'}}>
+          {
             showInitialPage ? this.renderInitialPage():
-            <FlatList
-              data={this.state.items}
-              keyExtractor={(item, index) => item.id.toString()}
-              renderItem={({item, index}) => {return this.renderUserItem(item);}}
-              onEndReached={this.handleLoadMore}
-              ItemSeparatorComponent={()=><View style={{height:0.5, backgroundColor:'#eee'}}></View>}
-              ListFooterComponent={this.renderFooter.bind(this)}
-            /> 
+            <SearchResultTabs screenProps={{keyword: this.state.keyword}} />
           } 
           { this.renderSearchHint() }
         </View>
       </View>
-    )
-  }
-
-  renderFooter() {
-    const { load_more_err, has_next, items, keyword } = this.state;
-    const error = this.state.load_more_err || !this.state.has_next;
-    const error_msg = this.state.load_more_err ? '加载失败, 点击重试': 
-                      items.length ==  0 ? `找不到与"${keyword}"相关的内容` : '没有更多内容' ;
-    return (
-      <Loading style={{height:items.length==0?180:60}} error={error} error_msg={error_msg} onRetry={this.handleLoadMore}/>
     )
   }
 
@@ -203,26 +276,116 @@ export default class UserTab extends React.Component {
     });
   } 
 
+  updateHistory(text) {
+    Storage.search_history = Storage.search_history || [];
+    Storage.search_history = Storage.search_history.filter(item => item !== text);
+    Storage.search_history.unshift(text);
+    Storage.search_history = Storage.search_history.slice(0, 5);
+    Storage.setItem('search_history', Storage.search_history);
+  }
+
+  removeHistory(text) {
+    Storage.search_history = Storage.search_history.filter(item => item !== text);
+    Storage.setItem('search_history', Storage.search_history);
+    this.setState({search_history: Storage.search_history});
+  }
+
   renderInitialPage() {
-    const hot_search = ['新声力量', '毛不易', '石头计划', '镇魂', '乐华七子NEXT', 
-      'Wrecking Ball', 'Hymn For The Weekend', '模特', '偶像练习生'];
+    const hot_search = ['新声音量', '毛不易', '石头计划', '镇魂', '乐华七子NEXT', 
+      '忘了牵手', '旅客', 'Everybody Hurts', 'Chanson De Toile', '摩登兄弟'];
+    const search_history = this.state.search_history;
     return (
-      <View style={{flex: 1}}>
-        <View>
-          <Text>热门搜索</Text>
-          <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+      <View style={{flex:1}}>
+        <View style={{padding: 10}}> 
+          <Text style={{fontSize: 13, marginTop: 12, marginBottom: 12}}>热门搜索</Text>
+          <View style={{flexDirection:'row', flexWrap:'wrap', margin: -5}}>
           {
             hot_search.map((item, index)=>(
-              <Chip text={item} onPress={()=>this.onChipPress(item)}/>)
-            )
+              <Chip text={item} key={item} onPress={()=>this.onChipPress(item)} />
+            ))
           }
           </View>
+        </View>
+        <View style={{marginTop: 12}}> 
+        {
+          search_history.map((item, index) =>(
+            <HistoryItem text={item} onPress={()=>this.onChipPress(item)} 
+                         onDeletePress={()=>this.removeHistory(item)}/>
+          ))
+        }
+        </View>
+        <View style={{alignItems:'center', flex: 1, justifyContent:'flex-end'}}>
+          <Text style={{color:'#ddd', margin: 8, fontSize: 12}}>Designed by @网易云音乐</Text>
         </View>
       </View>
     )
   }
 }
 
+
+
+
+
+class Chip extends React.Component {
+  setActiveStyle() {
+    this.inner.setNativeProps({backgroundColor:'#ced0d0'}); 
+    this.text.setNativeProps({style:{color:'#fff'}});
+  }
+  setInactiveStyle() {
+    this.inner.setNativeProps({backgroundColor:Theme.backgroundColor}); 
+    this.text.setNativeProps({style:{color:'#222'}})
+  }
+  render() {
+    const { text } = this.props;
+    return (
+      <View style={styles.chipOuter}>
+        <TouchableWithoutFeedback 
+            onPressIn={this.setActiveStyle.bind(this)}
+            onPressOut={this.setInactiveStyle.bind(this)}
+            onPress={this.props.onPress} >
+          <View style={styles.chipInner} ref={ref=>this.inner=ref}>
+            <Text style={styles.chipText} ref={ref=>this.text=ref}>{text}</Text>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+    )
+  }
+}
+
+class HistoryItem extends React.Component {
+  render() {
+    return(
+      <View>
+        <TouchableWithoutFeedback 
+            onPressIn={()=>{
+              this.outer.setNativeProps({backgroundColor:'#ccc'}); 
+              this.inner.setNativeProps({backgroundColor:'#ccc'});
+            }}
+            onPressOut={()=>{
+              this.outer.setNativeProps({backgroundColor:Theme.backgroundColor}); 
+              this.inner.setNativeProps({backgroundColor:Theme.backgroundColor});
+            }}
+            onPress={this.props.onPress}>
+          <View style={{flexDirection:'row', backgroundColor:Theme.backgroundColor, alignItems:'center'}}
+                ref={ref=>this.outer=ref} >
+            <IconFont style={{padding: 12, paddingTop: 13}} icon='&#xe654;' color='#aaa' size={17} />
+            <Text style={{flex:1, fontSize:13, color:'#222'}}>{this.props.text}</Text>
+            <TouchableHighlight onPress={this.props.onDeletePress}>
+              <View ref={ref=>this.inner=ref}
+                    style={{padding: 16, backgroundColor:Theme.backgroundColor}} >
+                <IconFont icon='&#xe691;' color='#aaa' size={16} />
+              </View>
+            </TouchableHighlight>
+          </View>
+        </TouchableWithoutFeedback>
+        <View style={{flexDirection:'row'}}>
+          <View style={{width: 42}} />
+          <View style={{height:.5, backgroundColor:'#ddd', flex:1}} />
+        </View>
+      </View>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -254,17 +417,17 @@ const styles = StyleSheet.create({
   chipOuter: {
     backgroundColor:'#ced0d0', 
     padding: 1, 
-    height:32, 
-    borderRadius:16,
+    height:30, 
+    borderRadius:15,
     margin: 5,
   },
   chipInner: {
-    height: 30, 
-    borderRadius:15, 
+    height: 28, 
+    borderRadius:14, 
     alignItems:'center', 
     justifyContent:'center',
-    paddingLeft: 15,
-    paddingRight: 15,
+    paddingLeft: 12,
+    paddingRight: 12,
     backgroundColor: Theme.backgroundColor,
   },
   chipText: {

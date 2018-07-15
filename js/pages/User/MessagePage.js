@@ -11,9 +11,8 @@ import {
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
-import UserAvatar from '../../components/UserAvatar';
 import { getGMTTimeDiff } from '../../utils/Util';
-import Loading from '../../components/Loading';
+import { Loading, UserAvatar } from '../../components';
 
 export default class MessagePage extends React.Component {
 
@@ -41,18 +40,24 @@ export default class MessagePage extends React.Component {
 
   renderItem({item, index}) {
     return (
-      <TouchableHighlight onPress={()=>this.props.navigation.navigate('User_ChatPage', {user:item.with})} >
-      <View style={{flexDirection:'row', backgroundColor:'#f2f4f5'}}>
-        <UserAvatar style={{margin:10}} {...this.props} size={50} user={item.with} />
-        <View style={{borderBottomWidth:0.5, borderColor:'#ddd', height:68, flex:1, justifyContent:'center'}}>
-          <View style={{paddingTop:4, paddingBottom:4, paddingRight:8, flexDirection:'row', alignItems:'center'}}>
-            <Text style={{flex:1, fontSize:16, color:'#333'}}>{item.with.username}</Text>
-            <Text style={{fontSize:10, color:'#aaa'}}>{getGMTTimeDiff(item.timestamp)}</Text>
+      <View>
+        <TouchableHighlight onPress={()=>this.props.navigation.navigate('User_ChatPage', {user:item.with})} >
+          <View style={{flexDirection:'row', backgroundColor:'#f2f4f5'}}>
+            <UserAvatar style={{margin:10}} {...this.props} size={50} user={item.with} />
+            <View style={{height:68, flex:1, justifyContent:'center'}}>
+              <View style={{paddingTop:4, paddingBottom:4, paddingRight:8, flexDirection:'row', alignItems:'center'}}>
+                <Text style={{flex:1, fontSize:16, color:'#333'}}>{item.with.username}</Text>
+                <Text style={{fontSize:10, color:'#aaa'}}>{getGMTTimeDiff(item.timestamp)}</Text>
+              </View>
+              <Text style={{fontSize:12, color:'#666'}} numberOfLines={1}>{item.text}</Text>
+            </View>
           </View>
-          <Text style={{fontSize:12, color:'#666'}} numberOfLines={1}>{item.text}</Text>
+        </TouchableHighlight>
+        <View style={{flexDirection:'row'}} >
+          <View style={{width: 70}} />
+          <View style={{flex: 1, height: 0.5, backgroundColor: '#ddd'}} />
         </View>
       </View>
-      </TouchableHighlight>
     )
   }
 

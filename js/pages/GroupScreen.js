@@ -17,57 +17,9 @@ import Swiper from 'react-native-swiper';
 import { TabNavigator, TabBarTop } from 'react-navigation';
 import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
 import Storage from '../utils/Storage';
-import Loading from '../components/Loading';
+import { Loading, MyToast } from '../components';
 
 
-class GroupItem extends React.Component {
-  // 新建一个类的目的是为了实现按住图片阴影的效果
-  constructor(props) {
-    super(props);
-    this.state = {
-      onPressing: false,
-    }
-  }
-  
-  render() {
-    const group = this.props.group;
-    const testStyle = {
-      color: '#fff',
-      fontSize: 11,
-      backgroundColor: 'rgba(0,0,0,0.3)',
-      paddingLeft: 10,
-      marginLeft: -8,
-      paddingRight: 5,
-      borderRadius: 8,
-    };
-    return (
-      <TouchableWithoutFeedback
-            onPressIn={()=>this.setState({onPressing:true})}
-            onPressOut={()=>this.setState({onPressing:false})}
-            onPress={this.props.onPress} >
-        <View style={{flex:1, alignItems:'center', backgroundColor:'#f2f4f5'}}>
-          <View style={{width:80, height:80, marginBottom:4}}>
-            <Image style={{width:80, height:80}}
-                   source={{uri: group?(group.avatar+'!thumbnail'):null}}/>
-            {
-              this.state.onPressing ?
-                <View style={{position:'absolute', top:0, left:0,
-                      backgroundColor:'rgba(0,0,0,0.25)', width:80, height:80}} />:
-                <View style={{position:'absolute', top:0, left:0,
-                      backgroundColor:'rgba(0,0,0,0.05)', width:80, height:80}} />
-            }
-            <View style={{position:'absolute', top:0, left:0,
-                  backgroundColor:'rgba(0,0,0,0)', width:80, height:80, paddingTop:2}} >
-              <View style={{flexDirection:'row', marginTop:2}}><Text style={testStyle}>新帖: {group.daily_statuses>99?'99+':group.daily_statuses}</Text></View>
-              {group.public?null:<View style={{flexDirection:'row', marginTop:2}}><Text style={testStyle}>有新活动</Text></View>}
-            </View>
-          </View>
-          <Text style={{color:'#444', fontSize:12.5}}>{group?group.groupname:'加载中'}</Text>
-        </View>
-      </TouchableWithoutFeedback>
-    )
-  }
-}
 
 class FirstPage extends React.Component {
   static navigationOptions = {
@@ -245,7 +197,6 @@ const GroupScreenTab = createMaterialTopTabNavigator({
   Second: SecondPage,
   Third: ThirdPage,
 },{
-  title: '团体',
   backBehavior: 'none',
   animationEnabled: false,
   tabBarOptions: {
@@ -280,26 +231,43 @@ GroupScreenTab.navigationOptions = {
 
 export default GroupScreenTab;
 
-// const GroupScreen = TabNavigator({
-//   First: {
-//     screen: FirstPage,
-//     navigationOptions: {
-//       tabBarLabel: '微博',
-//     },
-//   },
-//   Thrid: {
-//     screen: ThirdPage, 
-//     navigationOptions: {
-//       tabBarLabel: '我的',
-//     },
-//   },
-//   Second: {
-//     screen: SecondPage, 
-//     navigationOptions: {
-//       tabBarLabel: '活动',
-//     },
-//   },
-// }, {
 
 
-// export default GroupScreen;
+class GroupItem extends React.Component {
+  render() {
+    const group = this.props.group;
+    return (
+      <TouchableWithoutFeedback
+            onPressIn={()=>this.ref.setNativeProps({backgroundColor:'rgba(0,0,0,.25)'})}
+            onPressOut={()=>this.ref.setNativeProps({backgroundColor:'rgba(0,0,0,.05)'})}
+            onPress={this.props.onPress} >
+        <View style={{flex:1, alignItems:'center', backgroundColor:'#f2f4f5'}}>
+          <View style={{width:80, height:80, marginBottom:4}}>
+            <Image style={{width:80, height:80}}
+                   source={{uri: group?(group.avatar+'!thumbnail'):null}}/>
+            <View ref={ref=>this.ref=ref} style={{position:'absolute', top:0, left:0,
+                  backgroundColor:'rgba(0,0,0,0.05)', width:80, height:80}} />
+            <View style={{position:'absolute', top:0, left:0,
+                  backgroundColor:'rgba(0,0,0,0)', width:80, height:80, paddingTop:2}} >
+              <View style={{flexDirection:'row', marginTop:2}}><Text style={styles.textStyle}>新帖: {group.daily_statuses>99?'99+':group.daily_statuses}</Text></View>
+              {group.public?null:<View style={{flexDirection:'row', marginTop:2}}><Text style={styles.textStyle}>有新活动</Text></View>}
+            </View>
+          </View>
+          <Text style={{color:'#444', fontSize:12.5}}>{group?group.groupname:'加载中'}</Text>
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
+}
+
+const styles = StyleSheet.create({
+  textStyle: {
+    color: '#fff',
+    fontSize: 11,
+    backgroundColor: 'rgba(0,0,0,0.3)',
+    paddingLeft: 10,
+    marginLeft: -8,
+    paddingRight: 5,
+    borderRadius: 8,
+  },
+});

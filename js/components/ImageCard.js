@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, StyleSheet, Image, Text, TouchableHighlight, TouchableWithoutFeedback } from 'react-native';
 import Theme from '../utils/Theme';
-import PlaceholderImage from '../components/PlaceholderImage';
+import { PlaceholderImage } from './Utils';
 
 export default class ImageCard extends React.Component {
   render() {

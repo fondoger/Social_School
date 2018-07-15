@@ -116,9 +116,14 @@ export default class GroupPage extends React.Component {
   }
 
   onMoreButtonPress(e) {
+
     const options = [
-      {name: '发表贴子', icon: '\ue66c', callback: () => MyToast.show('发表帖子')},
-      {name: '团体微博', icon: '\ue62d', callback: () => MyToast.show('团体微博')},
+      {name: '发表贴子', icon: '\ue66c', callback: () => {
+        this.props.navigation.navigate('Status_NewStatusPage', {type:API.Status.GROUPPOST, group:this.state.group});
+      }},
+      {name: '团体微博', icon: '\ue62d', callback: () => {
+        this.props.navigation.navigate('Status_NewStatusPage', {type:API.Status.GROUPSTATUS, group:this.state.group});
+      }},
       {name: '发起活动', icon: '\ue6c5', callback: () => MyToast.show('发起活动')},
     ];
     ContextMenu.showIconMenu(options, {pageX: ScreenWidth-8, pageY: headerHeight});

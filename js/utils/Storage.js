@@ -1,7 +1,5 @@
 import { AsyncStorage } from 'react-native';
 
-
-
 function init() {
   return AsyncStorage.getAllKeys()
   .then(keys => AsyncStorage.multiGet(keys))

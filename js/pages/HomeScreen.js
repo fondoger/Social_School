@@ -39,10 +39,10 @@ export default class HomeScreenTab extends React.Component {
   renderTabBar = (props) => {
     return (
       <View style={{flexDirection: 'row', height: Theme.headerHeight, backgroundColor: Theme.themeColor, elevation: 1, shadowOpacity: 0}}>
-        <View style={{flex: 4, alignItems: 'flex-start'}} >
+        <View style={{flex: 4, alignItems: 'flex-start', justifyContent:'center'}} >
           <TouchableHighlight onPress={()=>{this.props.navigation.navigate('Common_SearchPage')}}>
-            <View style={{flexDirection: 'row', justifyContent: 'center', height: 43, alignItems:'flex-end', width:48, padding: 8, backgroundColor:Theme.themeColor}}>
-              <IconFont color='#fff' size={20} icon={'\ue623'} />
+            <View style={{flexDirection: 'row', justifyContent: 'center', height: Theme.headerHeight, alignItems:'center', width:48, padding: 8, backgroundColor:Theme.themeColor}}>
+              <IconFont color='#fff' size={20} icon='&#xe623;' />
             </View>
           </TouchableHighlight>
         </View>
@@ -52,12 +52,13 @@ export default class HomeScreenTab extends React.Component {
           style={styles.tabBar} 
           labelStyle={styles.tabLabel}
           indicatorStyle={styles.tabIndicator}
+          onTabPress={args=>{console.log('onTabPress'); console.log(args); }}
         />
-        <View style={{flex: 4, alignItems: 'flex-end'}} >
+        <View style={{flex: 4, alignItems: 'flex-end', justifyContent:'center'}} >
           <TouchableHighlight onPress={()=>{this.props.navigation.navigate('Status_NewStatusPage', {type:API.Status.USERSTATUS})}} >
-            <View style={{flexDirection: 'row', justifyContent: 'center', height: 43, alignItems:'flex-end', padding: 8, backgroundColor:Theme.themeColor}}>
+            <View style={{flexDirection: 'row', justifyContent: 'center', height: Theme.headerHeight, alignItems:'center', padding: 8, backgroundColor:Theme.themeColor}}>
               <Text style={{fontSize: 15, color: '#fff', lineHeight: 22}}>发表</Text>
-              <Text style={{fontFamily:'iconfont', fontSize:24, color:'#fff'}}>&#xe66c;</Text>
+              <IconFont color='#fff' size={24} icon='&#xe66c;' />
             </View>
           </TouchableHighlight>
         </View>
@@ -74,9 +75,10 @@ export default class HomeScreenTab extends React.Component {
           first: withNavigation(TimelinePage),
           second: () => <TrendingPage navigation={_this.props.navigation} screenProps={_this.props.screenProps}/>,
         })}
-        onIndexChange={()=>{}}
+        onIndexChange={(arg)=>{console.log('onIndexChange'); console.log(arg);}}
         renderTabBar={this.renderTabBar}
         initialLayout={Dimensions.get('window')}
+        canJumpToTab={route=>{console.log('canJumpToPage'); console.log(route); return true;}}
       />
     );
   }
@@ -84,14 +86,16 @@ export default class HomeScreenTab extends React.Component {
 
 const styles = StyleSheet.create({
   tabBar: {
-    width: 160, 
+    width: 160 + 40 + 40, 
     elevation: 0, 
     shadowOpacity: 0,
+    paddingLeft: 40,
+    paddingRight: 40,
   },
   tabIndicator: {
     backgroundColor: '#fff', 
     width: 30,
-    marginLeft: 25, 
+    marginLeft: 25 + 40, 
     borderRadius: 1.5, 
     height: 3, 
     marginBottom: 3

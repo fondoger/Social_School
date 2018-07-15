@@ -1,7 +1,5 @@
-import IconFont from './IconFont';
 import UserAvatar from './UserAvatar';
 import MyToast from './MyToast';
-import Loading from './Loading';
 import ModalMenu from './ModalMenu';
 import ContextMenu from './ContextMenu';
 import SlideInMenu from './SlideInMenu';
@@ -13,11 +11,17 @@ import GroupPostItem from './GroupPostItem';
 import StatusesItem from './StatusesItem';
 import StatusReplyItem from './StatusReplyItem';
 
-module.exports = {
+import {
+  Loading,
   IconFont,
+  DividingLine,
+  PlaceholderImage,
+  HeaderLeft,
+} from './Utils';
+
+module.exports = {
   UserAvatar,
   MyToast,
-  Loading,
   ModalMenu,
   ContextMenu,
   SlideInMenu,
@@ -29,4 +33,9 @@ module.exports = {
   GroupPostItem,
   StatusesItem,
   StatusReplyItem,
+  Loading,
+  IconFont,
+  DividingLine,
+  PlaceholderImage,
+  HeaderLeft,
 };

@@ -16,10 +16,9 @@ import {
 } from 'react-native';
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
-import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers, } from 'react-native-popup-menu';
 import { getPassedTime, getSaleTime } from '../../utils/Util';
 import Storage from '../../utils/Storage';
-import { MyToast, ModalMenu } from '../../components';
+import { MyToast, ModalMenu, IconFont } from '../../components';
 
 const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;
@@ -142,10 +141,9 @@ export default class SalePage extends React.Component {
           <Image style={{height:40, width:40, borderRadius:20}}
                  source={{uri:comment.user.avatar+'!thumbnail'}}/>
         </View>
-        <View>
-          <Text style={{color:'#444', fontSize:14, fontWeight:'bold'}}>{comment.user.username}</Text>
-          <Text style={{paddingTop:4, fontSize:15, paddingBottom:4, color:'#222'}}>{comment.text}</Text>
-          <Text>{getPassedTime(comment.timestamp)}</Text>
+        <View style={{justifyContent:'center'}}>
+          <Text style={{color:'#444', fontSize:14, fontWeight:'bold'}}>{comment.user.username}<Text style={{fontWeight:'normal', color:'#888'}}>, {getPassedTime(comment.timestamp)}</Text></Text>
+          <Text style={{paddingTop:4, fontSize:15, paddingBottom:4, color:'#444'}}>{comment.text}</Text>
         </View>
       </View>
     )
@@ -287,11 +285,8 @@ export default class SalePage extends React.Component {
           behavior="height"
           style={{flex:1, borderWidth:0.5, borderColor:'#ddd', backgroundColor:'#fff',
                   flexDirection:'row', alignItems:'center'}}>
-        <TouchableWithoutFeedback onPress={()=>this.setState({showCommentBar:false})}>
-          <View style={{width:24, height:24, marginRight:12, marginLeft:12, alignItems:'center'}}>
-            <Image style={{width:24, height:24}} source={require('../../../img/aui-icon-back.png')} />
-          </View>
-        </TouchableWithoutFeedback>
+
+        <IconFont style={{marginRight:12, marginLeft:12}} color='#888' icon='&#xe691;' size={24} onPress={()=>this.setState({showCommentBar:false})}/>
         <View style={{flex:1, flexDirection:'row', alignItems:'center'}} >
           <TextInput 
             style={{flex:1, padding: 0, marginBottom:-8, textAlignVertical: 'top', fontSize: 16}}

@@ -22,7 +22,7 @@ import API from '../../utils/API_v1';
 import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers, } from 'react-native-popup-menu';
 import { getPassedTime } from '../../utils/Util';
 import Storage from '../../utils/Storage';
-import { MyToast, ImageSelector } from '../../components';
+import { MyToast, ImageSelector, ModalMenu, SlideInMenu, IconFont, DividingLine } from '../../components';
 
 const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;
@@ -152,23 +152,23 @@ export default class PersonalPage extends React.Component {
           </View>
           <View style={{marginTop:12, backgroundColor:'#fff'}}>
             <TouchableWithoutFeedback onPress={this.onPriceFieldPress}>
-            <View style={{paddingLeft:20, paddingTop:16, paddingBottom:12, flexDirection:'row'}}>
+            <View style={styles.option}>
               <Text style={{color:'#222', fontSize:16, flex:1}}>{this.state.priceValue!=''?'￥'+this.state.priceValue:'价格'}</Text>
-              <Text style={{fontFamily:'iconfont', fontSize:18, color:'#ccc', paddingRight:20}}>&#xe621;</Text>
+              <IconFont icon='&#xe621;' size={18} color='#ccc' style={{paddingRight: 20}} />
             </View>
             </TouchableWithoutFeedback>
-            <View style={{height:0.5, backgroundColor:'#eee'}}></View>
+            <DividingLine color='#eee' />
             <TouchableWithoutFeedback onPress={this.onCategoryFieldPress}>
-            <View style={{paddingLeft:20, paddingTop:16, paddingBottom:12, flexDirection:'row'}}>
+            <View style={styles.option}>
               <Text style={{color:'#222', fontSize:16, flex:1}}>{selectedCategoryIndex!=-1?categories[selectedCategoryIndex]:'分类'}</Text>
-              <Text style={{fontFamily:'iconfont', fontSize:18, color:'#ccc', paddingRight:20}}>&#xe621;</Text>
+              <IconFont icon='&#xe621;' size={18} color='#ccc' style={{paddingRight: 20}} />
             </View>
             </TouchableWithoutFeedback>
-            <View style={{height:0.5, backgroundColor:'#eee'}}></View>
+            <DividingLine color='#eee' />
             <TouchableWithoutFeedback onPress={this.onLocationFieldPress}>
-            <View style={{paddingLeft:20, paddingTop:16, paddingBottom:12, flexDirection:'row'}}>
+            <View style={styles.option}>
               <Text style={{color:'#222', fontSize:16, flex:1}}>{selectedLocationIndex!=-1?locations[selectedLocationIndex]:'校区'}</Text>
-              <Text style={{fontFamily:'iconfont', fontSize:18, color:'#ccc', paddingRight:20}}>&#xe621;</Text>
+              <IconFont icon='&#xe621;' size={18} color='#ccc' style={{paddingRight: 20}} />
             </View>
             </TouchableWithoutFeedback>
           </View>
@@ -246,3 +246,13 @@ export default class PersonalPage extends React.Component {
   }
 
 }
+
+
+const styles = StyleSheet.create({
+  option: {
+    paddingLeft:20, 
+    paddingTop:16, 
+    paddingBottom:12, 
+    flexDirection:'row'
+  },
+});

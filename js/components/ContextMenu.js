@@ -19,7 +19,7 @@ import {
   TouchableWithoutFeedback, 
 } from 'react-native';
 import Theme from '../utils/Theme';
-import IconFont from './IconFont';
+import { IconFont } from './Utils';
 
 const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;

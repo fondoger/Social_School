@@ -14,6 +14,7 @@ import {
   ContextMenu,
   SlideInMenu,
   IconFont,
+  HeaderLeft,
 } from './js/components';
 
 import Common_LoginPage from './js/pages/Common/LoginPage';
@@ -54,6 +55,7 @@ const MainTabs = createBottomTabNavigator({
   Discover: DiscoverScreen,
   My: MyScreen,
 }, {  
+  backBehavior: 'none',
   navigationOptions: ({ navigation }) => ({
     tabBarIcon: ({ focused, tintColor }) => {
       const { routeName } = navigation.state;
@@ -133,11 +135,7 @@ const RootStack = createStackNavigator({
     },
     headerTintColor: '#ffffff',
     gesturesEnabled: true,
-    headerLeft: ({tintColor}) => (
-      <TouchableWithoutFeedback onPress={()=>navigation.goBack()}>
-        <IconFont icon='&#xe622;' style={{width:60, alignItems:'center', padding:12, paddingTop:13}} size={24} color={tintColor} />
-      </TouchableWithoutFeedback>
-    ),
+    headerLeft: HeaderLeft,
   }),
 });
 

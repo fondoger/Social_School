@@ -11,16 +11,15 @@ import {
 } from 'react-native';
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
-import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers, } from 'react-native-popup-menu';
 import Storage from '../../utils/Storage';
 import { getSaleTime } from '../../utils/Util';
-import { SlideInMenu } from '../../components';
+import { SlideInMenu, ModalMenu } from '../../components';
 
 const locations = ['不限', '学院路校区', '沙河校区'];
 const categories = ['不限', '学习&书籍', '数码&电器', '生活&日用', '户外&文体', '票券&其他'];
 const CATEGORY = ['all', 'study', 'digital', 'life', 'outdoors', 'other'];
 const LOCATION = ['all', 'xueyuanlu', 'shahe'];
-const priceOrders = ['时间序', '由低到高', '由高到低'];
+const priceOrders = ['(默认) 时间序', '价格由低到高', '价格由高到低'];
 
 export default class SquarePage extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -97,7 +96,7 @@ export default class SquarePage extends React.Component {
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={this.onPriceFieldPress}>
             <View style={{flex:1, justifyContent:'center', alignItems:'center', padding:10,}}>
-              <Text style={selectedPriceOrderIndex!=0?activeStyle:inactiveStyle}>{selectedPriceOrderIndex!=0?priceOrders[selectedPriceOrderIndex]: '价格'}</Text>
+              <Text style={selectedPriceOrderIndex!=0?activeStyle:inactiveStyle}>{selectedPriceOrderIndex!=0?priceOrders[selectedPriceOrderIndex]: '排序'}</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>

@@ -84,12 +84,8 @@ export function getGMTTimeDiff(GMTString, type) {
   if (isTheDayBeforeYestday(dateTime, now))
     return '前天 '+hour_min;
   if (year == year_new)
-    return type==='POSTTIME' ? 
-           `${month}月${day}日` :
-           `${month}-${day} ${hour_min}`;
-  return type === 'POSTTIME' ?
-         `${year}年${month}月${day}日`:
-         `${year}-${month}-${day} ${hour_min}`;
+    return `${month}月${day}日`;
+  return `${year}年${month}月${day}日` ;
 };
 
 export function getPassedTime(GMTString) {
