@@ -170,7 +170,7 @@ class FirstPage extends React.Component {
 
 class SecondPage extends React.Component {
   static navigationOptions = {
-    title: '活动',
+    title: '广场',
   }
 
   render() {

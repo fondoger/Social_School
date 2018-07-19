@@ -13,7 +13,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
-import { Loading, UserAvatar, IconFont, MyToast, DividingLine, HeaderLeft } from '../../components';
+import { Loading, UserAvatar, IconFont, MyToast, DividingLine, HeaderLeft, ListUserItem } from '../../components';
 import { API, Theme,  Storage } from '../../utils';
 
 const user_A = {
@@ -91,28 +91,12 @@ class UserTab extends React.Component {
     });
   }
 
-  renderUserItem(user) {
-    return (
-      <View>
-        <TouchableHighlight onPress={()=>this.props.navigation.navigate('User_ProfilePage', {user:user})}>
-          <View style={{flexDirection:'row', backgroundColor:Theme.backgroundColor, padding:8}}>
-            <UserAvatar user={user} size={50} />
-            <View style={{flex:1, marginLeft:8, justifyContent:'center'}}>
-              <Text style={{color:'#444', fontSize:14, fontWeight:'bold', marginBottom:2}}>{user.username}</Text>
-              <Text style={{fontSize:13}}>{user.self_intro}</Text>
-            </View>
-          </View>
-        </TouchableHighlight>
-        <DividingLine color='#ddd' paddingLeft={68} />
-      </View>
-    )
-  }
   render() {
     return (
       <FlatList
         data={this.state.items}
         keyExtractor={(item, index) => item.id.toString()}
-        renderItem={({item, index}) => {return this.renderUserItem(item);}}
+        renderItem={({item, index}) => <ListUserItem user={item}/>}
         onEndReached={this.handleLoadMore.bind(this)}
         ItemSeparatorComponent={()=><View style={{height:0.5, backgroundColor:'#eee'}}></View>}
         ListFooterComponent={this.renderFooter.bind(this)}
@@ -259,7 +243,7 @@ export default class SearchPage extends React.Component {
     return (
       <View style={styles.container} >
         { this.renderSearchBar() }
-        <View style={{flex: 1, flexDirection:'row'}}>
+        <View style={{flex: 1}}>
           {
             showInitialPage ? this.renderInitialPage():
             <SearchResultTabs screenProps={{keyword: this.state.keyword}} />
@@ -368,7 +352,7 @@ class HistoryItem extends React.Component {
             onPress={this.props.onPress}>
           <View style={{flexDirection:'row', backgroundColor:Theme.backgroundColor, alignItems:'center'}}
                 ref={ref=>this.outer=ref} >
-            <IconFont style={{padding: 12, paddingTop: 13}} icon='&#xe654;' color='#aaa' size={17} />
+            <IconFont style={{padding: 12, paddingTop: 15}} icon='&#xe60e;' color='#bbb' size={18} />
             <Text style={{flex:1, fontSize:13, color:'#222'}}>{this.props.text}</Text>
             <TouchableHighlight onPress={this.props.onDeletePress}>
               <View ref={ref=>this.inner=ref}

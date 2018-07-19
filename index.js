@@ -28,6 +28,7 @@ import Status_TopicPage from './js/pages/Status/TopicPage';
 import Status_NewStatusPage from './js/pages/Status/NewStatusPage';
 
 import User_ChatPage from './js/pages/User/ChatPage';
+import User_QRCodePage from './js/pages/User/QRCodePage';
 import User_MessagePage from './js/pages/User/MessagePage';
 import User_ProfilePage from './js/pages/User/ProfilePage';
 import User_EditProfilePage from './js/pages/User/EditProfilePage';
@@ -107,6 +108,7 @@ const RootStack = createStackNavigator({
   Status_TopicPage,
   Status_NewStatusPage,
   User_ChatPage,
+  User_QRCodePage,
   User_MessagePage,
   User_ProfilePage,
   User_EditProfilePage,
@@ -184,5 +186,5 @@ class App extends React.Component {
 
 }
 
-
+//import ExploadingHeats from './js/components/ExplosionHeart';
 AppRegistry.registerComponent('Social_BUAA', () => App);

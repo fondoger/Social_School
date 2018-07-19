@@ -139,7 +139,7 @@ android {
 dependencies {
     compile project(':react-native-image-crop-picker')
     compile (project(':react-native-fast-image')){
-         exclude module: 'support-v4'
+         exclude module: 'support-v4'       // For collision
     }
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"

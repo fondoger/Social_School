@@ -199,7 +199,7 @@ export default class SalePage extends React.Component {
   }
 
   sendComment = () => {
-    if (this.state.comment_ing)
+    if (this.state.comment_ing || this.state.textValue === '')
       return
     this.setState({comment_ing: true});
     API.SaleComment.create({sale_id: this.state.sale.id, text:this.state.textValue}, (responseJson)=>{
@@ -213,11 +213,11 @@ export default class SalePage extends React.Component {
   }
 
   renderActionBar = () => {
-    const like = <Text style={{fontFamily:'iconfont', fontSize:18, color:'#222'}}>&#xe870;</Text>
-    const liked = <Text style={{fontFamily:'iconfont', fontSize:18, color:'#fe2b54'}}>&#xe86f;</Text>
-    const mark = <Text style={{fontFamily:'iconfont', fontSize:18, color:'#222'}}>&#xe86e;</Text>
-    const marked = <Text style={{fontFamily:'iconfont', fontSize:18, color:'#9b59b6'}}>&#xe86d;</Text>
-    const reply = <Text style={{fontFamily:'iconfont', fontSize:18, color:'#222', marginTop:2}}>&#xe891;</Text>
+    const like = <IconFont size={18} icon='&#xe671;' color='#222'/>;
+    const liked = <IconFont size={18} icon='&#xe672;' color='#f32b54' />;
+    const mark = <IconFont size={18} icon='&#xe659;' color='#222' />;
+    const marked = <IconFont size={18} icon='&#xe65a;' color='#9b59b6' />;
+    const reply = <IconFont size={18} icon='&#xe62a;' color='#222' />;
     return ( 
       <View style={{flex:1, flexDirection:'row', alignItems:'center'}} >
         <TouchableWithoutFeedback onPress={this.onLikePress} >
@@ -285,8 +285,9 @@ export default class SalePage extends React.Component {
           behavior="height"
           style={{flex:1, borderWidth:0.5, borderColor:'#ddd', backgroundColor:'#fff',
                   flexDirection:'row', alignItems:'center'}}>
-
-        <IconFont style={{marginRight:12, marginLeft:12}} color='#888' icon='&#xe691;' size={24} onPress={()=>this.setState({showCommentBar:false})}/>
+        <TouchableWithoutFeedback hint='Close Button' onPress={()=>this.setState({showCommentBar:false})} >
+          <IconFont style={{marginRight:12, marginLeft:12}} color='#888' icon='&#xe691;' size={24}/>
+        </TouchableWithoutFeedback>
         <View style={{flex:1, flexDirection:'row', alignItems:'center'}} >
           <TextInput 
             style={{flex:1, padding: 0, marginBottom:-8, textAlignVertical: 'top', fontSize: 16}}

@@ -75,7 +75,7 @@ export default class ContextMenu extends React.Component {
               {
                 options.map((option, index) => (
                   <TouchableHighlight
-                    key={i} onPress={()=>{
+                    key={index} onPress={()=>{
                       option.callback();
                       setTimeout(this._hide, 150);
                     }}

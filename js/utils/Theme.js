@@ -9,6 +9,7 @@ export default {
     themeColorDeep: '#1872ba',
     themeColorLight: '#53a9ed',
     backgroundColor: '#f2f4f5',
+    backgroundColorDeep: '#e7e9e9',
     headerColorLight: '#fafbfd',
     headerColorLightTint: '#444',
     secondaryColor: '#228f1b',

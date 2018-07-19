@@ -16,9 +16,10 @@ import ImageCard from './ImageCard';
 import API from '../utils/API_v1';
 import { getGMTTimeDiff } from '../utils/Util';
 import Storage from '../utils/Storage';
-import UserAvatar from './UserAvatar';
+import { UserAvatar } from './Utils';
 import MyToast from './MyToast';
 import ContextMenu from './ContextMenu';
+import { IconFont } from './Utils';
 
 export default class StatusReplyItem extends React.Component {
 
@@ -33,14 +34,20 @@ export default class StatusReplyItem extends React.Component {
     const item = this.state.reply;
     return (
       <TouchableHighlight underlayColor={Theme.activeUnderlayColor} onPress={this.handleLongPress} >
-        <View style={{backgroundColor:'#ffffff', flexDirection:'row', paddingTop:2}}>
+        <View style={{backgroundColor: '#fff', flexDirection:'row', paddingTop:2}}>
           <UserAvatar {...this.props} user={item.user} size={38} style={{margin:12}}/>
-          <View style={{flex:1, borderBottomWidth:0.5, borderColor:'#ddd', paddingTop:12}}>
-            <Text style={{color:'#444', fontWeight:'500', fontSize:14}}>{item.user.username}</Text>
+          <View style={{flex:1, borderBottomWidth:0.5, borderColor:'#e8e8e8', paddingTop:12, paddingBottom: 12}}>
+            <Text style={{color:'#555', fontSize:12}}>{item.user.username}</Text>
+            <Text style={{color: '#888', fontSize: 10}}>{getGMTTimeDiff(item.timestamp)}</Text>
             <View style={{paddingTop:8, paddingRight:12}}>
               {this._renderContent(item.text)}
             </View>
-            {this._renderFooter()}
+            <TouchableWithoutFeedback hint='Like Button' onPress={this.onLikePress} >
+              <View style={{position: 'absolute', flexDirection: 'row', top:0, right: 0, padding: 12, alignItems:'center'}}>
+                <Text style={{marginRight:2, paddingBottom: 1, color:'#697480', fontSize:10}}>{item.likes==0?'赞':item.likes}</Text>
+                <IconFont icon={item.liked_by_me?'\ue672':'\ue671'} size={17} color={item.liked_by_me?'#f56262':'#666'} />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </TouchableHighlight>
@@ -136,6 +143,7 @@ export default class StatusReplyItem extends React.Component {
     })}
       </Text>);
   }
+
   _textToContentArray(text) {
     var regexp = new RegExp(`(\\[(${Emotion.regexp})\\]|#[\\s\\S]+?#|@[\\u4e00-\\u9fa5_a-zA-Z0-9\\-]+)`, 'g');
     var contentArray = [];

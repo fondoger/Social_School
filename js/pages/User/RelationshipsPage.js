@@ -12,7 +12,7 @@ import {
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
-import { Loading, UserAvatar, StatusesItem, GroupPostItem } from '../../components';
+import { Loading, UserAvatar, StatusesItem, GroupPostItem, ListUserItem } from '../../components';
 
 
 export default class RelationshipsPage extends React.Component {
@@ -59,20 +59,6 @@ export default class RelationshipsPage extends React.Component {
       });
   }
 
-  renderUserItem(user) {
-    return (
-      <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('User_ProfilePage', {user:user})}>
-      <View style={{flexDirection:'row', backgroundColor:'#fff', padding:12}}>
-        <UserAvatar user={user} size={48} />
-        <View style={{flex:1, marginLeft:12}}>
-          <Text style={{color:'#444', fontSize:14, fontWeight:'bold', marginTop:2, marginBottom:2}}>{user.username}</Text>
-          <Text style={{fontSize:13}}>{user.self_intro}</Text>
-        </View>
-      </View>
-      </TouchableWithoutFeedback>
-    )
-  }
-
   renderGroupItem(group) {
     return (
       <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('Group_GroupPage', {group:group})}>
@@ -92,7 +78,7 @@ export default class RelationshipsPage extends React.Component {
   renderByType(_item) {
     const { index, item } = _item;
     if (item.username)
-      return this.renderUserItem(item);
+      return <ListUserItem user={item} onPress={()=>this.props.navigation.push('User_ProfilePage', {user: item})}/>;
     return this.renderGroupItem(item);
   }
 

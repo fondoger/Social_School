@@ -99,7 +99,7 @@ export default class PersonalPage extends React.Component {
   }
 
   render() {
-    const { user, selectedCategoryIndex, selectedLocationIndex }= this.state;
+    const { user, selectedCategoryIndex, selectedLocationIndex, priceValue }= this.state;
     return (
       <View style={{flex:1,}}>
         <View style={{backgroundColor:'#fafbfd', paddingTop:StatusBarHeight, flexDirection:'row',
@@ -153,21 +153,24 @@ export default class PersonalPage extends React.Component {
           <View style={{marginTop:12, backgroundColor:'#fff'}}>
             <TouchableWithoutFeedback onPress={this.onPriceFieldPress}>
             <View style={styles.option}>
-              <Text style={{color:'#222', fontSize:16, flex:1}}>{this.state.priceValue!=''?'￥'+this.state.priceValue:'价格'}</Text>
+              <Text style={{color:this.state.priceValue!==''?'#f44': '#222', fontSize:16, flex:1}}>
+                {this.state.priceValue!=''?'￥'+this.state.priceValue:'价格'}</Text>
               <IconFont icon='&#xe621;' size={18} color='#ccc' style={{paddingRight: 20}} />
             </View>
             </TouchableWithoutFeedback>
             <DividingLine color='#eee' />
             <TouchableWithoutFeedback onPress={this.onCategoryFieldPress}>
             <View style={styles.option}>
-              <Text style={{color:'#222', fontSize:16, flex:1}}>{selectedCategoryIndex!=-1?categories[selectedCategoryIndex]:'分类'}</Text>
+              <Text style={{color:'#222', fontSize:16, flex:1}}>
+                {selectedCategoryIndex!=-1?categories[selectedCategoryIndex]:'分类'}</Text>
               <IconFont icon='&#xe621;' size={18} color='#ccc' style={{paddingRight: 20}} />
             </View>
             </TouchableWithoutFeedback>
             <DividingLine color='#eee' />
             <TouchableWithoutFeedback onPress={this.onLocationFieldPress}>
             <View style={styles.option}>
-              <Text style={{color:'#222', fontSize:16, flex:1}}>{selectedLocationIndex!=-1?locations[selectedLocationIndex]:'校区'}</Text>
+              <Text style={{color:'#222', fontSize:16, flex:1}}>
+                {selectedLocationIndex!=-1?locations[selectedLocationIndex]:'校区'}</Text>
               <IconFont icon='&#xe621;' size={18} color='#ccc' style={{paddingRight: 20}} />
             </View>
             </TouchableWithoutFeedback>

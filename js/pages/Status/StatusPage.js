@@ -19,7 +19,7 @@ import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
 import { getGMTTimeDiff } from '../../utils/Util';
 import Styles from '../../utils/Styles';
-import { SlideInMenu, BottomInputBar, UserAvatar, StatusesItem, StatusReplyItem, Loading } from '../../components';
+import { SlideInMenu, BottomInputBar, UserAvatar, StatusesItem, StatusReplyItem, Loading, MyToast } from '../../components';
 
 const StatusBarHeight = (Platform.OS === 'ios' ? 20 : StatusBar.currentHeight);
 
@@ -96,21 +96,26 @@ export default class StatusPage extends React.Component {
       MyToast.show('刷新失败');
       this.setState({ refreshing: false});
     });
-    this.handleLoadMore({reload:true});
+    this.handleLoadMore({reload: true});
   };
 
   handleLoadMore = (args) => {
     const reload = args && args.reload;
+    if (args && args.reload) {
+      this.state.has_next = true;
+      this.state.load_more_ing = false;
+      this.state.replies = [];
+    }
     const { status, replies, reverseOrder, has_next } = this.state;
-    if (this.state.load_more_ing)
+    if (this.state.load_more_ing || !has_next)
       return
     this.setState({load_more_ing:true, load_more_err: false});
     API.StatusReply.get({
         status_id: status.id, 
         reverse: reverseOrder, 
-        offset: reload?0:replies.length,
+        offset: replies.length,
     }, (responseJson)=>{
-      var _replies = reload ? responseJson :[...replies, ...responseJson];
+      var _replies = [...replies, ...responseJson];
       this.setState({
         replies: _replies,
         has_next: responseJson.length==10,
@@ -125,11 +130,13 @@ export default class StatusPage extends React.Component {
     const { has_next, load_more_err, replies, load_more_ing } = this.state;
     const error = load_more_err || (!has_next && !load_more_ing);
     const error_msg = load_more_err ? '加载失败, 点击重试': '没有更多内容';
-    const height = replies.length==0?160: 60;
+    //const height = replies.length==0?160: 60;
+    if ( replies.length != 0 && !has_next)
+      return <View style={{height: 120}} />
     return (
       <Loading 
         error={error} 
-        style={{height: height, backgroundColor:'#fff', marginBottom:12}} 
+        style={{height: 120, backgroundColor:'#fff', marginBottom:120}} 
         error_msg={error_msg} 
         onRetry={this.handleLoadMore.bind(this)}
       />
@@ -158,7 +165,7 @@ export default class StatusPage extends React.Component {
         onRetry={this.initialLoading.bind(this)}
       />
     return (
-      <View style={{flex:1, backgroundColor:'#eee'}}>
+      <View style={{flex:1, backgroundColor: Theme.backgroundColorDeep}}>
         <FlatList
           ListHeaderComponent={this.renderHeader.bind(this)}
           ListFooterComponent={this.renderFooter.bind(this)}
@@ -170,7 +177,7 @@ export default class StatusPage extends React.Component {
           onEndReached={this.handleLoadMore}
           onEndReachedThreshold={0.01}
         />
-        <BottomInputBar {...this.props} onSendPress={this.onSendPress.bind(this)}/>
+        <BottomInputBar onSendPress={this.onSendPress.bind(this)}/>
       </View>
     )
   }
@@ -202,10 +209,8 @@ export default class StatusPage extends React.Component {
   }
 
   _onReverseOrderChange() {
-    this.setState({reverseOrder: !this.state.reverseOrder, replies: []});
-    setTimeout(()=>{
-      this.handleLoadMore({reload:true});
-    }, 20);
+    this.setState({reverseOrder: !this.state.reverseOrder});
+    this.handleLoadMore({reload: true});
   }
 
   renderHeader() {
@@ -214,7 +219,7 @@ export default class StatusPage extends React.Component {
       <View style={{paddingTop: 8}}>
         {item.type === API.Status.GROUPPOST ? this.renderPostTitle(): null}
         <StatusesItem style={{borderBottomWidth:0.5, borderColor:'#ddd'}} {...this.props} inDetailedPage={true} status={item}/>
-        { item.type === API.Status.GROUPPOST ? this.renderPostUserDetail(): null}
+        { item.type === API.Status.GROUPPOST ? null: null}
         { this.renderSectionHeader() }
       </View>
     )
@@ -226,6 +231,7 @@ export default class StatusPage extends React.Component {
     return (
       <View style={{padding:12, marginTop:8, flexDirection:'row', alignItems:'center',
           backgroundColor:'#fff', borderBottomWidth:0.5, borderColor:'#ddd'}}>
+        <View style={{height: 15, borderRadius: 2, marginRight: 4, width: 3, backgroundColor: Theme.themeColor}} />
         <Text style={{flex:1, fontSize:14, color:'#666'}}>共{item.replies}条回复</Text>
         <TouchableWithoutFeedback onPress={this._onReverseOrderChange.bind(this)}>
           <View style={{flexDirection:'row', alignItems:'center',}}>
@@ -237,15 +243,29 @@ export default class StatusPage extends React.Component {
     )
   }
 
+  navigateToGroupPage() {
+    this.props.navigation.navigate('Group_GroupPage', {group: this.state.status.group});
+  }
+
+  navigateToUserPage() {
+    this.props.navigation.navigate('User_ProfilePage', {user: this.state.status.user});
+  }
+
   renderPostTitle() {
     const status = this.state.status;
     return (
-      <View style={{padding:12, paddingBottom:8, paddingTop:16, 
-            borderColor:'#eee', borderBottomWidth:0.5, backgroundColor:'#fff'}}>
-        <Text style={{color:'#444', fontSize:17, fontWeight:'500',}}>{status.title}</Text>
-        <Text style={{color:'#888', fontSize:12, marginTop:4}}>
-          By {status.user.username} at {status.group.groupname}, {getGMTTimeDiff(status.timestamp, 'POSTTIME')}
-        </Text>
+      <View style={{backgroundColor: '#fff', flexDirection: 'row', padding: 12, borderColor:'#ddd', borderBottomWidth:0.5,}} >
+        <View style={{flex: 1, paddingTop:4}}>
+          <Text style={{color:'#444', fontSize:17, fontWeight:'500',}}>{status.title}</Text>
+          <Text style={{color:'#888', fontSize:12, marginTop:4}}>
+            By <Text onPress={this.navigateToUserPage.bind(this)}>{status.user.username} </Text>
+            in <Text onPress={this.navigateToGroupPage.bind(this)} >{status.group.groupname} </Text>
+            at {getGMTTimeDiff(status.timestamp)}
+          </Text>
+        </View>
+        <View style={{justifyContent: 'center'}}>
+          <UserAvatar user={status.user} size={40}/>
+        </View>
       </View>
     )
   }

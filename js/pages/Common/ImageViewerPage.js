@@ -88,6 +88,7 @@ export default class ImageViewerPage extends React.Component {
           source: {uri: images[i].source.uri, load: images[i].source.load},
         }
         images[i] = newImage;
+        //if (Debug.log)
         this.setState({images:images});
       });
     }

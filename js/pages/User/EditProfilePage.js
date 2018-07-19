@@ -110,6 +110,14 @@ export default class EditProfilePage extends React.Component {
     });
   }
 
+  onQrCodePress() {
+    const { user } = this.state;
+    const text = `Social_BUAA:user_id=${user.id}`;
+    console.log('user avatar: ' + user.avatar);
+    const qr_image_url = `https://tool.kd128.com/qrcode?text=${text}&logo=${user.avatar+'!qrcode'}`;
+    this.props.navigation.navigate('Common_ImageViewerPage', {initialImage: 0, images: [{source: {uri: qr_image_url}}]});
+  }
+
   render() {
     const user = this.state.user;
     const gender = (user.gender==1 ? '男':
@@ -153,7 +161,7 @@ export default class EditProfilePage extends React.Component {
             </View>
           </TouchableHighlight>
           <View style={styles.dividingLine} />
-          <TouchableHighlight onPress={()=>MyToast.show('敬请期待!')} >
+          <TouchableHighlight onPress={this.onQrCodePress.bind(this)} >
             <View style={styles.rowContainer} >
               <View style={styles.rowWrapper} >
                 <Text style={styles.rowText}>二维码名片</Text>

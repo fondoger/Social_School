@@ -16,7 +16,7 @@ import ImageCard from './ImageCard';
 import WechatArticleCard from './WechatArticleCard';
 import API from '../utils/API_v1';
 import { getGMTTimeDiff } from '../utils/Util';
-import UserAvatar from './UserAvatar';
+import { UserAvatar } from './Utils';
 import Styles from '../utils/Styles';
 
 export default class GroupPostItem extends React.Component {
@@ -68,8 +68,8 @@ export default class GroupPostItem extends React.Component {
     const status = this.state.status;
     return (
       <View style={{flexDirection:'row', alignItems:'center', padding:10, borderBottomWidth:0.5, borderColor:'#ddd'}}>
-        <Text style={{paddingLeft:2, paddingRight:2, borderRadius:4,
-              backgroundColor:Theme.themeColor, color:'#fff', fontSize:10}}>热帖</Text>
+        <Text style={{paddingLeft:5, paddingRight:5, borderRadius:10,
+              backgroundColor:Theme.themeColor, color:'#fff', fontSize:10}}>讨论</Text>
         <Text style={{fontSize:12, color:'#aaa'}}> 来自{status.group.groupname}</Text>
       </View>
     )

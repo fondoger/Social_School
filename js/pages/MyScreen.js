@@ -56,6 +56,9 @@ export default class MyScreen extends React.Component {
                 <Text style={styles.username}>{user?user.username:'未登录'}</Text>
                 <Text style={styles.userType}>{user?'未认证用户':'登陆畅享更多功能'}</Text>
               </View>
+              <TouchableHighlight onPress={()=>this.props.navigation.navigate('User_QRCodePage', {user})}>
+                <Image style={{height:24, width:24, padding: 8}} source={require('../../img/qrcode.png')} />
+              </TouchableHighlight>
             </View>
         </TouchableHighlight>
         <View style={[styles.row, styles.rowTools]}>
@@ -163,10 +166,12 @@ const styles = StyleSheet.create({
     rowUser: {
       padding: 12,
       flexDirection: 'row',
+      alignItems: 'center',
     },
     userInfo: {
       paddingTop: 4,
       marginLeft: 12,
+      flex: 1,
     },
     username: {
       fontSize: 16,

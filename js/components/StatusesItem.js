@@ -16,10 +16,11 @@ import WechatArticleCard from './WechatArticleCard';
 import API from '../utils/API_v1';
 import { getGMTTimeDiff } from '../utils/Util';
 import Storage from '../utils/Storage';
-import UserAvatar from '../components/UserAvatar';
+import { UserAvatar } from './Utils';
 import Styles from '../utils/Styles';
 import MyToast from './MyToast';
 import ContextMenu from './ContextMenu';
+import { IconFont } from './Utils';
 
 const article = {
   title: '假期第一周，我竟是这样度过的...',
@@ -87,7 +88,8 @@ export default class StatusesItem extends React.Component {
       self_intro = ', ' + self_intro;
     return (
       <View style={{flexDirection:'row', paddingLeft:12, paddingTop:12, alignItems:'center'}}>
-        <UserAvatar navigation={this.props.navigation} size={40} 
+        <UserAvatar size={40}
+          onPress={()=>this.props.navigation.navigate('User_ProfilePage', {user: item.user})}
           user={isGroupStatus?null:item.user} 
           group={isGroupStatus?item.group:null} />
         <View style={{paddingLeft:12}}>
@@ -160,13 +162,15 @@ export default class StatusesItem extends React.Component {
       <View style={{flexDirection:'row', alignItems:'center'}}>
         <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('Status_StatusPage', {status:item, focus:true})}>
           <View style={{width:60, flexDirection: 'row', padding: 16, justifyContent:'flex-start', alignItems:'center'}}>
-            <Text style={{fontFamily:'iconfont', fontSize:19, color:'#666'}}>&#xe62a;</Text>
+            { /* <Text style={{fontFamily:'iconfont', fontSize:19, color:'#666'}}>&#xe62a;</Text> */}
+            <IconFont icon='&#xe62a;' size={18} color='#666' />
             <Text style={{marginLeft:2, color:'#697480', fontSize:10, paddingTop:-2}}>{item.replies==0?'评论':item.replies}</Text>
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={this.onLikePress}>
           <View style={{width:80, flexDirection: 'row', padding: 16, justifyContent:'flex-start', alignItems:'center'}}>
-            <Text style={{fontFamily:'iconfont', fontSize:19, color:item.liked_by_me?'#db5f5f':'#666'}}>{item.liked_by_me?'\ue600':'\ue601'}</Text>
+            { /* <Text style={{fontFamily:'iconfont', fontSize:19, color:item.liked_by_me?'#db5f5f':'#666'}}>{item.liked_by_me?'\ue600':'\ue601'}</Text> */}
+            <IconFont icon={item.liked_by_me?'\ue672':'\ue671'} size={18} color={item.liked_by_me?'#f56262':'#666'} />
             <Text style={{marginLeft:2, color:'#697480', fontSize:10}}>{item.likes==0?'赞':item.likes}</Text>
           </View>
         </TouchableWithoutFeedback>

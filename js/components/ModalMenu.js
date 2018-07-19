@@ -46,6 +46,7 @@ export default class ModalMenu extends React.Component {
       options: [],
       modalOpacity: new Animated.Value(0),
       contentOpacity: new Animated.Value(0),
+      contentScale: new Animated.Value(0.9),
       text: null,
       renderComponent: null,
     }
@@ -60,7 +61,7 @@ export default class ModalMenu extends React.Component {
               <Animated.View style={{flex:1, backgroundColor:'#000', opacity:this.state.modalOpacity}} >
               </Animated.View>
               <Animated.View style={{top:0, left:0, right:0, bottom:0, opacity: this.state.contentOpacity,
-                position: 'absolute', justifyContent: 'center', alignItems: 'center'}}>
+                position: 'absolute', justifyContent: 'center', alignItems: 'center', transform: [{scale: this.state.contentScale}]}}>
                   <this.state.renderComponent />
               </Animated.View>
           </View>
@@ -90,16 +91,22 @@ export default class ModalMenu extends React.Component {
 
   _hide = () => {
     BackHandler.removeEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
-    Animated.timing(this.state.contentOpacity, {
-      duration: 100,
+    Animated.timing(this.state.modalOpacity, {
+      duration: 50,
       toValue: 0,
-      easing: Easing.elastic(1),
+      easing: Easing.inOut(Easing.linear),
       useNativeDriver: true
     }).start();
-    Animated.timing(this.state.modalOpacity, {
+    Animated.timing(this.state.contentScale, {
+      duration: 200,
+      toValue: 0.9,
+      easing: Easing.inOut(Easing.linear),
+      useNativeDriver: true
+    }).start();
+    Animated.timing(this.state.contentOpacity, {
       duration: 200,
       toValue: 0,
-      easing: Easing.elastic(1),
+      easing: Easing.inOut(Easing.linear),
       useNativeDriver: true
     }).start();
     setTimeout(()=>{
@@ -109,15 +116,27 @@ export default class ModalMenu extends React.Component {
 
   _show = (opacity=0.6) => {
     BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
-      Animated.timing(this.state.modalOpacity, {
-        duration: 150,
-        toValue: opacity,
-        easing: Easing.out(Easing.cubic),
-        useNativeDriver: true
-      }).start();
-    setTimeout(()=>{
-      this.state.contentOpacity.setValue(1);
-    }, 80);
+    Animated.timing(this.state.modalOpacity, {
+      duration: 250,
+      toValue: opacity,
+      easing: Easing.inOut(Easing.linear),
+      useNativeDriver: true
+    }).start();
+    Animated.timing(this.state.contentScale, {
+      duration: 150,
+      toValue: 1,
+      easing: Easing.inOut(Easing.linear),
+      useNativeDriver: true,
+    }).start();
+    Animated.timing(this.state.contentOpacity, {
+      duration: 150,
+      toValue: 1,
+      easing: Easing.inOut(Easing.linear),
+      useNativeDriver: true,
+    }).start();
+    // setTimeout(()=>{
+    //   this.state.contentOpacity.setValue(1);
+    // }, 80);
   }
 
   _showLoading(text, modalOpacity=0.3) {

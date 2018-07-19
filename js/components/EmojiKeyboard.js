@@ -56,7 +56,7 @@ const blocks = Math.ceil(emoji.length / blockIconNum);
 class EmojiKeyboard extends React.Component {
 
   state = {
-    selected: 0,
+    index: 0,
     routes: [],
   };
 
@@ -83,9 +83,7 @@ class EmojiKeyboard extends React.Component {
           </View>
         );
     }
-    const routes = this.groupView.map((item, index)=>({key: index.toString()}));
-    console.log(routes);
-    this.setState({routes})
+    this.state.routes = this.groupView.map((item, index)=>({key: index.toString()}));
   }
 
   _onBackspacePress() {
@@ -122,149 +120,41 @@ class EmojiKeyboard extends React.Component {
       <View style={styles.container}>
         <TabView
           navigationState={this.state}
-          onIndexChange={(index)=>{this.setState({index: index})}}
+          onIndexChange={(index)=>{this.setState({index})}}
           tabBarPosition='bottom'
           renderScene={(args)=> {
             console.log(args);
             return this.groupView[args.route.key]
           }}
           renderTabBar={(props)=>{
-            //console.log(props);
+            console.log(props);
+            const { position } = props;
+            const translateX = Animated.multiply(Animated.add(position, -1), 20);
             return (
-              <View style={{backgroundColor:'#f00', flexDirection:'row', justifyContent:'center'}}> 
-              {
-                this.groupView.map((item, index)=>(
-                  <View style={[{width:5, height:5, borderRadius: 2.5, backgroundColor: '#666', margin: 5}, index===this.state.index?{backgroundColor:'#222'}:null]} />
-                ))
-              }
-                
+              <View style={styles.tabBar}> 
+                {
+                  this.groupView.map((item, index)=>(
+                    <View key={index.toString()} style={styles.dot} />
+                  ))
+                }
+                <View hint='indicator container' style={styles.indicatorContainer}>
+                  <Animated.View style={[styles.indicatorCover, {transform:[{translateX}]}]} />
+                </View>
               </View>   
             )         
           }}
-          // renderTabBar={(props)=>
-          //   <TabBar
-          //     {...props}
-          //     layout={{width:20}}
-          //     style={{width:20, backgroundColor: null}}
-          //     renderLabel={()=>null}
-          //     renderIcon={()=>null}
-          //     indicatorStyle={styles.dot}
-          //   />
-          // }
-        >
-        </TabView>
+        />
       </View>
     )
-    // return (
-    //   <Animated.View style={this.props.style,styles.container}>
-    //     <ScrollableTabView
-    //       tabBarPosition='bottom'
-    //       renderTabBar={() => <TabBarDot {...this.props} />}
-    //       initialPage={0}
-    //       tabBarActiveTextColor="#fc7d30"
-    //       tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
-    //       >
-    //       {
-    //         this.groupView
-    //       }
-    //     </ScrollableTabView>
-    //   </Animated.View>
-    // )
   }
 }
 
-// class EmojiKeyboard extends React.Component {
-
-//   constructor(props) {
-//       super(props);
-//   }
-
-//   componentDidMount() {
-//     this.groupView = [];
-//     for (let i = 0; i < blocks; i++) {
-//         let emoji_block = [];
-//         for (let j = 0; j < blockIconNum; j++) {
-//           emoji_block.push(this.renderEmojiIcon(i*blockIconNum+j));
-//         }
-//         this.groupView.push(
-//           <View style={styles.groupView} key={'block'+i}
-//                 tabLabel={'block'+i}>
-//               {
-//                 emoji_block
-//               }
-//               <TouchableOpacity
-//                 activeOpacity={0.6}
-//                 onPress={this._onBackspacePress.bind(this)}
-//                 style={[styles.emojiTouch, styles.delete]}
-//                 >
-//                 <Text style={styles.backspaceButton}>&#xe69f;</Text>
-//               </TouchableOpacity>
-//           </View>
-//         );
-//     }    
-//   }
-
-//   _onBackspacePress() {
-//     if (this.props.onBackspacePress)
-//       this.props.onBackspacePress();
-//   }
-
-//   _onEmoticonPress(emojiValue) {
-//     if (this.props.onEmoticonPress)
-//       this.props.onEmoticonPress(emojiValue);
-//   }
-
-//   renderEmojiIcon(index) {
-//     const value = emoji[index];
-//     const desc = emoji_desc[index];
-//     return (
-//       <TouchableHighlight
-//         underlayColor={'#f1f1f1'}
-//         onPress={()=>this._onEmoticonPress.bind(this)(value)}
-//         style={styles.emojiTouch}
-//         key={index.toString()}
-//         >
-//         <Text style={styles.emoji} >
-//           {value}
-//         </Text>
-//       </TouchableHighlight>
-//     )
-//   }
-
-//   render() {
-//     if (!this.props.show)
-//       return null;
-//     return (
-//       <Animated.View style={this.props.style,styles.container}>
-//         <ScrollableTabView
-//           tabBarPosition='bottom'
-//           renderTabBar={() => <TabBarDot {...this.props} />}
-//           initialPage={0}
-//           tabBarActiveTextColor="#fc7d30"
-//           tabBarUnderlineStyle={{backgroundColor:'#fc7d30',height: 2}}
-//           >
-//           {
-//             this.groupView
-//           }
-//         </ScrollableTabView>
-//       </Animated.View>
-//     )
-//   }
-// }
 
 const {height, width} = require('Dimensions').get('window');
 
 const styles = StyleSheet.create({
-  baseText: {
-    fontSize: 13,
-    color: '#4a4a4a',
-    lineHeight: 18
-  },
-  dimText: {
-    color: '#9b9b9b',
-  },
   container: {
-    backgroundColor: '#f8fafb',
+    backgroundColor: '#ededed',
     height: emojiKeyboardHeight,
     width: width,
     borderColor: '#eee',
@@ -285,12 +175,6 @@ const styles = StyleSheet.create({
   delete:{
     right:0
   },
-  scrollTable: {
-    width: width
-  },
-  cateView: {
-    flex: 1,
-  },
   groupView: {
     flex: 1,
     flexDirection: 'row',
@@ -300,63 +184,39 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     paddingTop: 15
   },
-  tab: {
+  tabBar: {
+    height: 40, 
+    flexDirection:'row', 
+    justifyContent:'center',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingBottom: 0,
-    width: 60,
-    borderRightWidth: 1,
-    borderColor: 'rgba(178,178,178,.3)',
-    backgroundColor: '#888'
-  },
-  tabs: {
-    height: 40,
-    width: width,
-    flexDirection: 'row',
-    borderWidth: 1,
-    borderBottomWidth: 0,
-    borderLeftWidth: 0,
-    borderRightWidth: 0,
-    borderTopColor: 'rgba(178,178,178,0.3)',
-    backgroundColor: 'rgba(255,255,255,1)',
-  },
-  tabsDot: {
-    height: 40,
-    width: width,
-    flexDirection: 'row',
-    borderWidth: 0,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  tabDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: 5,
-    marginRight: 5
+    backgroundColor: '#ededed',
   },
   dot: {
-    backgroundColor: '#444',
+    backgroundColor: '#ddd',
     width: 6,
     height: 6,
     borderRadius: 3,
-  },
-  backspace:{
-    width: 30,
-    height: 30,
-    opacity: .5
-  },
-  plusButton: {
-    width: 20,
-    height: 20,
-    opacity: 0.8
+    margin: 7,
   },
   backspaceButton: {
     fontFamily: 'iconfont',
     fontSize: 24, 
     color:'#666',
+  },
+  indicatorCover: {
+    backgroundColor:'#999', 
+    width:8,
+    height: 8, 
+    borderRadius: 4, 
+  },
+  indicatorContainer: {position: 
+    'absolute', 
+    left: 0, 
+    right: 0, 
+    bottom: 0, 
+    top: 0, 
+    justifyContent:'center', 
+    alignItems:'center',
   },
 });
 

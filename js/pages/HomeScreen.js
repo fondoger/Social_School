@@ -42,7 +42,7 @@ export default class HomeScreenTab extends React.Component {
         <View style={{flex: 4, alignItems: 'flex-start', justifyContent:'center'}} >
           <TouchableHighlight onPress={()=>{this.props.navigation.navigate('Common_SearchPage')}}>
             <View style={{flexDirection: 'row', justifyContent: 'center', height: Theme.headerHeight, alignItems:'center', width:48, padding: 8, backgroundColor:Theme.themeColor}}>
-              <IconFont color='#fff' size={20} icon='&#xe623;' />
+              <IconFont color='#fff' size={21} icon='&#xe623;' />
             </View>
           </TouchableHighlight>
         </View>

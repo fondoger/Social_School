@@ -6,6 +6,7 @@ import {
   TextInput,
   StyleSheet,
   Keyboard,
+  ScrollView,
   ActivityIndicator,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -13,6 +14,7 @@ import {
 import Emoticons from './EmojiKeyboard';
 import spliddit from 'spliddit';
 import Theme from '../utils/Theme';
+import { IconFont } from './Utils';
 
 export default class BottomInputBar extends React.Component {
 
@@ -49,6 +51,7 @@ export default class BottomInputBar extends React.Component {
       this.setState({showEmojiInput: false});
       this.textInput.focus();
     } else {
+      Keyboard.dismiss();
       this.setState({showEmojiInput: true});
     }
   }
@@ -99,11 +102,14 @@ export default class BottomInputBar extends React.Component {
   }
 
   render() {
-    const icon = this.state.showEmojiInput?'\ue605':"\ue60b";
+    const icon = this.state.showEmojiInput?'\ue608': "\ue892";
+    const color = this.state.showEmojiInput ? Theme.themeColor: '#888';
     return (
-      <View {...this.props}>
-        <View  behavior="height"
-            style={styles.container}>
+      <View style={{position: 'absolute', left: 0, bottom: 0, right: 0}}>
+        <View style={styles.container}>
+          <TouchableWithoutFeedback onPress={this._onEmojiSwitchPress.bind(this)} >
+            <IconFont style={{padding: 6}} icon={icon} color={color} size={22} />
+          </TouchableWithoutFeedback>
           <View style={styles.textInputWrap} >
             <TextInput
               multiline={true}
@@ -111,7 +117,7 @@ export default class BottomInputBar extends React.Component {
               onContentSizeChange={(event) => { 
                 this.setState({height: Math.min(80, event.nativeEvent.contentSize.height)})
               }}
-              placeholder={this.props.placeholder||"写点什么"}
+              placeholder={this.props.placeholder||"说点什么..."}
               style={[styles.textInput, {height: Math.max(16, this.state.height)}]}
               underlineColorAndroid="transparent"
               value={this.state.textValue}
@@ -119,16 +125,15 @@ export default class BottomInputBar extends React.Component {
               ref={ref=>this.textInput=ref}
               selectionColor={Theme.themeColor}
               onFocus={this._onFocus.bind(this)}
+              blurOnSubmit={false}
             />
-            <Text onPress={this._onEmojiSwitchPress.bind(this)} 
-            style={styles.emojiButton}>{icon}</Text>
           </View>
           <View style={styles.sendButtonWrap}>
           {
             this.state.send_ing ?
             <ActivityIndicator size='small' color={Theme.themeColor} /> :
             <Text onPress={this._onSendPress.bind(this)} style={{fontSize:15,
-              color: this.state.textValue!=''?'#222':'#888'}}>发送</Text>
+              color: this.state.textValue!=''? '#111':'#888'}}>发送</Text>
           }
           </View>
         </View>
@@ -146,8 +151,9 @@ export default class BottomInputBar extends React.Component {
 const styles = StyleSheet.create({
   container: {
     borderTopWidth: 0.5, 
-    borderColor:'#eee', 
-    backgroundColor:'#fff', 
+    elevation: 3,
+    borderColor:'#ddd', 
+    backgroundColor:'rgba(255,255,255,.95)', 
     flexDirection:'row',
     alignItems:'flex-end', 
     padding: 8, 
@@ -174,13 +180,5 @@ const styles = StyleSheet.create({
     paddingLeft:4, 
     paddingBottom:8, 
     justifyContent:'center',
-  },
-  emojiButton: {
-    fontFamily:'iconfont', 
-    fontSize:21, 
-    color:'#888', 
-    paddingLeft:6, 
-    paddingTop:8, 
-    paddingRight:6,
   },
 });
