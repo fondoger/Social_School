@@ -74,7 +74,7 @@ export function PlaceholderImage(props) {
 }
 
 
-function _HeaderLeft(props) {
+export function HeaderLeft(props) {
   const tintColor = props.tintColor;
   return (
     <TouchableOpacity onPress={props.onPress}>
@@ -82,7 +82,6 @@ function _HeaderLeft(props) {
     </TouchableOpacity>
   );
 }
-export const HeaderLeft = withNavigation(_HeaderLeft);
 
 
 function _HeaderSettingButton(props) {
@@ -130,27 +129,32 @@ function _UserAvatar(props) {
   const user_vip_logo = require('../../img/user_vip.png');
   const size = props.size || 46;
   const defaultAvatar = 'http://asserts.fondoger.cn/default/default_avatar.jpg!thumbnail';
-  const defaultOnPress = blockOnPress ? null: ()=>{
+  const view = (
+    <View style={[props.style, {height:size, width:size}]}>
+      <Image style={[StyleSheet.absoluteFill, {width:size, 
+                    height:size, borderRadius:size/2}]} 
+             source={{uri: defaultAvatar}} />
+      <Image
+        style={{width:size, height:size, borderRadius:size/2, 
+        borderWidth:0.5, borderColor:'rgba(100,100,100,0.1)'}} 
+        source={{uri: user.avatar+'!thumbnail'}} />
+      {
+        hideLogo ? null:
+        <Image style={{position:'absolute', right:-1,
+                       bottom:-1, width:13, height:13}} 
+               source={user_vip_logo}
+        /> 
+      }
+    </View>
+  );
+  if (blockOnPress)
+    return view;
+  const defaultOnPress = ()=>{
     props.navigation.navigate('User_ProfilePage', {user});
   }
   return (
-    <TouchableWithoutFeedback onPress={props.onPress} >
-      <View style={[props.style, {height:size, width:size}]}>
-        <Image style={[StyleSheet.absoluteFill, {width:size, 
-                      height:size, borderRadius:size/2}]} 
-               source={{uri: defaultAvatar}} />
-        <Image
-          style={{width:size, height:size, borderRadius:size/2, 
-          borderWidth:0.5, borderColor:'rgba(100,100,100,0.1)'}} 
-          source={{uri: user.avatar+'!thumbnail'}} />
-        {
-          hideLogo ? null:
-          <Image style={{position:'absolute', right:-1,
-                         bottom:-1, width:13, height:13}} 
-                 source={user_vip_logo}
-          /> 
-        }
-      </View>
+    <TouchableWithoutFeedback onPress={props.onPress || defaultOnPress} >
+      { view }
     </TouchableWithoutFeedback>
   )
 }

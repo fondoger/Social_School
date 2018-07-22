@@ -8,12 +8,13 @@ import {
   FlatList,
   Image,
   TouchableHighlight,
+  TouchableWithoutFeedback,
   StackNavigator,
 } from 'react-native';
 import Theme from '../utils/Theme';
 import API from '../utils/API_v1';
 import Storage from '../utils/Storage';
-import { MyToast, UserAvatar } from '../components';
+import { MyToast, UserAvatar, IconFont } from '../components';
 
 export default class MyScreen extends React.Component {
   static navigationOptions = {
@@ -56,9 +57,9 @@ export default class MyScreen extends React.Component {
                 <Text style={styles.username}>{user?user.username:'未登录'}</Text>
                 <Text style={styles.userType}>{user?'未认证用户':'登陆畅享更多功能'}</Text>
               </View>
-              <TouchableHighlight onPress={()=>this.props.navigation.navigate('User_QRCodePage', {user})}>
-                <Image style={{height:24, width:24, padding: 8}} source={require('../../img/qrcode.png')} />
-              </TouchableHighlight>
+              <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('User_QRCodePage', {user})}>
+              <IconFont style={{padding: 4, backgroundColor: '#fff'}} icon='&#xe690;' size={26} color='#888' />
+              </TouchableWithoutFeedback>
             </View>
         </TouchableHighlight>
         <View style={[styles.row, styles.rowTools]}>
