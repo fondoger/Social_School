@@ -256,7 +256,7 @@ export default class StatusPage extends React.Component {
     return (
       <View style={{backgroundColor: '#fff', flexDirection: 'row', padding: 12, borderColor:'#ddd', borderBottomWidth:0.5,}} >
         <View style={{flex: 1, paddingTop:4}}>
-          <Text style={{color:'#444', fontSize:17, fontWeight:'500',}}>{status.title}</Text>
+          <Text style={{color:Theme.themeColor||'#444', fontSize:17, fontWeight:'500', }}>{status.title}</Text>
           <Text style={{color:'#888', fontSize:12, marginTop:4}}>
             By <Text onPress={this.navigateToUserPage.bind(this)}>{status.user.username} </Text>
             in <Text onPress={this.navigateToGroupPage.bind(this)} >{status.group.groupname} </Text>
