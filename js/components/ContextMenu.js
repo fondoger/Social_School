@@ -1,24 +1,17 @@
 'use strict';
 import React from 'react';
 import {
-  Text, 
+  Text,
   View,
   Modal,
-  Easing, 
-  Animated, 
-  Keyboard,
+  Easing,
+  Animated,
   Platform,
-  Component,
-  StatusBar, 
-  StyleSheet,
-  Vibration, 
-  Dimensions, 
+  Vibration,
   BackHandler,
-  ActivityIndicator,
-  TouchableHighlight, 
-  TouchableWithoutFeedback, 
+  TouchableHighlight,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import Theme from '../utils/Theme';
 import { IconFont } from './Utils';
 
 const _window = require('Dimensions').get('window');
@@ -31,7 +24,7 @@ const MenuHeight = 48;
 export default class ContextMenu extends React.Component {
 
   constructor(props) {
-    super (props);
+    super(props);
     this.state = {
       visible: false,
       options: [],
@@ -45,18 +38,20 @@ export default class ContextMenu extends React.Component {
 
   renderOption = (option) => {
     return (
-      <View style={{backgroundColor: '#fff', justifyContent: 'center', height: MenuHeight, width: MenuWidth}} >
-        <Text style={{color: '#333', fontSize: 16, paddingLeft:16,}}>{option.name}</Text>
+      <View style={{ backgroundColor: '#fff', justifyContent: 'center', height: MenuHeight, width: MenuWidth }} >
+        <Text style={{ color: '#333', fontSize: 16, paddingLeft: 16, }}>{option.name}</Text>
       </View>
     )
   };
 
   renderOptionWithIcon = (option) => {
     return (
-      <View style={{backgroundColor: '#fff', alignItems: 'center',
-            height: MenuHeight, width: MenuWidth, flexDirection: 'row', }} >
-        <IconFont icon={option.icon} color='#333' size={20} style={{paddingLeft: 15, paddingRight: 15}}/>
-        <Text style={{flex: 1, color: '#333', fontSize: 16, lineHeight: 20}}>{option.name}</Text>
+      <View style={{
+        backgroundColor: '#fff', alignItems: 'center',
+        height: MenuHeight, width: MenuWidth, flexDirection: 'row',
+      }} >
+        <IconFont icon={option.icon} color='#333' size={20} style={{ paddingLeft: 15, paddingRight: 15 }} />
+        <Text style={{ flex: 1, color: '#333', fontSize: 16, lineHeight: 20 }}>{option.name}</Text>
       </View>
     )
   };
@@ -66,27 +61,28 @@ export default class ContextMenu extends React.Component {
     if (!visible)
       return null;
     return (
-        <TouchableWithoutFeedback onPress={this._hide}>
-          <View style={{top:0, left:0, right:0, bottom:0, position:'absolute'}}>
-            <Animated.View style={{
-                position:'absolute', left: this.state.posX, top: this.state.posY,
-                transform: [{scale: this.state.scaleAnim}], elevation: 6,
-                borderRadius: 3, opacity: this.state.opaciAnim, overflow: 'hidden'}}>
-              {
-                options.map((option, index) => (
-                  <TouchableHighlight
-                    key={index} onPress={()=>{
-                      option.callback();
-                      setTimeout(this._hide, 150);
-                    }}
-                  >
-                    { withIcon ? this.renderOptionWithIcon(option): this.renderOption(option) }
-                  </TouchableHighlight>
-                ))
-              }
-            </Animated.View>
-          </View>
-        </TouchableWithoutFeedback>
+      <TouchableWithoutFeedback onPress={this._hide}>
+        <View style={{ top: 0, left: 0, right: 0, bottom: 0, position: 'absolute' }}>
+          <Animated.View style={{
+            position: 'absolute', left: this.state.posX, top: this.state.posY,
+            transform: [{ scale: this.state.scaleAnim }], elevation: 6,
+            borderRadius: 3, opacity: this.state.opaciAnim, overflow: 'hidden'
+          }}>
+            {
+              options.map((option, index) => (
+                <TouchableHighlight
+                  key={index} onPress={() => {
+                    option.callback();
+                    setTimeout(this._hide, 150);
+                  }}
+                >
+                  {withIcon ? this.renderOptionWithIcon(option) : this.renderOption(option)}
+                </TouchableHighlight>
+              ))
+            }
+          </Animated.View>
+        </View>
+      </TouchableWithoutFeedback>
     )
   }
 
@@ -110,26 +106,26 @@ export default class ContextMenu extends React.Component {
 
   static showIconMenu(...args) {
     const instance = ContextMenu.getInstance();
-    instance.setState({withIcon: true});
+    instance.setState({ withIcon: true });
     instance._show(...args);
   }
 
   static showMenu(...args) {
     const instance = ContextMenu.getInstance();
-    instance.setState({withIcon: false});
+    instance.setState({ withIcon: false });
     instance._show(...args);
   }
 
-  _show(options, event, vibrate=false) {
+  _show(options, event, vibrate = false) {
     BackHandler.addEventListener('hardwareBackPress', this.onBackButtonPressAndroid);
     if (vibrate)
-      Vibration.vibrate(Platform.OS === 'ios' ? [0]: [0, 15]);
-    let {pageX, pageY} = event.pageX ? event: event.nativeEvent;
+      Vibration.vibrate(Platform.OS === 'ios' ? [0] : [0, 15]);
+    let { pageX, pageY } = event.pageX ? event : event.nativeEvent;
     if (pageX > ScreenWidth / 2)
       pageX -= MenuWidth;
     if (pageY > ScreenHeight / 2)
       pageY -= options.length * MenuHeight;
-    this.setState({visible: true, options: options, posX: pageX, posY:pageY});
+    this.setState({ visible: true, options: options, posX: pageX, posY: pageY });
     Animated.timing(this.state.scaleAnim, {
       duration: 120,
       toValue: 1,
@@ -152,8 +148,8 @@ export default class ContextMenu extends React.Component {
       easing: Easing.elastic(1),
       useNativeDriver: true,
     }).start();
-    setTimeout(()=>{
-      this.setState({visible: false});
+    setTimeout(() => {
+      this.setState({ visible: false });
       this.state.scaleAnim.setValue(0);
     }, 150);
   };
