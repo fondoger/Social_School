@@ -32,75 +32,21 @@ const headerHeight = Theme.headerHeight + StatusBarHeight;
 
 export default class GroupPage extends React.Component {
 
-  static navigationOptions = ({ navigation }) => {
-    const navParams = navigation.state.params;
-    const menuWrapper = {
-      alignItems: 'center',
-      flexDirection: 'row',
-      paddingRight: 8,
-      paddingTop: 6,
-      paddingBottom: 4,
-    };
-    const menuText = {
-      color: '#222',
-      fontSize: 15,
-    };
-    const menuIcon = {
-      fontFamily: 'iconfont',
-      fontSize: 20,
-      color: '#222',
-      paddingLeft: 8,
-      paddingRight: 8,
-    };
-    const onPress = (e) => {
-      //
-    }
-    return {
-      headerTransparent: true,
-      headerStyle: {
-        backgroundColor:'rgba(0,0,0,0)', 
-        paddingTop: StatusBarHeight,
-        height: headerHeight,
-      },
-      headerRight: (
-          <TouchableWithoutFeedback onPress={navigation.state.params.onMoreButtonPress}>
-            <View style={{padding: 12}}>
-              <Text style={{fontFamily: 'iconfont', fontSize: 22, color: '#fff'}} >&#xe633;</Text>
-            </View>
-          </TouchableWithoutFeedback>
-      )
-      // headerRight: (
-      //   <Menu rendererProps={{ placement: 'bottom' }} onSelect={value => alert(`Selected number: ${value}`)}>
-      //     <MenuTrigger customStyles={{triggerWrapper:{ padding:12}}} triggerTouchable={{background: TouchableNativeFeedback.Ripple('#fff', true)}}>
-      //       <Text style={{fontFamily: 'iconfont', fontSize: 22, color: '#fff'}} >&#xe633;</Text>
-      //     </MenuTrigger>
-      //     <MenuOptions customStyles={{optionsContainer:{borderRadius:1, marginTop:Theme.headerHeight, marginRight:12}}}>
-      //       <MenuOption onSelect={()=>navigation.navigate('Status_NewStatusPage',
-      //               {type:API.Status.GROUPPOST, group:navParams.group})}>
-      //         <View style={menuWrapper}>
-      //           <Text style={menuIcon}>&#xe66c;</Text>
-      //           <Text style={menuText}>发表贴子</Text>
-      //         </View>
-      //       </MenuOption>
-      //       <MenuOption onSelect={()=>navigation.navigate('Status_NewStatusPage',
-      //               {type:API.Status.GROUPSTATUS, group:navParams.group})}>
-      //         <View style={menuWrapper}>
-      //           <Text style={menuIcon}>&#xe62d;</Text>
-      //           <Text style={menuText}>发布微博</Text>
-      //         </View>
-      //       </MenuOption>
-      //       <MenuOption onSelect={()=>navigation.navigate('Status_NewStatusPage',
-      //               {type:API.Status.GROUPPOST, group:navParams.group})}>
-      //         <View style={menuWrapper}>
-      //           <Text style={menuIcon}>&#xe6c5;</Text>
-      //           <Text style={menuText}>发起活动</Text>
-      //         </View>
-      //       </MenuOption>            
-      //     </MenuOptions>
-      //   </Menu>
-      // )
-    }
-  };
+  static navigationOptions = ({ navigation }) => ({
+    headerTransparent: true,
+    headerStyle: {
+      backgroundColor:'rgba(0,0,0,0)', 
+      paddingTop: StatusBarHeight,
+      height: headerHeight,
+    },
+    headerRight: (
+        <TouchableWithoutFeedback onPress={navigation.state.params.onMoreButtonPress}>
+          <View style={{padding: 12}}>
+            <Text style={{fontFamily: 'iconfont', fontSize: 22, color: '#fff'}} >&#xe633;</Text>
+          </View>
+        </TouchableWithoutFeedback>
+    )
+  });
 
   constructor(props) {
     super(props);
@@ -116,16 +62,15 @@ export default class GroupPage extends React.Component {
   }
 
   onMoreButtonPress(e) {
-
-    const options = [
-      {name: '发表贴子', icon: '\ue66c', callback: () => {
-        this.props.navigation.navigate('Status_NewStatusPage', {type:API.Status.GROUPPOST, group:this.state.group});
-      }},
-      {name: '团体微博', icon: '\ue62d', callback: () => {
-        this.props.navigation.navigate('Status_NewStatusPage', {type:API.Status.GROUPSTATUS, group:this.state.group});
-      }},
-      {name: '发起活动', icon: '\ue6c5', callback: () => MyToast.show('发起活动')},
-    ];
+		const options = [
+			[ '发表贴子', '\ue66c', () => {
+					this.props.navigation.navigate('Status_NewStatusPage', { type: API.Status.GROUPPOST, group: this.state.group });
+			}],
+			[ '团体微博', '\ue62d', () => {
+					this.props.navigation.navigate('Status_NewStatusPage', { type: API.Status.GROUPSTATUS, group: this.state.group });
+			}],
+			[ '发起活动', '\ue6c5', () => MyToast.show('发起活动') ],
+		];
     ContextMenu.showIconMenu(options, {pageX: ScreenWidth-8, pageY: headerHeight});
   }
 

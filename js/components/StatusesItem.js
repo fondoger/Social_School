@@ -16,11 +16,10 @@ import WechatArticleCard from './WechatArticleCard';
 import API from '../utils/API_v1';
 import { getGMTTimeDiff } from '../utils/Util';
 import Storage from '../utils/Storage';
-import { UserAvatar } from './Utils';
+import { UserAvatar, GroupAvatar, IconFont } from './Utils';
 import Styles from '../utils/Styles';
 import MyToast from './MyToast';
 import ContextMenu from './ContextMenu';
-import { IconFont } from './Utils';
 
 const article = {
   title: '假期第一周，我竟是这样度过的...',
@@ -57,22 +56,20 @@ export default class StatusesItem extends React.Component {
 
   handleLongPress = (e) => {
     const status = this.state.status;
-    const index = this.props.index;
     const option = (Storage.user && (status.user.id == Storage.user.id) ?
-      {name: '删除微博', callback: () => {
+      [ '删除微博', () => {
           API.Status.delete({'id': status.id}, (responseJson)=>{
             MyToast.show('删除成功');
             this.props.handleDeleteItem();
           }, (error) => {
             MyToast.show('删除失败', {type:'warning'});
           });
-        }
-      }:
-      {name: '举报微博', callback: () => MyToast.show('举报')}
+      }] : 
+      ['举报微博', () => MyToast.show('举报') ]
     );
     const options = [
-      {name: '收藏微博', callback: () => MyToast.show('收藏')},
-      {name: '复制正文', callback: () => MyToast.show('复制正文')},
+      ['收藏微博', () => MyToast.show('收藏')],
+      ['复制正文', () => MyToast.show('复制正文')],
       option,
     ];
     ContextMenu.showMenu(options, e);
@@ -83,20 +80,30 @@ export default class StatusesItem extends React.Component {
     const item = this.state.status;
     const isGroupStatus = item.type === API.Status.GROUPSTATUS;
     const display_name = isGroupStatus ? item.group.groupname:item.user.username;
-    let self_intro = isGroupStatus?`, By ${item.user.username}`: item.user.self_intro;
+    let self_intro = '';
+    if (!isGroupStatus && item.user.self_intro !== '') {
+      self_intro = ', ' + item.user.self_intro;
+    }
     if (self_intro !== '')
       self_intro = ', ' + self_intro;
+    const timestamp = (
+      <Text style={{color:'#888'}}>{getGMTTimeDiff(item.timestamp)}</Text>
+    );
+    const groupStatusSender = isGroupStatus ? (
+      <Text style={{color: Theme.themeColor}} onPress={this.jumpToUserProfilePage}>  {item.user.username}</Text>
+    ) : null;
     return (
       <View style={{flexDirection:'row', paddingLeft:12, paddingTop:12, alignItems:'center'}}>
-        <UserAvatar size={40}
-          onPress={()=>this.props.navigation.navigate('User_ProfilePage', {user: item.user})}
-          user={isGroupStatus?null:item.user} 
-          group={isGroupStatus?item.group:null} />
+        {
+          isGroupStatus ? 
+          <GroupAvatar group={item.group} size={40} /> :
+          <UserAvatar user={item.user} size={40} />
+        }
         <View style={{paddingLeft:12}}>
-          <Text style={{fontSize:14, color:'#333', fontWeight:'bold'}}
-                onPress={this.onProfilePress}>{display_name}<Text style={{color: '#bbb', fontWeight: 'normal'}}>{self_intro}</Text></Text>
-          <Text style={{fontSize:12, color:'#888'}}
-                onPress={this.jumpToUserProfilePage}>{getGMTTimeDiff(item.timestamp)}</Text>
+          <Text style={{fontSize:15, color:'#000'}}
+                onPress={this.onProfilePress}>{display_name}<Text style={{color: '#bbb'}}>{self_intro}</Text></Text>
+          
+          <Text style={{fontSize:11}} >{ timestamp } { groupStatusSender }</Text>
         </View>
         { this.props.inDetailedPage ? null: 
           <TouchableWithoutFeedback onPress={this.handleLongPress} >
@@ -107,7 +114,6 @@ export default class StatusesItem extends React.Component {
         }
       </View>
     )
-    // <Text style={{marginRight:16, color:'#697480', fontSize:12, flex:1, textAlign:'right'}}>{getGMTTimeDiff(item.timestamp)}</Text>
   }
 
   render() {
@@ -245,24 +251,4 @@ export default class StatusesItem extends React.Component {
     return contentArray;
   }
 }
-
-const styles = StyleSheet.create({
-  mFooter: {
-    flexDirection: 'row',
-  },
-  mAction: {
-    flex: 1,
-    flexDirection: 'row',
-    padding: 6,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  mActionIcon: {
-    height: 18,
-    width: 18,
-  },
-  mActionText: {
-    marginLeft: 8,
-  },
-});
 

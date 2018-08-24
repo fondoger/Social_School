@@ -3,25 +3,19 @@ import React from 'react';
 import {
   Text,
   View,
-  Alert,
-  Image, 
-  Button,
-  Linking,
   FlatList,
-  Platform,
-  StatusBar, 
   StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
 } from 'react-native';
-import Theme from '../utils/Theme';
-import textToContentArray from '../utils/Util';
-import Emotion from  '../utils/Emotion';
 import API from '../utils/API_v1';
 import Storage from '../utils/Storage';
-import { MyToast, Loading, SaleItem, StatusesItem, GroupPostItem, ModalMenu, ContextMenu } from '../components';
+import { 
+  MyToast, 
+  Loading, 
+  SaleItem, 
+  StatusesItem, 
+  GroupPostItem, 
+} from '../components';
+import SplashScreen from 'react-native-splash-screen'
 
 const pageTheme = {
   borderColor: '#d8d8d8',
@@ -44,6 +38,7 @@ export default class TimelinePage extends React.Component {
   }
 
   componentDidMount() {
+    SplashScreen.hide();
     API.registerLoginRequired(()=>{
       this.props.navigation.navigate('Common_LoginPage');
     });

@@ -2,7 +2,18 @@ package com.social_buaa;
 
 import com.facebook.react.ReactActivity;
 
+// For react-native-splash-screen
+import android.os.Bundle;
+import org.devio.rn.splashscreen.SplashScreen;
+
 public class MainActivity extends ReactActivity {
+
+    // For react-native-splash-screen
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+       SplashScreen.show(this, R.style.SplashScreenTheme);  // here
+       super.onCreate(savedInstanceState);
+    }
 
     /**
      * Returns the name of the main component registered from JavaScript.

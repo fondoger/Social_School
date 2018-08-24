@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-splash-screen')
     compile project(':react-native-image-crop-picker')
     compile (project(':react-native-fast-image')){
          exclude module: 'support-v4'       // For collision

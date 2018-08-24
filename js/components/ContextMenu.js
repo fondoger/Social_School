@@ -18,7 +18,7 @@ const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;
 const ScreenHeight = _window.height;
 
-const MenuWidth = 160;
+const MenuWidth = 200;
 const MenuHeight = 48;
 
 export default class ContextMenu extends React.Component {
@@ -39,7 +39,7 @@ export default class ContextMenu extends React.Component {
   renderOption = (option) => {
     return (
       <View style={{ backgroundColor: '#fff', justifyContent: 'center', height: MenuHeight, width: MenuWidth }} >
-        <Text style={{ color: '#333', fontSize: 16, paddingLeft: 16, }}>{option.name}</Text>
+        <Text style={{ color: '#333', fontSize: 16, paddingLeft: 16, }}>{option[0]}</Text>
       </View>
     )
   };
@@ -50,8 +50,8 @@ export default class ContextMenu extends React.Component {
         backgroundColor: '#fff', alignItems: 'center',
         height: MenuHeight, width: MenuWidth, flexDirection: 'row',
       }} >
-        <IconFont icon={option.icon} color='#333' size={20} style={{ paddingLeft: 15, paddingRight: 15 }} />
-        <Text style={{ flex: 1, color: '#333', fontSize: 16, lineHeight: 20 }}>{option.name}</Text>
+        <IconFont icon={option[1]} color='#333' size={20} style={{ paddingLeft: 15, paddingRight: 15 }} />
+        <Text style={{ flex: 1, color: '#333', fontSize: 16, lineHeight: 20 }}>{option[0]}</Text>
       </View>
     )
   };
@@ -65,14 +65,15 @@ export default class ContextMenu extends React.Component {
         <View style={{ top: 0, left: 0, right: 0, bottom: 0, position: 'absolute' }}>
           <Animated.View style={{
             position: 'absolute', left: this.state.posX, top: this.state.posY,
-            transform: [{ scale: this.state.scaleAnim }], elevation: 6,
+            transform: [{ scale: this.state.scaleAnim }], elevation: 8,
             borderRadius: 3, opacity: this.state.opaciAnim, overflow: 'hidden'
           }}>
             {
               options.map((option, index) => (
                 <TouchableHighlight
                   key={index} onPress={() => {
-                    option.callback();
+                    const callback = withIcon ? option[2]: option[1];
+                    callback();
                     setTimeout(this._hide, 150);
                   }}
                 >

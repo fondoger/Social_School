@@ -3,6 +3,13 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <!-- For react-native-splash-screen 设置透明背景-->
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <!-- For react-native-splash-screen -->
+    <style name="SplashScreenTheme" parent="SplashScreen_SplashTheme">
+        <item name="colorPrimaryDark">@color/status_bar_color</item>
     </style>
 
 </resources>

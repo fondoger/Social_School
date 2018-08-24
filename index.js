@@ -68,8 +68,8 @@ const MainTabs = createBottomTabNavigator({
       };
       const iconStyle = {
         fontFamily:'iconfont', 
-        fontSize:26, 
-        color:tintColor
+        fontSize:27, 
+        color:tintColor,
       };
       const iconName = tabIcons[routeName][focused];
       return <Text style={iconStyle}>{iconName}</Text>
@@ -162,6 +162,8 @@ class App extends React.Component {
     const prevRouteName = getActiveRouteName(prevState);
     if (currentRouteName != prevRouteName) {
       if (currentRouteName.slice(0,4) === 'Sale' || currentRouteName === 'Status_StatusPage') {
+        StatusBar.setBarStyle('dark-content');
+      } else if (['KebiaoPage'].includes(currentRouteName)) {
         StatusBar.setBarStyle('dark-content');
       } else {
         StatusBar.setBarStyle('light-content');

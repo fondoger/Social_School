@@ -9,50 +9,59 @@ const base64 = require('base-64');
 
 const loginManager = new Object();
 
+export function timeoutFetch(url, options, timeout = 7000) {
+  return Promise.race([
+    fetch(url, options),
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('timeout')), timeout)
+    )
+  ]);
+}
+
 function send_request(url, successCallback, errorCallback, args) {
   const { method, loginRequired, username, password, params } = args;
-  var _method = method ? method: 'GET';
+  var _method = method ? method : 'GET';
   const headers = new Headers();
   /* check debug mode */
-  const domain =  Storage.useDebugServer ? debugServer: prodServer;
+  const domain = Storage.useDebugServer ? debugServer : prodServer;
   //const domain = prodServer;
   /* Check login, get login info */
   url = `${domain}${url}`;
   if (username && password)
-    headers.append('Authorization', 'Basic '+base64.encode(`${username}:${password}`));
+    headers.append('Authorization', 'Basic ' + base64.encode(`${username}:${password}`));
   // Get Token here
   else if (Storage.token)
-    headers.append('Authorization', 'Basic '+base64.encode(`${Storage.token}:`));
+    headers.append('Authorization', 'Basic ' + base64.encode(`${Storage.token}:`));
   else if (loginRequired) {
-    errorCallback({'error': 'login requied', message: '该操作需要登陆'});
+    errorCallback({ 'error': 'login requied', message: '该操作需要登陆' });
     if (loginManager.callback)
       loginManager.callback();
     return;
   }
-  const makeJsonRequest = _method==='POST' || _method==='PUT' || _method==='PATCH';
+  const makeJsonRequest = _method === 'POST' || _method === 'PUT' || _method === 'PATCH';
   if (makeJsonRequest) {
     headers.append('Content-Type', 'application/json');
   } else if (params) {
-      var query = Object.keys(params)
-        .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
-        .join('&');
-      url = `${url}?${query}`;
+    var query = Object.keys(params)
+      .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
+      .join('&');
+    url = `${url}?${query}`;
   }
   fetch(url, {
     method: _method,
     headers: headers,
-    body: makeJsonRequest&&params ? JSON.stringify(params): null,
+    body: makeJsonRequest && params ? JSON.stringify(params) : null,
   })
-  .then((response) => response.json())
-  .then((responseJson) => {
-    if (responseJson.error)
-      errorCallback(responseJson);
-    else
-      successCallback(responseJson);
-  })
-  .catch((error) => {
-    errorCallback(error);
-  });
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if (responseJson.error)
+        errorCallback(responseJson);
+      else
+        successCallback(responseJson);
+    })
+    .catch((error) => {
+      errorCallback(error);
+    });
 }
 
 const User = {
@@ -132,8 +141,8 @@ const Status = {
   create: (params, successCallback, errorCallback) => {
     // Paarms = {text: 微博正文}
     send_request('/status', successCallback, errorCallback, {
-      method:'POST',
-      params: params, 
+      method: 'POST',
+      params: params,
       loginRequired: true,
     });
   },
@@ -189,8 +198,8 @@ const StatusLike = {
   create: (params, successCallback, errorCallback) => {
     // Paarms = {id: 欲点赞的动态的id}
     send_request('/status/like', successCallback, errorCallback, {
-      method:'POST',
-      params: params, 
+      method: 'POST',
+      params: params,
       loginRequired: true,
     });
   },
@@ -208,8 +217,8 @@ const StatusReplyLike = {
   create: (params, successCallback, errorCallback) => {
     // Paarms = {id: 欲点赞的回复的id}
     send_request('/status/reply/like', successCallback, errorCallback, {
-      method:'POST',
-      params: params, 
+      method: 'POST',
+      params: params,
       loginRequired: true,
     });
   },
@@ -239,7 +248,7 @@ const Group = {
       params: params,
     });
   },
-  delete: (params, successCallback, errorCallback)=>{
+  delete: (params, successCallback, errorCallback) => {
     // params = { id: }
     send_request('/group', successCallback, errorCallback, {
       method: 'DELETE',
@@ -260,8 +269,8 @@ const Activity = {
       }
     */
     send_request('/activity', successCallback, errorCallback, {
-      method:'POST',
-      params: params, 
+      method: 'POST',
+      params: params,
       loginRequired: true,
     });
   },
@@ -300,7 +309,7 @@ const Other = {
   update: (successCallback, errorCallback) => {
     send_request('/update', successCallback, errorCallback, {
       method: 'GET',
-      params: {platform: Platform.OS },
+      params: { platform: Platform.OS },
     });
   }
 }

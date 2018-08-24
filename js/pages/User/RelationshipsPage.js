@@ -12,7 +12,7 @@ import {
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
-import { Loading, UserAvatar, StatusesItem, GroupPostItem, ListUserItem } from '../../components';
+import { Loading, ListUserItem, ListGroupItem } from '../../components';
 
 
 export default class RelationshipsPage extends React.Component {
@@ -78,8 +78,8 @@ export default class RelationshipsPage extends React.Component {
   renderByType(_item) {
     const { index, item } = _item;
     if (item.username)
-      return <ListUserItem user={item} onPress={()=>this.props.navigation.push('User_ProfilePage', {user: item})}/>;
-    return this.renderGroupItem(item);
+      return <ListUserItem user={item} />;
+    return <ListGroupItem group={item} />
   }
 
   renderFooter() {
@@ -108,7 +108,7 @@ export default class RelationshipsPage extends React.Component {
         ItemSeparatorComponent={()=><View style={{height:0.5, backgroundColor:'#eee'}}></View>}
         ListFooterComponent={this.renderFooter.bind(this)}
         onEndReachedThreshold={0.01}
-        />
+      />
     )
   }
 
