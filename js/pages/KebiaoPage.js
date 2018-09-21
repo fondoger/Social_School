@@ -91,16 +91,28 @@ class SsoLoginDialog extends React.Component {
 							onChangeText={this.onPriceChange}
 						/>
 					</View>
-					<View>
-						<TouchableHighlight style={{ marginTop: 24, height: 40 }} onPress={ModalMenu.hide}>
-							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f44' }}>
-								<Text style={{ color: '#fff' }}>确定</Text>
+					<View style={{flexDirection: 'row', paddingTop: 24}}>
+						<TouchableHighlight style={{ height: 40 }} onPress={ModalMenu.hide}>
+							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
+								<Text style={{ color: '#fff' }}>取消</Text>
+							</View>
+						</TouchableHighlight>
+						<TouchableHighlight style={{ height: 40 }} onPress={this.props.onLoginPress}>
+							<View style={{ flex: 3, alignItems: 'center', justifyContent: 'center', backgroundColor: Theme.themeColor }}>
+								<Text style={{ color: '#fff' }}>登陆</Text>
 							</View>
 						</TouchableHighlight>
 					</View>
 				</View>
 			</TouchableWithoutFeedback>
 		)
+	}
+
+	onLoginPress() {
+		Storage.set('sso_username', this.state.username);
+		Storage.set('sso_password', this.state.password);
+    ModalMenu.hide();
+    this.props.onLogin();
 	}
 }
 
@@ -129,16 +141,14 @@ export default class KebiaoPage extends React.Component {
 
 	syncCourseTable() {
 		if (Storage.sso_username == null || Storage.sss_password == null) {
-			ModalMenu.showComponent(SsoLoginDialog);
-		} else {
-
+			MyToast.show('请输入账号和密码');
 		}
-	}
+  }
 
 	onMoreButtonPress(e) {
 		const options = [
 			['上次同步：3天前', '\ue781', () => {
-				this.syncCourseTable();
+				ModalMenu.showComponent(() => <SsoLoginDialog onLogin={this.syncCourseTable.bind(this)} />);
 			}],
 			['周次：第十四周', '\ue603', () => {
 				this.props.navigation.navigate('Status_NewStatusPage', { type: API.Status.GROUPSTATUS, group: this.state.group });
@@ -219,6 +229,13 @@ for (var i=0; i<ths.length; i++) {
 }
 tds[tds.length - 1].style.height = 8;
 const Colors = ["#98d262", "#e395b4", "#75b7a0", "#8daae1", "#8daae1", "#ef9ea0"];
+const time1 = "\\n（一）8:00 - 8:45\\n（二）8:50 - 9:35";
+const time2 = "\\n（三）9:50 - 19:35\\n（四）10:40 - 11:25\\n（五）11:30-12:15";
+const time3 = "\\n（六）14:00 - 14:45\\n（七）14:50 - 15:35";
+const time4 = "\\n（八）15:50 - 16:35\\n（九）16:40 - 17:25\\n（十）17:30 - 18:15";
+const time5 = "\\n（十一）19:00 - 19:45\\n（十二）19:50 - 20:35";
+const time6 = "\\n（十三）20:40 - 21:25\\n（十四）21:30 - 22:15";
+const timeTable = [time1, time2, time3, time4, time5, time6];
 for (let i=0, j = 0, k = 0; i < tds.length; i++) {
 	if (tds[i].width == 20) {
 		tds[i].style.display = "none";
@@ -227,7 +244,11 @@ for (let i=0, j = 0, k = 0; i < tds.length; i++) {
 		tds[i].style.backgroundColor = Colors[j++%6];
 		tds[i].style.color = "#fff";
 		tds[i].onclick = function() {
-			const data = { title: '课程信息', message: tds[i].innerText };
+			let t = i;
+			if (i > 17) t += 7;
+			if (i > 35) t += 7;
+			const time = '\\n\\n上课时间：' + timeTable[Math.floor(t/9)] + ' ' + i;
+			const data = { title: '', message: '课程信息：\\n' + tds[t].innerText + time};
 			window.postMessage(JSON.stringify(data));
 		}
 		if (i != tds.length - 1)

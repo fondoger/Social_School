@@ -103,13 +103,15 @@ function _ListUserItem(props) {
   const user = props.user;
   const gender_icon = user.gender === 1 ? '\ue646' : user.gender === 2 ? '\ue647' : '';
   const gender_color = user.gender === 1 ? '#41aade' : '#ff85b6';
+  const backgroundColor = props.backgroundColor || Theme.backgroundColorLight;
+  const dividingLineColor = props.dividingLineColor || '#ddd';
   const onPress = () => {
     props.navigation.navigate('User_ProfilePage', { user });
   }
   return (
     <View>
       <TouchableHighlight onPress={onPress}>
-        <View style={{ flexDirection: 'row', backgroundColor: Theme.backgroundColorLight, padding: 10 }}>
+        <View style={{ flexDirection: 'row', backgroundColor: backgroundColor, padding: 10 }}>
           <_UserAvatarView user={user} size={48} />
           <View style={{ flex: 1, marginLeft: 16, justifyContent: 'center' }}>
             <View style={{ flexDirection: 'row', alignItems: 'flex-end' }}>
@@ -120,7 +122,7 @@ function _ListUserItem(props) {
           </View>
         </View>
       </TouchableHighlight>
-      <DividingLine color='#ddd' paddingLeft={68} />
+      <DividingLine color={dividingLineColor} paddingLeft={68} />
     </View>
   )
 }
