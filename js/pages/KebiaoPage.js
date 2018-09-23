@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { WebView, View, Text, Alert, TouchableWithoutFeedback, TextInput, TouchableHighlight } from 'react-native';
-import { HeaderRight, ContextMenu, ModalMenu } from '../components';
+import { HeaderRight, ContextMenu, ModalMenu, MyToast } from '../components';
 import Storage from '../utils/Storage';
 import Theme from '../utils/Theme';
 
@@ -72,8 +72,8 @@ class SsoLoginDialog extends React.Component {
 							placeholder="统一认证登陆账号"
 							autoGrow={false}
 							autoFocus={false}
-							value={this.state.priceValue}
-							onChangeText={this.onPriceChange}
+							value={this.state.username}
+							onChangeText={(text)=>this.setState({username: text})}
 						/>
 					</View>
 					<View style={{ flexDirection: 'row', alignItems: 'center', paddingTop: 24, paddingBottom: 2, borderBottomWidth: 0.5, borderColor: '#ddd' }}>
@@ -86,19 +86,20 @@ class SsoLoginDialog extends React.Component {
 							placeholder="统一认证登陆密码"
 							autoGrow={false}
 							autoFocus={false}
-							value={this.state.priceValue}
+							value={this.state.password}
 							secureTextEntry={true}
-							onChangeText={this.onPriceChange}
+							onChangeText={(text)=>this.setState({password: text})}
 						/>
 					</View>
 					<View style={{flexDirection: 'row', paddingTop: 24}}>
-						<TouchableHighlight style={{ height: 40 }} onPress={ModalMenu.hide}>
-							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff' }}>
-								<Text style={{ color: '#fff' }}>取消</Text>
+						<TouchableHighlight style={{ flex: 2, height: 40, flexDirection: 'row', borderRadius: 3 }} onPress={ModalMenu.hide}>
+							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', borderRadius: 3 }}>
+								<Text style={{ color: '#333' }}>取消</Text>
 							</View>
 						</TouchableHighlight>
-						<TouchableHighlight style={{ height: 40 }} onPress={this.props.onLoginPress}>
-							<View style={{ flex: 3, alignItems: 'center', justifyContent: 'center', backgroundColor: Theme.themeColor }}>
+						<View style={{flex:1}} />
+						<TouchableHighlight style={{ flex: 5, height: 40, flexDirection: 'row', borderRadius: 3 }} onPress={this.onLoginPress.bind(this)}>
+							<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: Theme.themeColor, borderRadius: 3 }}>
 								<Text style={{ color: '#fff' }}>登陆</Text>
 							</View>
 						</TouchableHighlight>
@@ -109,10 +110,10 @@ class SsoLoginDialog extends React.Component {
 	}
 
 	onLoginPress() {
-		Storage.set('sso_username', this.state.username);
-		Storage.set('sso_password', this.state.password);
-    ModalMenu.hide();
-    this.props.onLogin();
+		Storage.setItem('sso_username', this.state.username);
+		Storage.setItem('sso_password', this.state.password);
+		ModalMenu.hide();
+		this.props.onLogin();
 	}
 }
 
@@ -140,10 +141,11 @@ export default class KebiaoPage extends React.Component {
 	}
 
 	syncCourseTable() {
-		if (Storage.sso_username == null || Storage.sss_password == null) {
+		if (Storage.sso_username == null || Storage.sso_password == null) {
 			MyToast.show('请输入账号和密码');
+			return;
 		}
-  }
+    }
 
 	onMoreButtonPress(e) {
 		const options = [
@@ -151,7 +153,7 @@ export default class KebiaoPage extends React.Component {
 				ModalMenu.showComponent(() => <SsoLoginDialog onLogin={this.syncCourseTable.bind(this)} />);
 			}],
 			['周次：第十四周', '\ue603', () => {
-				this.props.navigation.navigate('Status_NewStatusPage', { type: API.Status.GROUPSTATUS, group: this.state.group });
+				
 			}],
 		];
 		ContextMenu.showIconMenu(options, { pageX: ScreenWidth - 4, pageY: Theme.statusBarHeight });

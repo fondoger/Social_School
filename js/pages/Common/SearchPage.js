@@ -213,9 +213,11 @@ export default class SearchPage extends React.Component {
           />
           {
             this.state.textValue === '' ? null:
-            <IconFont icon="&#xe691;" hint="clear text button" 
-                      size={20} color="#fff" tyle={{margin:6, marginBottom:4}}
-                      onPress={()=>this.setState({textValue: ''})}/>
+            <TouchableWithoutFeedback
+                onPress={()=>this.setState({textValue: ''})} >
+              <IconFont icon="&#xe691;" hint="clear text button" 
+                        size={20} color="#fff" tyle={{margin:6, marginBottom:4}} />
+            </TouchableWithoutFeedback>
           }
           </View>
       </View>
@@ -293,7 +295,7 @@ export default class SearchPage extends React.Component {
         <View style={{marginTop: 12}}> 
         {
           search_history.map((item, index) =>(
-            <HistoryItem text={item} onPress={()=>this.onChipPress(item)} 
+            <HistoryItem key={item} text={item} onPress={()=>this.onChipPress(item)} 
                          onDeletePress={()=>this.removeHistory(item)}/>
           ))
         }

@@ -64,14 +64,15 @@ IconFont.propTypes = {
   color: PropTypes.string,
 };
 
-export function HeaderLeft(props) {
+function _HeaderLeft(props) {
   const tintColor = props.tintColor;
   return (
-    <TouchableOpacity onPress={props.onPress}>
+    <TouchableOpacity onPress={()=>props.navigation.goBack()}>
       <IconFont icon='&#xe622;' style={{ width: 60, alignItems: 'center', padding: 12, paddingTop: 13 }} size={24} color={tintColor} />
     </TouchableOpacity>
   );
 }
+export const HeaderLeft = withNavigation(_HeaderLeft);
 
 export function HeaderRight(props) {
   let { icon, tintColor, onPress, backgroundColor } = props;

@@ -116,7 +116,7 @@ export default class ProfilePage extends React.Component {
     const underlayOpacity = (a < T && a > 0) ? (T - a) / T : 0;
     this.state.headerUnderlayTextOpacity.setValue(underlayOpacity);
     const overlayOpacity = Math.min(offsetY / pointHeight, 1);
-    this.state.headerOverlayOpacity.setValue(overlayOpacity);
+    this.state.headerOverlayOpacity.setValue(overlayOpacity); 
     this.state.headerOpacity.setValue(offsetY >= pointHeight? 1: 0);
   }
 
