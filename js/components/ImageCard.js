@@ -4,6 +4,8 @@ import { View, StyleSheet, Image, Text, TouchableHighlight, TouchableWithoutFeed
 import Theme from '../utils/Theme';
 import { PlaceholderImage } from './Utils';
 
+const IMAGE_MARGIN = 2;
+
 export default class ImageCard extends React.Component {
   render() {
     const {images, oneRow, ...props} = this.props;
@@ -27,7 +29,7 @@ export default class ImageCard extends React.Component {
     if (oneRow) imageRows = imageRows.slice(0,1);
     return (
       <View {...props}>
-        <View  style={{margin: -1.5}}>{imageRows}</View>
+        <View  style={{margin: -IMAGE_MARGIN}}>{imageRows}</View>
       </View>
     )
   }
@@ -42,11 +44,11 @@ export default class ImageCard extends React.Component {
     if (item) {
       return (
         <TouchableWithoutFeedback onPress={()=>{this._onImagePress(item.index);}}>
-          <View style={{flex: 1, aspectRatio: 1, margin: 1.5, backgroundColor:'#efefef'}} ><Image style={{flex: 1}} source={{uri: item.image+'!mini5'}} /></View>
+          <View style={{flex: 1, aspectRatio: 1, margin: IMAGE_MARGIN, backgroundColor:'#efefef'}} ><Image style={{flex: 1}} source={{uri: item.image+'!mini5'}} /></View>
         </TouchableWithoutFeedback>
       )
     }
-    return (<View style={{flex: 1, aspectRatio: 1, margin: 1.5}}></View>)
+    return (<View style={{flex: 1, aspectRatio: 1, margin: IMAGE_MARGIN}}></View>)
   }
   _onImagePress = (index)=> {
     this.props.navigation.navigate('Common_ImageViewerPage', {initialImage: index, images: this.props.images.map((url)=>{return {source: {uri: url+'!mini5'}}})});

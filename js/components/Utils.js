@@ -203,15 +203,15 @@ function _UserAvatar(props) {
 }
 export const UserAvatar = withNavigation(_UserAvatar);
 
-export function _GroupAvatarView(props) {
-  const { group, size } = props;
+function _SquareAvatarView(props) {
+  const { avatar, size } = props;
   return (
     <PlaceholderImage
       style={{
         width: size, height: size, borderRadius: 3,
         borderWidth: 0.5, borderColor: 'rgba(200,200,200,0.5)'
       }}
-      source={{ uri: group.avatar + '!thumbnail' }} 
+      source={{ uri: avatar + '!thumbnail' }} 
     />
   )
 }
@@ -223,8 +223,21 @@ function _GroupAvatar(props) {
   }
   return (
     <TouchableWithoutFeedback onPress={onPress || defaultOnPress}>
-      <View><_GroupAvatarView {...props} /></View>
+      <View><_SquareAvatarView {...props} avatar={group.avatar} /></View>
     </TouchableWithoutFeedback>
   )
 }
 export const GroupAvatar = withNavigation(_GroupAvatar);
+
+function _OfficialOccountAvatar(props) {
+  const { account, size, onPress } = props;
+  const defaultOnPress = () => {
+    props.navigation.navigate('Other_AccountPage', { account });
+  }
+  return (
+    <TouchableWithoutFeedback onPress={onPress || defaultOnPress}>
+      <View><_SquareAvatarView {...props} avatar={account.avatar}/></View>
+    </TouchableWithoutFeedback>
+  )
+}
+export const OfficialAccountAvatar = withNavigation(_OfficialOccountAvatar);

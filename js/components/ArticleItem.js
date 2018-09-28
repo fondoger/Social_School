@@ -27,75 +27,34 @@ export default class StatusesItem extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      status: this.props.status,
+      article: this.props.article,
     }
   }
 
-  jumpToUserProfilePage = () => {
-    this.props.navigation.navigate('User_ProfilePage', {user: this.state.status.user});
-  };
-
-  jumpToGroupPage = () => {
-    this.props.navigation.navigate('Group_GroupPage', {group: this.state.status.group}); 
-  };
-
-  onProfilePress = () => {
-    if (this.state.status.type == API.Status.GROUPSTATUS)
-      this.jumpToGroupPage();
-    else
-      this.jumpToUserProfilePage();
-  };
-
   handleLongPress = (e) => {
-    const status = this.state.status;
-    const option = (Storage.user && (status.user.id == Storage.user.id) ?
-      [ '删除微博', () => {
-          API.Status.delete({'id': status.id}, (responseJson)=>{
-            MyToast.show('删除成功');
-            this.props.handleDeleteItem();
-          }, (error) => {
-            MyToast.show('删除失败', {type:'warning'});
-          });
-      }] : 
-      ['举报微博', () => MyToast.show('举报') ]
-    );
     const options = [
       ['收藏微博', () => MyToast.show('收藏')],
       ['复制正文', () => MyToast.show('复制正文')],
-      option,
     ];
     ContextMenu.showMenu(options, e);
   }
 
 
-  renderUserInfo() {
-    const item = this.state.status;
-    const isGroupStatus = item.type === API.Status.GROUPSTATUS;
-    const display_name = isGroupStatus ? item.group.groupname:item.user.username;
-    let self_intro = '';
-    if (!isGroupStatus && item.user.self_intro !== '') {
-      self_intro = ', ' + item.user.self_intro;
-    }
-    if (self_intro !== '')
-      self_intro = ', ' + self_intro;
+  renderHeader() {
+    const item = this.state.article;
     const timestamp = (
       <Text style={{color:'#888'}}>{getGMTTimeDiff(item.timestamp)}</Text>
     );
-    const groupStatusSender = isGroupStatus ? (
-      <Text style={{color: Theme.themeColor}} onPress={this.jumpToUserProfilePage}>  {item.user.username}</Text>
-    ) : null;
+    const display_name = item.official_account.accountname;
+    const self_intro = null; 
+    const source = null;
     return (
       <View style={{flexDirection:'row', paddingLeft:12, paddingTop:12, alignItems:'center'}}>
-        {
-          isGroupStatus ? 
-          <GroupAvatar group={item.group} size={40} /> :
-          <UserAvatar user={item.user} size={40} />
-        }
+        <OfficialAccountAvatar account={item.official_account} size={40} />
         <View style={{paddingLeft:12}}>
           <Text style={{fontSize:15, color:'#000'}}
                 onPress={this.onProfilePress}>{display_name}<Text style={{color: '#bbb'}}>{self_intro}</Text></Text>
-          
-          <Text style={{fontSize:11}} >{ timestamp } { groupStatusSender }</Text>
+          <Text style={{fontSize:11}} >{ timestamp } { source }</Text>
         </View>
         { this.props.hideMenuButtom ? null: 
           <TouchableWithoutFeedback onPress={this.handleLongPress} >
@@ -109,7 +68,7 @@ export default class StatusesItem extends React.Component {
   }
 
   render() {
-    const item = this.state.status;
+    const item = this.state.article;
     return (
       <View {...this.props}>
         <TouchableHighlight 
@@ -117,16 +76,59 @@ export default class StatusesItem extends React.Component {
           onPress={()=>this.props.navigation.navigate('Status_StatusPage', {status:item})}
         >
           <View style={{backgroundColor: '#fff'}}>
-            {item.type === API.Status.GROUPPOST ? null: this.renderUserInfo()}
+            { this.renderHeader() }
             <View style={{marginLeft:12, marginRight:14, paddingTop:8}}>
-              {this._renderContent(item.text)}{this._renderCard(item)}
+              {this.renderContentByType()}
             </View>
-            { this.renderFooter() }
+            {item.type === API.Status.GROUPPOST ? <View style={{height:12}}/> : this.renderFooter()}
           </View>
         </TouchableHighlight>
       </View>
     )
   };
+
+  renderContentByType() {
+    const article = this.state.article;
+    if (article.type == 'WEIXIN')
+      return null;
+    else if (article.type == 'WEIBO')
+      return this.renderWeiboContent();
+    return null;
+  }
+
+  renderWeiboContent() {
+    const weibo = JSON.parse(this.state.article.extra_data);
+    return (
+      <View style={{flexDirection: 'column'}}>
+        <Text style={{textAlignVertical: 'center', color: '#555', fontSize: 15, lineHeight:26}}>
+          { weibo.text }
+        </Text>
+        {  
+          weibo.pics ? this.renderWeiboPics(weibo) :
+          weibo.page_info ? this.renderWeiboPageInfo(weibo) : null
+        }
+      </View>
+    )
+  }
+
+  renderWeiboPics(weibo) {
+    const images = weibo.pics.map(pic => pic.url);
+    return <ImageCard {...this.props} style={{marginTop: 12}} images={images}/>
+  }
+
+  renderWeiboPageInfo(weibo) {
+    const page_info = weibo.page_info;
+    if (page_info.type == 'search_topic') {
+      return (
+        <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#f8f8f8',
+                      borderWidth: 1, borderColor:'#f0f0f0', marginTop: 12, paddingTop: 0.5, boarderRadius: 3}}>
+          <Image style={{width: 60, height: 60, marginRight: 12}} source={{ uri: page_info.page_pic.url }}/>
+          <Text style={{color: '#333', fontSize: 16}}>{page_info.page_title}</Text>
+        </View>
+      )
+
+    }
+  }
 
   _updateStatusLike = () => {
     const status = this.state.status;
@@ -155,7 +157,9 @@ export default class StatusesItem extends React.Component {
 
 
   renderFooter() {
-    const item = this.state.status;
+    const item = this.state.article;
+    item.replies = 2;
+    item.likes = 8;
     return (
       <View style={{flexDirection:'row', alignItems:'center'}}>
         <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('Status_StatusPage', {status:item, focus:true})}>
@@ -184,63 +188,5 @@ export default class StatusesItem extends React.Component {
     //return (<WechatArticleCard {...this.props} style={{marginTop: 12}} article={article} />)
   }
 
-  _renderContent(text) {
-    var contentArray = this._textToContentArray(text);
-    return (<Text style={{textAlignVertical: 'center', color: '#555', fontSize: 15, lineHeight:26}}>
-      {contentArray.map((content, i) => {
-        if (content.text) {
-          return (
-            <Text key={i}>{content.text}</Text>
-          );
-        }
-        else if (content.at) {
-          return (
-            <Text key={i} style={{color:'#507daf', paddingBottom: 5}} onPress={()=>{this.props.navigation.navigate('MediumTransPage', {username:content.at})}}>@{content.at}</Text>
-          );
-        }
-        else if (content.topic) {
-          return (
-            <Text key={i} style={{color:'#507daf', paddingBottom: 5}} onPress={()=>{this.props.navigation.navigate('Status_TopicPage', {topic:content.topic})}}>#{content.topic}#</Text>
-          );
-        }
-        else if (content.emotion) {
-          return (
-            <Image key={i} source={Emotion.getSource(content.emotion)} style={{width:32, height:32}}/>
-          );
-        }
-    })}
-      </Text>);
-  }
-  
-  _textToContentArray(text) {
-    var regexp = new RegExp(`(#[\\s\\S]+?#|@[\\u4e00-\\u9fa5_a-zA-Z0-9\\-]+)`, 'g');
-    var contentArray = [];
-    var regArray = text.match(regexp);
-    if (!regArray)
-      regArray = [];
-    var pos = 0;
-    for (let i = 0; i < regArray.length; i++) {
-      var t = text.indexOf(regArray[i], pos);
-      if (t != pos) {
-        contentArray.push({'text': text.substring(pos, t)});
-        pos = t;
-      }
-      var t2 = pos + regArray[i].length;
-      if (text[pos]=='@') {
-        contentArray.push({'at': text.substring(pos+1, t2)})
-      } 
-      else if (text[pos]=='#') { // topic
-        contentArray.push({'topic': text.substring(pos+1, t2-1)});
-      }
-      else {
-        console.log('impossible', regArray[i]);
-      }
-      pos = t2;
-    }
-    if (pos != text.length) {
-      contentArray.push({'text': text.substring(pos, text.length)});
-    }
-    return contentArray;
-  }
 }
 

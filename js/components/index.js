@@ -9,6 +9,7 @@ import SaleItem from './SaleItem';
 import GroupPostItem from './GroupPostItem';
 import StatusesItem from './StatusesItem';
 import StatusReplyItem from './StatusReplyItem';
+import ArticleItem from './ArticleItem';
 
 
 import {
@@ -22,6 +23,7 @@ import {
   ListGroupItem,
   UserAvatar,
   GroupAvatar,
+  OfficialAccountAvatar,
   HeaderSettingButton,
 } from './Utils';
 
@@ -39,6 +41,7 @@ module.exports = {
   GroupPostItem,
   StatusesItem,
   StatusReplyItem,
+  ArticleItem,
   // Utils
   Loading,
   IconFont,
@@ -50,5 +53,6 @@ module.exports = {
   ListGroupItem,
   UserAvatar,
   GroupAvatar,
+  OfficialAccountAvatar,
   HeaderSettingButton,
 };

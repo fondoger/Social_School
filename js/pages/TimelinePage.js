@@ -12,6 +12,7 @@ import {
   MyToast, 
   Loading, 
   SaleItem, 
+  ArticleItem,
   StatusesItem, 
   GroupPostItem, 
 } from '../components';
@@ -108,7 +109,7 @@ export default class TimelinePage extends React.Component {
       <View style={styles.container}>
         <FlatList
           data={this.state.statuses}
-          keyExtractor={((item, index) => `${item.user.username}_${item.user.avatar}_${item.user.self_intro}_${item.id}_${item.likes}_${item.replies}`)}
+          keyExtractor={((item, index) => `${item.id}`)}
           renderItem={this.renderByType.bind(this)}
           refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
@@ -138,12 +139,16 @@ export default class TimelinePage extends React.Component {
                 {...this.props}
                 showSource={true}
                 status={item} />
-    return <StatusesItem 
-              {...this.props} 
-              status={item}
-              inDetailedPage={false}
-              handleDeleteItem={()=>{this.deleteItem(index)}}
-            />
+    if (item.type == API.Status.USERSTATUS)
+      return <StatusesItem 
+                {...this.props} 
+                status={item}
+                handleDeleteItem={()=>{this.deleteItem(index)}} />
+    if (item.type == API.Article.WEIXIN || item.type == API.Article.WEIBO) {
+      return <ArticleItem 
+                article={item} />
+    }
+    return null;
   }
 
   renderTopNotice() {

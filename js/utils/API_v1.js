@@ -161,9 +161,14 @@ const Status = {
       loginRequired: true,
     });
   },
-  USERSTATUS: 0,
-  GROUPSTATUS: 1,
-  GROUPPOST: 2,
+  USERSTATUS: "USER_STATUS",
+  GROUPSTATUS: "GROUP_STATUS",
+  GROUPPOST: "GROUP_POST",
+}
+
+const Article = {
+  WEIXIN: "WEIXIN",
+  WEIBO: "WEIBO",
 }
 
 const StatusReply = {
@@ -439,6 +444,7 @@ const API = {
   StatusReplyLike,
   Group,
   Activity,
+  Article,
   registerLoginRequired,
   Sale,
   SaleLike,

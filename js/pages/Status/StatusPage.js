@@ -202,7 +202,7 @@ export default class StatusPage extends React.Component {
     return (
       <View style={{ paddingTop: 8 }}>
         {item.type === API.Status.GROUPPOST ? this.renderPostTitle() : null}
-        <StatusesItem style={{ borderBottomWidth: 0.5, borderColor: '#ddd' }} {...this.props} inDetailedPage={true} status={item} />
+        <StatusesItem style={{ borderBottomWidth: 0.5, borderColor: '#ddd' }} {...this.props} hideMenuButtom={true} status={item} />
         {item.type === API.Status.GROUPPOST ? null : null}
         {this.renderSectionHeader()}
       </View>

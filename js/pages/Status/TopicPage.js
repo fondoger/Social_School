@@ -171,7 +171,7 @@ export default class ProfilePage extends React.Component {
     return <StatusesItem 
               {...this.props} 
               status={item}
-              inDetailedPage={false}
+              hideMenuButtom={false}
               handleDeleteItem={()=>{this.deleteItem(index)}}
             />
   }
