@@ -92,7 +92,7 @@ export default class StatusesItem extends React.Component {
         >
           <View style={{backgroundColor: '#fff'}}>
             { this.renderHeader() }
-            <View style={{marginLeft:12, marginRight:14, paddingTop:8}}>
+            <View style={{paddingTop:8}}>
             { this.renderContentByType() }
             </View>
             {item.type === API.Status.GROUPPOST ? <View style={{height:12}}/> : this.renderFooter()}
@@ -104,18 +104,18 @@ export default class StatusesItem extends React.Component {
 
   renderContentByType = ()=>{
     const article = this.state.article;
+    const extra_data = JSON.parse(this.state.article.extra_data);
     if (article.type == 'WEIXIN')
-      return this.renderWeixinContent();
+      return this.renderWeixinContent(extra_data);
     else if (article.type == 'WEIBO')
-      return this.renderWeiboContent();
+      return this.renderWeiboContent(extra_data);
     return null;
   }
 
   
-  renderWeixinContent = ()=>{
-    const article = JSON.parse(this.state.article.extra_data);
+  renderWeixinContent = (article)=>{
     return (
-      <View style={{borderRadius: 5}}>
+      <View style={{borderRadius: 5, marginLeft:12, marginRight:14, }}>
         <Image style={{flex:1, aspectRatio:1.8, borderRadius: 5}} source={{uri: article.linkInfo.pictureUrl}} />
         <View style={[{top: 0, left: 0, bottom: 0, right: 0, position: 'absolute', 
                        backgroundColor: 'rgba(0,0,0,.2)', borderRadius: 5}, Styles.absoluteFill]} >
@@ -128,15 +128,19 @@ export default class StatusesItem extends React.Component {
     )
   }
 
-  renderWeiboContent = ()=>{
-    const weibo = JSON.parse(this.state.article.extra_data);
+  renderWeiboContent = (weibo, is_retweeted=false)=>{
+    
     return (
-      <View style={{flexDirection: 'column'}}>
-        { this.renderWeiboText(weibo.text) }
-        {  
-          weibo.pics ? this.renderWeiboPics(weibo) :
-          weibo.page_info ? this.renderWeiboPageInfo(weibo) : null
-        }
+      <View style={{flexDirection: 'column', backgroundColor: is_retweeted ? '#f4f4f4': '#fff', 
+                    paddingVertical: is_retweeted ? 8 : 0}}>
+        <View style={{marginLeft: 12, marginRight: 14}}>
+          { this.renderWeiboText(weibo.text) }
+          {  
+            weibo.pics ? this.renderWeiboPics(weibo) :
+            weibo.page_info ? this.renderWeiboPageInfo(weibo) : null
+          }
+        </View>
+        { weibo.retweeted_status ? this.renderWeiboContent(weibo.retweeted_status, true) : null }
       </View>
     )
   }
@@ -209,7 +213,6 @@ export default class StatusesItem extends React.Component {
     if (pos != text.length) {
       contentArray.push({'text': text.substring(pos, text.length)});
     }
-
     return contentArray;
   }
 
@@ -220,7 +223,7 @@ export default class StatusesItem extends React.Component {
 
   renderWeiboPageInfo = (weibo)=>{
     const page_info = weibo.page_info;
-    if (page_info.type == 'search_topic') {
+    if (page_info.type === 'search_topic') {
       return (
         <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#f8f8f8',
                       borderWidth: 1, borderColor:'#f0f0f0', marginTop: 12, paddingTop: 0.5, borderRadius: 3}}>
@@ -229,7 +232,7 @@ export default class StatusesItem extends React.Component {
         </View>
       )
     }
-    else if (page_info.type == 'video') {
+    else if (page_info.type === 'video') {
       return (
         <View style={{flexDirection: 'row'}}>
           <Image style={{ flex: 1, aspectRatio: 1.8}} source={{ uri: page_info.page_pic.url }}/>
@@ -239,6 +242,23 @@ export default class StatusesItem extends React.Component {
           </View>
         </View>
       )
+    }
+    else if (page_info.type === 'article') {
+      return (
+        <View style={{borderRadius: 5}}>
+          <Image style={{flex:1, aspectRatio:1.8, borderRadius: 5}} source={{uri: page_info.page_pic.url }} />
+          <View style={[{top: 0, left: 0, bottom: 0, right: 0, position: 'absolute', 
+                         backgroundColor: 'rgba(0,0,0,.2)', borderRadius: 5}, Styles.absoluteFill]} >
+            <Text style={{color: 'rgba(255,255,255,.5)', fontSize: 12, padding: 8, alignSelf: 'flex-end'}}>微博文章</Text>
+            <View style={{flex: 1}} />
+            <Text style={{color: '#fff', fontSize: 17, padding: 16, paddingBottom: 8}}>{ page_info.content1 }</Text>
+            <Text></Text>
+          </View>
+        </View>
+      )
+    } 
+    else {
+      console.log("Unrecognized weibo page_info type: " + page_info);
     }
   }
 
