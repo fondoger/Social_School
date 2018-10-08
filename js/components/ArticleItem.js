@@ -19,6 +19,7 @@ import Storage from '../utils/Storage';
 import { UserAvatar, GroupAvatar, OfficialAccountAvatar, IconFont } from './Utils';
 import MyToast from './MyToast';
 import ContextMenu from './ContextMenu';
+import Styles from '../utils/Styles';
 
 
 
@@ -39,6 +40,17 @@ export default class StatusesItem extends React.Component {
     ContextMenu.showMenu(options, e);
   }
 
+  onHeaderPress() {
+    const article = this.state.article;
+    let injectedJavaScript = null;
+    if (article.type == 'WEIXIN') {
+      injectedJavaScript = `window.location.replace(document.getElementsByClassName('wx-news-list2')[0].getElementsByTagName('a')[0].href)`;
+    }
+    this.props.navigation.navigate('Common_WebviewPage', {
+      url: article.official_account.page_url,
+      injectedJavaScript: injectedJavaScript,
+    });
+  }
 
   renderHeader() {
     const item = this.state.article;
@@ -50,10 +62,13 @@ export default class StatusesItem extends React.Component {
     const source = null;
     return (
       <View style={{flexDirection:'row', paddingLeft:12, paddingTop:12, alignItems:'center'}}>
-        <OfficialAccountAvatar account={item.official_account} size={40} />
+        <OfficialAccountAvatar account={item.official_account} size={40} onPress={this.onHeaderPress.bind(this)}/>
         <View style={{paddingLeft:12}}>
           <Text style={{fontSize:15, color:'#000'}}
-                onPress={this.onProfilePress}>{display_name}<Text style={{color: '#bbb'}}>{self_intro}</Text></Text>
+                onPress={this.onHeaderPress.bind(this)}>
+              {display_name}
+              <Text style={{color: '#bbb'}}>{self_intro}</Text>
+          </Text>
           <Text style={{fontSize:11}} >{ timestamp } { source }</Text>
         </View>
         { this.props.hideMenuButtom ? null: 
@@ -73,12 +88,12 @@ export default class StatusesItem extends React.Component {
       <View {...this.props}>
         <TouchableHighlight 
           underlayColor={Theme.activeUnderlayColor}
-          onPress={()=>this.props.navigation.navigate('Status_StatusPage', {status:item})}
+          onPress={()=>this.props.navigation.navigate("Common_WebviewPage", {url: item.extra_url})}
         >
           <View style={{backgroundColor: '#fff'}}>
             { this.renderHeader() }
             <View style={{marginLeft:12, marginRight:14, paddingTop:8}}>
-              {this.renderContentByType()}
+            { this.renderContentByType() }
             </View>
             {item.type === API.Status.GROUPPOST ? <View style={{height:12}}/> : this.renderFooter()}
           </View>
@@ -87,22 +102,37 @@ export default class StatusesItem extends React.Component {
     )
   };
 
-  renderContentByType() {
+  renderContentByType = ()=>{
     const article = this.state.article;
     if (article.type == 'WEIXIN')
-      return null;
+      return this.renderWeixinContent();
     else if (article.type == 'WEIBO')
       return this.renderWeiboContent();
     return null;
   }
 
-  renderWeiboContent() {
+  
+  renderWeixinContent = ()=>{
+    const article = JSON.parse(this.state.article.extra_data);
+    return (
+      <View style={{borderRadius: 5}}>
+        <Image style={{flex:1, aspectRatio:1.8, borderRadius: 5}} source={{uri: article.linkInfo.pictureUrl}} />
+        <View style={[{top: 0, left: 0, bottom: 0, right: 0, position: 'absolute', 
+                       backgroundColor: 'rgba(0,0,0,.2)', borderRadius: 5}, Styles.absoluteFill]} >
+          <Text style={{color: 'rgba(255,255,255,.5)', fontSize: 12, padding: 8, alignSelf: 'flex-end'}}>微信公众号</Text>
+          <View style={{flex: 1}} />
+          <Text style={{color: '#fff', fontSize: 17, padding: 16, paddingBottom: 8}}>{ article.linkInfo.title }</Text>
+          <Text></Text>
+        </View>
+      </View>
+    )
+  }
+
+  renderWeiboContent = ()=>{
     const weibo = JSON.parse(this.state.article.extra_data);
     return (
       <View style={{flexDirection: 'column'}}>
-        <Text style={{textAlignVertical: 'center', color: '#555', fontSize: 15, lineHeight:26}}>
-          { weibo.text }
-        </Text>
+        { this.renderWeiboText(weibo.text) }
         {  
           weibo.pics ? this.renderWeiboPics(weibo) :
           weibo.page_info ? this.renderWeiboPageInfo(weibo) : null
@@ -111,22 +141,104 @@ export default class StatusesItem extends React.Component {
     )
   }
 
-  renderWeiboPics(weibo) {
+  renderWeiboText = (text)=>{
+    var contentArray = this.textToContentArray(text);
+    return (<Text style={{textAlignVertical: 'center', color: '#555', fontSize: 15, lineHeight:26}}>
+      {contentArray.map((content, i) => {
+        if (content.text) {
+          return (
+            <Text key={i} >{content.text}</Text>
+          );
+        }
+        else if (content.url) {
+          return (
+            <Text key={i} style={{color:'#507daf', paddingBottom: 5}} 
+                  onPress={()=>{this.props.navigation.navigate('Common_WebviewPage', {url:content.url})}}>
+              {content.content}
+            </Text>
+          );
+        }
+        else if (content.url_icon) {
+          return (
+            <Image key={i} style={{width:34, height:34,}} source={{uri: content.url_icon}} />
+          );
+
+        }
+        else if (content.topic) {
+          return (
+            <Text key={i} style={{color:'#507daf', paddingBottom: 5}} onPress={()=>{this.props.navigation.navigate('Status_TopicPage', {topic:content.topic})}}>#{content.topic}#</Text>
+          );
+        }
+        else if (content.emotion) {
+          return (
+            <Image key={i} source={Emotion.getSource(content.emotion)} style={{width:32, height:32}}/>
+          );
+        }
+    })}
+      </Text>);
+  }
+
+  textToContentArray = (text)=>{
+    text = text.replace(/<br \/>/g, "\n");
+    const regexp = /<a[^>]*>(?:.*?)<\/a>|<span class="url-icon">(?:.*?)<\/span>/g;
+    const contentArray = [];
+    let regArray = text.match(regexp);
+    if (!regArray)
+      regArray = [];
+    var pos = 0;
+    for (let i = 0; i < regArray.length; i++) {
+      var t = text.indexOf(regArray[i], pos);
+      if (t != pos) {
+        contentArray.push({'text': text.substring(pos, t)});
+        pos = t;
+      }
+      var t2 = pos + regArray[i].length;
+      if (text[pos+1] == 'a') {
+        const match = regArray[i].match(/href=(["'])(.*?)\1[^>]*>(.*?)<\/a>/);
+        let url = match[2];
+        if (url[0] == '/') {
+          url = 'https://m.weibo.cn' + url;
+        }
+        contentArray.push({'url': url, 'content': match[3].replace(/<[^>]*>/g, '')})
+      } else if (text[pos+1] == 's') {
+        const match = regArray[i].match(/src=(["'])(.*?)\1/);
+        contentArray.push({'url_icon': 'https:' + match[2]});
+      }
+      pos = t2;
+    }
+    if (pos != text.length) {
+      contentArray.push({'text': text.substring(pos, text.length)});
+    }
+
+    return contentArray;
+  }
+
+  renderWeiboPics = (weibo)=>{
     const images = weibo.pics.map(pic => pic.url);
     return <ImageCard {...this.props} style={{marginTop: 12}} images={images}/>
   }
 
-  renderWeiboPageInfo(weibo) {
+  renderWeiboPageInfo = (weibo)=>{
     const page_info = weibo.page_info;
     if (page_info.type == 'search_topic') {
       return (
         <View style={{flexDirection: 'row', alignItems: 'center', backgroundColor: '#f8f8f8',
-                      borderWidth: 1, borderColor:'#f0f0f0', marginTop: 12, paddingTop: 0.5, boarderRadius: 3}}>
+                      borderWidth: 1, borderColor:'#f0f0f0', marginTop: 12, paddingTop: 0.5, borderRadius: 3}}>
           <Image style={{width: 60, height: 60, marginRight: 12}} source={{ uri: page_info.page_pic.url }}/>
           <Text style={{color: '#333', fontSize: 16}}>{page_info.page_title}</Text>
         </View>
       )
-
+    }
+    else if (page_info.type == 'video') {
+      return (
+        <View style={{flexDirection: 'row'}}>
+          <Image style={{ flex: 1, aspectRatio: 1.8}} source={{ uri: page_info.page_pic.url }}/>
+          <View style={{position:'absolute', top:0, left:0, right:0, bottom:0,
+                        backgroundColor:'rgba(0,0,0,0.25)', alignItems: 'center', justifyContent:'center'}} >
+            <Text style={{color:'#ccc', fontSize:16}}>微博视频</Text>
+          </View>
+        </View>
+      )
     }
   }
 
@@ -181,12 +293,6 @@ export default class StatusesItem extends React.Component {
     )
   }
 
-  _renderCard(item) {
-    if (item.pics.length != 0)
-      return (<ImageCard {...this.props} style={{marginTop: 12}} images={item.pics}/>);
-    return null;
-    //return (<WechatArticleCard {...this.props} style={{marginTop: 12}} article={article} />)
-  }
 
 }
 

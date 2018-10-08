@@ -16,8 +16,8 @@ import FastImage from 'react-native-fast-image';
 * Note:
 * 1.`react-native-image-gallery` will call Image.getSize() method to get the
 * dimensions of pictures. So, we need to provide thumbnail image url to `images`
-* property of `react-native-image-galler`, instead of the large image url, to 
-* avoid loading twice or loading failed. 
+* property of `react-native-image-gallery`, instead of the large image url, in 
+* order to avoid loading twice or loading failed. 
 */
 
 class PlaceholderImage extends React.Component {

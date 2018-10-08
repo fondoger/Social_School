@@ -22,6 +22,7 @@ import Common_RegisterPage from './js/pages/Common/RegisterPage';
 import Common_SettingPage from './js/pages/Common/SettingPage';
 import Common_ImageViewerPage from './js/pages/Common/ImageViewerPage';
 import Common_SearchPage from './js/pages/Common/SearchPage';
+import Common_WebviewPage from './js/pages/Common/WebviewPage';
 
 import Status_StatusPage from './js/pages/Status/StatusPage';
 import Status_TopicPage from './js/pages/Status/TopicPage';
@@ -104,6 +105,7 @@ const RootStack = createStackNavigator({
   Common_ImageViewerPage,
   Common_SettingPage,
   Common_SearchPage,
+  Common_WebviewPage,
   Status_StatusPage,
   Status_TopicPage,
   Status_NewStatusPage,
@@ -161,7 +163,9 @@ class App extends React.Component {
     const currentRouteName = getActiveRouteName(currentState);
     const prevRouteName = getActiveRouteName(prevState);
     if (currentRouteName != prevRouteName) {
-      if (currentRouteName.slice(0,4) === 'Sale' || currentRouteName === 'Status_StatusPage') {
+      if (currentRouteName.slice(0,4) === 'Sale' || 
+          currentRouteName === 'Status_StatusPage' ||
+          currentRouteName === 'Common_WebviewPage') {
         StatusBar.setBarStyle('dark-content');
       } else if (['KebiaoPage'].includes(currentRouteName)) {
         StatusBar.setBarStyle('dark-content');

@@ -156,7 +156,7 @@ export const ListGroupItem = withNavigation(_ListGroupItem);
 export function PlaceholderImage(props) {
   return (
     <View>
-      <View style={[{backgroundColor: 'gray'}, props.style ]} />
+      <View style={[{backgroundColor: '#ccc'}, props.style ]} />
       <FastImage {...props} style={[props.style, {position:'absolute', left:0, right: 0}]} />
     </View>
   );

@@ -146,6 +146,7 @@ export default class TimelinePage extends React.Component {
                 handleDeleteItem={()=>{this.deleteItem(index)}} />
     if (item.type == API.Article.WEIXIN || item.type == API.Article.WEIBO) {
       return <ArticleItem 
+                {...this.props}
                 article={item} />
     }
     return null;

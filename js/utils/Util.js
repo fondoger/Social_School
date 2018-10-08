@@ -1,40 +1,4 @@
-// import Emotion from './Emotion'
-// export default function(text) {
-//   console.log("text"+text);
-//   var regexp = new RegExp(`((${Emotion.regexp})|#[\\s\\S]+?#|@[\\u4e00-\\u9fa5_a-zA-Z0-9\\-]+)`, 'g');
-//   var contentArray = [];
-//   var regArray = text.match(regexp);
-//   console.log(regArray);
-//   if (!regArray)
-//     regArray = [];
-//   var pos = 0;
-//   for (let i = 0; i < regArray.length; i++) {
-//     var t = text.indexOf(regArray[i], pos);
-//     if (t != pos) {
-//       contentArray.push({'text': text.substring(pos, t)});
-//       pos = t;
-//     }
-//     var t2 = pos + regArray[i].length;
-//     if (text[pos]=='[') { // emotion
-//       contentArray.push({'emotion': text.substring(pos, t2)})
-//     }
-//     else if (text[pos]=='@') {
-//       contentArray.push({'at': text.substring(pos+1, t2)})
-//     } 
-//     else if (text[pos]=='#') { // topic
-//       contentArray.push({'topic': text.substring(pos+1, t2-1)});
-//     }
-//     else {
-//       console.log('impossible');
-//     }
-//     pos = t2;
-//   }
-//   if (pos != text.length) {
-//     contentArray.push({'text': text.substring(pos, text.length)});
-//   }
-//   return contentArray;
-// }      
-
+  
 function isYestday(theDate, nowDate){
     var today = new Date(nowDate.getFullYear(), nowDate.getMonth(), nowDate.getDate()).getTime(); //今天凌晨 
     var yestday = new Date(today - 24*3600*1000).getTime();
@@ -54,7 +18,6 @@ export function calcGMTTimeDiff(GMTString, GMTString2) {
   var minutes = Math.round(Math.abs((timespan2 - timespan)/1000/60));
   return minutes;
 };
-
 
 function descHourMin(hour, min) {
   let res = hour + ':' + ('0' +min).slice(-2);

@@ -5,6 +5,9 @@
         <!-- Customize your theme here. -->
         <!-- For react-native-splash-screen 设置透明背景-->
         <item name="android:windowIsTranslucent">true</item>
+        
+        <!-- Set list over-scroll color -->
+        <item name="android:colorEdgeEffect">#000000</item>
     </style>
 
     <!-- For react-native-splash-screen -->
