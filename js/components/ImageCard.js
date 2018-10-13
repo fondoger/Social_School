@@ -6,14 +6,30 @@ import { PlaceholderImage } from './Utils';
 
 const IMAGE_MARGIN = 2;
 
+/**
+ * props: 
+ *
+ *     oneRow: boolean, show only one row even more than 3 images,
+ *     images: [
+ *        { require('../some/local/image.jpg') },
+ *        { 
+ *          uri: 'http://example.com/small_image.jpg',
+ *          bigUri(optional): 'http://example.com/big_image.jpg',
+ *        },
+ *        ...
+ *     ]
+ * 
+ */
+
 export default class ImageCard extends React.Component {
+  
   render() {
     const {images, oneRow, ...props} = this.props;
     let imageRows = [];
     let num = (images.length == 4) ? 2 : 3;
     let t = [];
     for (let i = 0; i < images.length; i++) {
-      t.push({index: i, image: images[i]});
+      t.push({index: i, source: images[i]});
       if (t.length == num) {
         if (t.length != 3)
           t.push(null);
@@ -35,7 +51,7 @@ export default class ImageCard extends React.Component {
   }
   _renderImageRow(items, i) {
     return (
-      <View key={i} style={{flexDirection: 'row'}}>
+      <View key={i.toString()} style={{flexDirection: 'row'}}>
         {this._renderImage(items[0])}{this._renderImage(items[1])}{this._renderImage(items[2])}
       </View>
     )
@@ -45,7 +61,7 @@ export default class ImageCard extends React.Component {
       return (
         <TouchableWithoutFeedback onPress={()=>{this._onImagePress(item.index);}}>
           <View style={{flex: 1, aspectRatio: 1, margin: IMAGE_MARGIN, backgroundColor:'#efefef'}} >
-            <Image style={{flex: 1}} source={{uri: item.image+'!mini5'}} />
+            <Image style={{flex: 1}} source={item.source} />
           </View>
         </TouchableWithoutFeedback>
       )
@@ -53,6 +69,10 @@ export default class ImageCard extends React.Component {
     return (<View style={{flex: 1, aspectRatio: 1, margin: IMAGE_MARGIN}}></View>)
   }
   _onImagePress = (index)=> {
-    this.props.navigation.navigate('Common_ImageViewerPage', {initialImage: index, images: this.props.images.map((url)=>{return {source: {uri: url+'!mini5'}}})});
+    const images = this.props.images.map(source => ({
+      source: source,
+      dimensions: null,
+    }))
+    this.props.navigation.navigate('Common_PhotoViewPage', {initialImage: index, images: images });
   }
 }

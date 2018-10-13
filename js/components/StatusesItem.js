@@ -73,8 +73,8 @@ export default class StatusesItem extends React.Component {
     const isGroupStatus = item.type === API.Status.GROUPSTATUS;
     const display_name = isGroupStatus ? item.group.groupname:item.user.username;
     let self_intro = '';
-    if (!isGroupStatus && item.user.self_intro !== '') {
-      self_intro = ', ' + item.user.self_intro;
+    if (!isGroupStatus && item.user.self_intro) {
+      self_intro = item.user.self_intro;
     }
     if (self_intro !== '')
       self_intro = ', ' + self_intro;
@@ -176,10 +176,11 @@ export default class StatusesItem extends React.Component {
   }
 
   _renderCard(item) {
-    if (item.pics.length != 0)
-      return (<ImageCard {...this.props} style={{marginTop: 12}} images={item.pics}/>);
+    if (item.pics.length != 0) {
+      const images = item.pics.map(url => ({uri: url + '!mini5', bigUri: url}));
+      return (<ImageCard {...this.props} style={{marginTop: 12}} images={images}/>);
+    }
     return null;
-    //return (<WechatArticleCard {...this.props} style={{marginTop: 12}} article={article} />)
   }
 
   _renderContent(text) {

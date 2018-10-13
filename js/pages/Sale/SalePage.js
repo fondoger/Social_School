@@ -150,8 +150,11 @@ export default class SalePage extends React.Component {
   }
 
   onImagePress = (index) => {
-    const images = this.state.sale.pics;
-    this.props.navigation.navigate('Common_ImageViewerPage', {initialImage: index, images: images.map((url)=>{return {source: {uri: url+'!mini5'}}})});
+    const images = this.state.sale.pics.map(url => ({
+      uri: url + '!mini5',
+      bigUri: url,
+    }));
+    this.props.navigation.navigate('Common_PhotoViewPage', {initialImage: index, images: images});
   }
 
   renderBigPictures = () => {

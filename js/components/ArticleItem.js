@@ -225,7 +225,10 @@ export default class StatusesItem extends React.Component {
   }
 
   renderWeiboPics = (weibo)=>{
-    const images = weibo.pics.map(pic => pic.url);
+    const images = weibo.pics.map(pic => ({
+      uri: pic.url,
+      bigUri: pic.large.url,
+    }));
     return <ImageCard {...this.props} style={{marginTop: 12}} images={images}/>
   }
 
@@ -302,14 +305,14 @@ export default class StatusesItem extends React.Component {
     item.likes = 8;
     return (
       <View style={{flexDirection:'row', alignItems:'center'}}>
-        <TouchableWithoutFeedback onPress={null}>
+        <TouchableWithoutFeedback onPress={this.goToDetailPage.bind(this)}>
           <View style={{width:60, flexDirection: 'row', padding: 16, justifyContent:'flex-start', alignItems:'center'}}>
             { /* <Text style={{fontFamily:'iconfont', fontSize:19, color:'#666'}}>&#xe62a;</Text> */}
             <IconFont icon='&#xe62a;' size={18} color='#666' />
             <Text style={{marginLeft:2, color:'#697480', fontSize:10, paddingTop:-2}}>{item.replies==0?'评论':item.replies}</Text>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={null}>
+        <TouchableWithoutFeedback onPress={this.goToDetailPage.bind(this)}>
           <View style={{width:80, flexDirection: 'row', padding: 16, justifyContent:'flex-start', alignItems:'center'}}>
             { /* <Text style={{fontFamily:'iconfont', fontSize:19, color:item.liked_by_me?'#db5f5f':'#666'}}>{item.liked_by_me?'\ue600':'\ue601'}</Text> */}
             <IconFont icon={item.liked_by_me?'\ue672':'\ue671'} size={18} color={item.liked_by_me?'#f56262':'#666'} />

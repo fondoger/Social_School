@@ -20,9 +20,9 @@ import {
 import Common_LoginPage from './js/pages/Common/LoginPage';
 import Common_RegisterPage from './js/pages/Common/RegisterPage';
 import Common_SettingPage from './js/pages/Common/SettingPage';
-import Common_ImageViewerPage from './js/pages/Common/ImageViewerPage';
 import Common_SearchPage from './js/pages/Common/SearchPage';
 import Common_WebviewPage from './js/pages/Common/WebviewPage';
+import Common_PhotoViewPage from './js/pages/Common/PhotoViewPage';
 
 import Status_StatusPage from './js/pages/Status/StatusPage';
 import Status_TopicPage from './js/pages/Status/TopicPage';
@@ -47,8 +47,8 @@ import Sale_EditSalePage from './js/pages/Sale/EditSalePage';
 import MediumTransPage from './js/pages/Common/MediumTransPage';
 
 // Remove react-navigation Bug warning, temporarily solution
-import { YellowBox } from 'react-native'; 
-YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
+// import { YellowBox } from 'react-native'; 
+// YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
 
 const MainTabs = createBottomTabNavigator({
@@ -102,10 +102,10 @@ const RootStack = createStackNavigator({
   WechatArticlePage,
   Common_LoginPage,
   Common_RegisterPage,
-  Common_ImageViewerPage,
   Common_SettingPage,
   Common_SearchPage,
   Common_WebviewPage,
+  Common_PhotoViewPage,
   Status_StatusPage,
   Status_TopicPage,
   Status_NewStatusPage,

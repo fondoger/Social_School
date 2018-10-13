@@ -284,7 +284,7 @@ export default class ProfilePage extends React.Component {
           <TouchableWithoutFeedback onPress={()=>{}}>
             <View style={{borderWidth:3, borderRadius:50, borderColor:'#fff'}}>
               <UserAvatar {...this.props} user={user} size={96} hideLogo={true} style={{margin:-1}} onPress={()=>{
-                this.props.navigation.navigate('Common_ImageViewerPage', {initialImage: 0, images: [{source: {uri: user.avatar+'!mini5'}}]});
+                this.props.navigation.navigate('Common_PhotoViewPage', {images: [{source: {uri: user.avatar+'!thumbnail', bigUri: user.avatar}}]})
               }}/>
             </View>
           </TouchableWithoutFeedback>
