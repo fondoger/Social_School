@@ -52,6 +52,11 @@ export default class StatusesItem extends React.Component {
     });
   }
 
+  goToDetailPage() {
+    const item = this.state.article;
+    this.props.navigation.navigate("Common_WebviewPage", {url: item.extra_url});
+  }
+
   renderHeader() {
     const item = this.state.article;
     const timestamp = (
@@ -88,7 +93,7 @@ export default class StatusesItem extends React.Component {
       <View {...this.props}>
         <TouchableHighlight 
           underlayColor={Theme.activeUnderlayColor}
-          onPress={()=>this.props.navigation.navigate("Common_WebviewPage", {url: item.extra_url})}
+          onPress={this.goToDetailPage.bind(this)}
         >
           <View style={{backgroundColor: '#fff'}}>
             { this.renderHeader() }
@@ -129,10 +134,13 @@ export default class StatusesItem extends React.Component {
   }
 
   renderWeiboContent = (weibo, is_retweeted=false)=>{
-    
+    const retweeted_style = is_retweeted ? {
+      backgroundColor: '#f7f7f7',
+      paddingVertical: 8,
+      marginTop: 4,
+    } : null;
     return (
-      <View style={{flexDirection: 'column', backgroundColor: is_retweeted ? '#f4f4f4': '#fff', 
-                    paddingVertical: is_retweeted ? 8 : 0}}>
+      <View style={[{flexDirection: 'column'}, retweeted_style]}>
         <View style={{marginLeft: 12, marginRight: 14}}>
           { this.renderWeiboText(weibo.text) }
           {  
@@ -294,14 +302,14 @@ export default class StatusesItem extends React.Component {
     item.likes = 8;
     return (
       <View style={{flexDirection:'row', alignItems:'center'}}>
-        <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('Status_StatusPage', {status:item, focus:true})}>
+        <TouchableWithoutFeedback onPress={null}>
           <View style={{width:60, flexDirection: 'row', padding: 16, justifyContent:'flex-start', alignItems:'center'}}>
             { /* <Text style={{fontFamily:'iconfont', fontSize:19, color:'#666'}}>&#xe62a;</Text> */}
             <IconFont icon='&#xe62a;' size={18} color='#666' />
             <Text style={{marginLeft:2, color:'#697480', fontSize:10, paddingTop:-2}}>{item.replies==0?'评论':item.replies}</Text>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={this.onLikePress}>
+        <TouchableWithoutFeedback onPress={null}>
           <View style={{width:80, flexDirection: 'row', padding: 16, justifyContent:'flex-start', alignItems:'center'}}>
             { /* <Text style={{fontFamily:'iconfont', fontSize:19, color:item.liked_by_me?'#db5f5f':'#666'}}>{item.liked_by_me?'\ue600':'\ue601'}</Text> */}
             <IconFont icon={item.liked_by_me?'\ue672':'\ue671'} size={18} color={item.liked_by_me?'#f56262':'#666'} />

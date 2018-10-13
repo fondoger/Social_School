@@ -158,7 +158,7 @@ export default class TimelinePage extends React.Component {
                     borderBottomColor: pageTheme.borderColor, borderBottomWidth: 0.5,
                     borderTopColor: '#f4f4f4', borderTopWidth: 0.5, }}>
         <Text style={{color: '#f92772'}}>置顶(4): </Text>
-        <Text style={{color: '#444'}}>[活动]庆祝北京航空航天大学成立65周年！</Text>
+        <Text style={{color: '#444'}}>[活动]庆祝北京航空航天大学成立66周年！</Text>
       </View>
     )
   }

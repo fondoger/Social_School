@@ -236,19 +236,20 @@ export default GroupScreenTab;
 class GroupItem extends React.Component {
   render() {
     const group = this.props.group;
+    const borderRadius = 4;
     return (
       <TouchableWithoutFeedback
             onPressIn={()=>this.ref.setNativeProps({backgroundColor:'rgba(0,0,0,.25)'})}
             onPressOut={()=>this.ref.setNativeProps({backgroundColor:'rgba(0,0,0,.05)'})}
             onPress={this.props.onPress} >
-        <View style={{flex:1, alignItems:'center', backgroundColor:'#f2f4f5'}}>
+        <View style={{flex:1, alignItems:'center', backgroundColor:'#f2f4f5', borderRadius}}>
           <View style={{width:80, height:80, marginBottom:4}}>
-            <Image style={{width:80, height:80}}
+            <Image style={{width:80, height:80, borderRadius}}
                    source={{uri: group?(group.avatar+'!thumbnail'):null}}/>
             <View ref={ref=>this.ref=ref} style={{position:'absolute', top:0, left:0,
-                  backgroundColor:'rgba(0,0,0,0.05)', width:80, height:80}} />
+                  backgroundColor:'rgba(0,0,0,0.05)', width:80, height:80, borderRadius}} />
             <View style={{position:'absolute', top:0, left:0,
-                  backgroundColor:'rgba(0,0,0,0)', width:80, height:80, paddingTop:2}} >
+                  backgroundColor:'rgba(0,0,0,0)', width:80, height:80, paddingTop:2, borderRadius}} >
               <View style={{flexDirection:'row', marginTop:2}}><Text style={styles.textStyle}>新帖: {group.daily_statuses>99?'99+':group.daily_statuses}</Text></View>
               {group.public?null:<View style={{flexDirection:'row', marginTop:2}}><Text style={styles.textStyle}>有新活动</Text></View>}
             </View>
