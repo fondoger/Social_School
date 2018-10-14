@@ -20,7 +20,7 @@ import API from '../../utils/API_v1';
 import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers, } from 'react-native-popup-menu';
 import { getPassedTime } from '../../utils/Util';
 import Storage from '../../utils/Storage';
-import { MyToast, SaleItem } from '../../components';
+import { MyToast, SaleItem, IconFont } from '../../components';
 
 const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;
@@ -59,16 +59,14 @@ export default class PersonalPage extends React.Component {
       <View style={{backgroundColor:'#fafbfd', paddingTop:StatusBarHeight, flexDirection:'row',
         borderColor:'#ddd', borderBottomWidth:0.5, height:headerHeight, alignItems:'center'}} >
         <TouchableWithoutFeedback onPress={()=>this.props.navigation.goBack()}>
-          <View style={{width:64, alignItems:'center'}}>
-            <Text style={{fontFamily:'iconfont', fontSize:18, color:'#444',}}>&#xe60a;</Text>
-          </View>
+          <IconFont size={20} color="#888" style={{paddingHorizontal: 20}} icon="&#xe60a;" />
         </TouchableWithoutFeedback>
         <View style={{flex:1}}><Text style={{color:'#444', fontSize:18}}>{title}的宝贝</Text></View>       
         {Storage.user&&Storage.user.id==user.id?
-          <TouchableHighlight style={{width:64,}} 
+          <TouchableHighlight style={{width: 54,}} 
                               onPress={()=>this.props.navigation.navigate("Sale_EditSalePage")}>
             <View style={{flex:1, backgroundColor:'#fafbfd', justifyContent:'center', alignItems:'center'}}>
-              <Text style={{fontFamily:'iconfont', fontSize:22, color:'#444'}}>&#xe633;</Text>
+              <Text style={{fontFamily:'iconfont', fontSize:22, color:'#555'}}>&#xe633;</Text>
             </View>
           </TouchableHighlight>: null
         }

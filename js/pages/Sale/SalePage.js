@@ -19,6 +19,7 @@ import API from '../../utils/API_v1';
 import { getPassedTime, getSaleTime } from '../../utils/Util';
 import Storage from '../../utils/Storage';
 import { MyToast, ModalMenu, IconFont } from '../../components';
+import FastImage from 'react-native-fast-image';
 
 const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;
@@ -38,7 +39,7 @@ class MyResponsiveImage extends React.Component {
     return (
       <TouchableWithoutFeedback onPress={this.props.onPress}>
       <View style={{marginTop:8, flexDirection:'row', aspectRatio:this.state.aspectRatio}}>
-        <Image source={this.props.source} style={{flex:1, aspectRatio:this.state.ratio}} onLoad={()=>{
+        <FastImage source={this.props.source} style={{flex:1, aspectRatio:this.state.ratio}} onLoad={()=>{
           Image.getSize(this.props.source.uri, (width, height) => {
             this.setState({ratio:width/height});
           });
@@ -151,8 +152,10 @@ export default class SalePage extends React.Component {
 
   onImagePress = (index) => {
     const images = this.state.sale.pics.map(url => ({
-      uri: url + '!mini5',
-      bigUri: url,
+      source: {
+        uri: url + '!large',
+        bigUri: url,
+      }
     }));
     this.props.navigation.navigate('Common_PhotoViewPage', {initialImage: index, images: images});
   }
@@ -215,6 +218,10 @@ export default class SalePage extends React.Component {
     });
   }
 
+  onPrivateMessagePress = () => {
+    this.props.navigation.navigate('User_ChatPage', {user:this.state.sale.user})
+  }
+
   renderActionBar = () => {
     const like = <IconFont size={18} icon='&#xe671;' color='#222'/>;
     const liked = <IconFont size={18} icon='&#xe672;' color='#f32b54' />;
@@ -248,7 +255,7 @@ export default class SalePage extends React.Component {
               <Text style={{fontSize:14, color:'#fff'}}>管理</Text>
             </View>
           </TouchableWithoutFeedback>:
-          <TouchableWithoutFeedback onPress={()=>{}}>
+          <TouchableWithoutFeedback onPress={this.onPrivateMessagePress}>
           <View style={{backgroundColor:'#fe4343', height:30, 
                 marginRight:16, justifyContent:'center', 
                 alignItems:'center', paddingLeft:16, paddingRight:16}}>

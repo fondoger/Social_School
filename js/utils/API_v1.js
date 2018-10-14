@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 import Storage from './Storage';
 
 const prodServer = 'http://47.93.240.135/api/v1';
-const debugServer = 'http://10.137.154.170:5000/api/v1';
+const debugServer = 'http://10.137.204.44:5000/api/v1';
 const base64 = require('base-64');
 
 

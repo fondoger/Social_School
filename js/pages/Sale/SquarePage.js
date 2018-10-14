@@ -14,6 +14,8 @@ import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
 import { getSaleTime } from '../../utils/Util';
 import { SlideInMenu, ModalMenu } from '../../components';
+import { IconFont } from '../../components/Utils';
+import FastImage from 'react-native-fast-image';
 
 const locations = ['不限', '学院路校区', '沙河校区'];
 const categories = ['不限', '学习&书籍', '数码&电器', '生活&日用', '户外&文体', '票券&其他'];
@@ -61,27 +63,25 @@ export default class SquarePage extends React.Component {
             borderColor:'#ccc', borderBottomWidth:0.5,}} >
         <View style={{flexDirection:'row', alignItems:'center'}}>
           <TouchableWithoutFeedback onPress={()=>this.props.navigation.goBack()}>
-            <View style={{paddingLeft:20, paddingRight:20}}>
-              <Text style={{fontFamily:'iconfont', fontSize:20, color:'#888',}}>&#xe60a;</Text>
-            </View>
+            <IconFont size={20} color="#888" style={{paddingHorizontal: 20}} icon="&#xe60a;" />
           </TouchableWithoutFeedback>
           <View style={{flex:1, borderColor:'#ddd', borderWidth:1, borderRadius:3,
                 backgroundColor:'#fff', flexDirection:'row', alignItems:'center'}}>
-            <Text style={{fontFamily:'iconfont', fontSize:25, color:'#aaa', paddingLeft:10, paddingRight:2}}>&#xe6c8;</Text>
+            <IconFont icon="&#xe623;" size={21} color="#bbb" style={{paddingLeft: 8, paddingRight: 4}} />
             <TextInput 
-              style={{flex:1, padding:0, margin:0, fontSize:12, color:'#000', height:32}}
+              style={{flex:1, padding:0, margin:0, fontSize:13, color:'#000', height:32}}
               underlineColorAndroid="transparent"
               multiline = {false}
               placeholder='搜索宝贝'
             />
           </View> 
-          <Text style={{fontSize:15, color:'#222', paddingLeft:16, paddingRight:16}}
+          <Text style={{fontSize:14, color:'#888', paddingLeft:16, paddingRight:8}}
                 onPress={()=>{
                   if (Storage.user)
                     this.props.navigation.navigate('Sale_PersonalPage', {user:Storage.user})
                   else
                     this.props.navigation.navigate('Common_LoginPage');
-                }}>我的</Text>
+                }}><Text style={{fontFamily: 'iconfont', fontSize: 21 }} >&#xe78b;</Text>我的</Text>
         </View>
         <View style={{flexDirection:'row',}}>
           <TouchableWithoutFeedback onPress={this.onLocationFieldPress}>
@@ -112,7 +112,7 @@ export default class SquarePage extends React.Component {
       <TouchableWithoutFeedback onPress={()=>this.props.navigation.navigate('Sale_SalePage', {sale:item})} >
         <View style={{flex:1, margin:2, backgroundColor:'#fff'}}>
           <View style={{flex:1, aspectRatio:1, backgroundColor:'#f3f5f9'}}>
-            <Image style={{flex:1}} source={{uri:item.pics[0]+'!mini5'}}/>
+            <FastImage style={{flex:1}} source={{uri:item.pics[0]+'!mini5'}}/>
           </View>
           <View style={{padding:12, paddingTop:8, paddingBottom:8}}>
             <Text style={{fontSize:15, color:'#222'}} numberOfLines={1}>{item.title}</Text>

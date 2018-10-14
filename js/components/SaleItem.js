@@ -12,6 +12,7 @@ export default class SaleItem extends React.Component {
   render() {
     const sale = this.props.sale;
     const user = sale.user;
+    const images = sale.pics.map(url => ({uri: url + '!mini5', bigUri: url}));
     return (
       <View style={{backgroundColor:'#eee'}}>
         <TouchableHighlight 
@@ -36,7 +37,7 @@ export default class SaleItem extends React.Component {
               </View>
             </View>
             <View style={{marginLeft:12, marginRight:14, paddingTop:6, marginBottom:16}}>
-              <ImageCard {...this.props} style={{marginBottom: 12}} images={sale.pics} oneRow={true}/>
+              <ImageCard {...this.props} style={{marginBottom: 12}} images={images} oneRow={true}/>
               <Text style={{fontSize:15, color:'#000'}}>{sale.title + ' ' + sale.text}</Text>
             </View>
             <View style={{marginLeft:12, marginRight:12, flexDirection:'row', 
