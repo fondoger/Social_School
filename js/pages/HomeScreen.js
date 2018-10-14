@@ -52,7 +52,8 @@ export default class HomeScreenTab extends React.Component {
           style={styles.tabBar} 
           labelStyle={styles.tabLabel}
           indicatorStyle={styles.tabIndicator}
-          onTabPress={args=>{console.log('onTabPress'); console.log(args); }}
+          //onTabPress={args=>{MyToast.show(JSON.stringify(args))}}
+          useNativeDriver={true}
         />
         <View style={{flex: 4, alignItems: 'flex-end', justifyContent:'center'}} >
           <TouchableHighlight onPress={()=>{this.props.navigation.navigate('Status_NewStatusPage', {type:API.Status.USERSTATUS})}} >
@@ -75,10 +76,9 @@ export default class HomeScreenTab extends React.Component {
           first: withNavigation(TimelinePage),
           second: () => <TrendingPage navigation={_this.props.navigation} screenProps={_this.props.screenProps}/>,
         })}
-        onIndexChange={(arg)=>{console.log('onIndexChange'); console.log(arg);}}
+        onIndexChange={(idx)=>this.setState({index: idx})}
         renderTabBar={this.renderTabBar}
         initialLayout={Dimensions.get('window')}
-        canJumpToTab={route=>{console.log('canJumpToPage'); console.log(route); return true;}}
       />
     );
   }
