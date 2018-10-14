@@ -28,9 +28,9 @@ class FirstPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      hotActivities: Storage.hotActivities,
-      hotGroups: Storage.hotGroups,
-      hotPublicGroups: Storage.hotPublicGroups,
+      hotActivities: Storage.hotActivities || [],
+      hotGroups: Storage.hotGroups || [],
+      hotPublicGroups: Storage.hotPublicGroups || [],
       show: false,
     };
   }
@@ -65,6 +65,7 @@ class FirstPage extends React.Component {
   }  
 
   renderGroupItem(group) {
+    console.log(group)
     return (
       <GroupItem group={group} onPress={()=>this.props.navigation.navigate('Group_GroupPage', {group:group})}/>
     )
@@ -104,6 +105,9 @@ class FirstPage extends React.Component {
     const { hotActivities, hotGroups, hotPublicGroups } = this.state;
     if (!hotActivities || !hotActivities || !hotPublicGroups) {
       return <Loading fullScreen={true} />
+    }
+    if (hotGroups.length < 4 || hotPublicGroups.length < 4) {
+      MyToast.show("FUCK");
     }
     return (
       <View style={{flex:1}}>
@@ -236,6 +240,7 @@ export default GroupScreenTab;
 class GroupItem extends React.Component {
   render() {
     const group = this.props.group;
+    console.log(group);
     const borderRadius = 4;
     return (
       <TouchableWithoutFeedback

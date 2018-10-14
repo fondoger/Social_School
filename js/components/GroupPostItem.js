@@ -24,7 +24,7 @@ export default class GroupPostItem extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      status: this.props.status,
+      status: props.status,
     }
   }
 
