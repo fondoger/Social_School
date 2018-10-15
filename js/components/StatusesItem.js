@@ -194,7 +194,7 @@ export default class StatusesItem extends React.Component {
         }
         else if (content.at) {
           return (
-            <Text key={i} style={{color:'#507daf', paddingBottom: 5}} onPress={()=>{this.props.navigation.navigate('MediumTransPage', {username:content.at})}}>@{content.at}</Text>
+            <Text key={i} style={{color:'#507daf', paddingBottom: 5}} onPress={()=>{this.props.navigation.navigate('Common_MediumTransPage', {username:content.at})}}>@{content.at}</Text>
           );
         }
         else if (content.topic) {

@@ -13,7 +13,6 @@ import {
   ModalMenu,
   ContextMenu,
   SlideInMenu,
-  IconFont,
   HeaderLeft,
 } from './js/components';
 
@@ -23,6 +22,7 @@ import Common_SettingPage from './js/pages/Common/SettingPage';
 import Common_SearchPage from './js/pages/Common/SearchPage';
 import Common_WebviewPage from './js/pages/Common/WebviewPage';
 import Common_PhotoViewPage from './js/pages/Common/PhotoViewPage';
+import Common_MediumTransPage from './js/pages/Common/MediumTransPage';
 
 import Status_StatusPage from './js/pages/Status/StatusPage';
 import Status_TopicPage from './js/pages/Status/TopicPage';
@@ -44,7 +44,7 @@ import Sale_SalePage from './js/pages/Sale/SalePage';
 import Sale_PersonalPage from './js/pages/Sale/PersonalPage';
 import Sale_EditSalePage from './js/pages/Sale/EditSalePage';
 
-import MediumTransPage from './js/pages/Common/MediumTransPage';
+import Other_OfficialAccountPage from './js/pages/Other/OfficialAccountPage';
 
 // Remove react-navigation Bug warning, temporarily solution
 // import { YellowBox } from 'react-native'; 
@@ -64,8 +64,8 @@ const MainTabs = createBottomTabNavigator({
       const tabIcons = {
         Home: {false: '\ue7c6', true: '\ue7c3'},
         Group: {false: '\ue753', true: '\ue7f4'},
-        Discover: {false: '\ue61f', true: '\ue620'},
-        My: {false: '\ue716', true: '\ue715'},
+        Discover: {false: '\ue699', true: '\ue620'},
+        My: {false: '\ue78b', true: '\ue78c'},
       };
       const iconStyle = {
         fontFamily:'iconfont', 
@@ -106,6 +106,7 @@ const RootStack = createStackNavigator({
   Common_SearchPage,
   Common_WebviewPage,
   Common_PhotoViewPage,
+  Common_MediumTransPage,
   Status_StatusPage,
   Status_TopicPage,
   Status_NewStatusPage,
@@ -122,7 +123,7 @@ const RootStack = createStackNavigator({
   Sale_SalePage,
   Sale_PersonalPage,
   Sale_EditSalePage,
-  MediumTransPage,
+  Other_OfficialAccountPage,
 }, {
   headerMode: 'screen',
   navigationOptions: ({navigation}) => ({

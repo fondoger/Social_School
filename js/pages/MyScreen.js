@@ -119,23 +119,22 @@ export default class MyScreen extends React.Component {
         </View> */}
         <TouchableHighlight style={{ marginBottom: 8 }} underlayColor='#222' onPress={() => this.props.navigation.navigate('User_MessagePage')}>
           <View style={styles.item} >
-            <Image style={styles.item_icon} source={require('../../img/setting.png')} />
-            <Text style={styles.item_text}>我的消息</Text>
+            <IconFont style={{marginHorizontal: 18}} icon="&#xe6eb;" color="#1296db" size={24} />
+            <Text style={styles.item_text}>聊天</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={{ marginBottom: 8 }} underlayColor='#222' onPress={() => MyToast.show('功能开发中')}>
           <View style={styles.item} >
-            <Image style={styles.item_icon} source={require('../../img/collection.png')} />
+            <IconFont style={{marginHorizontal: 18}} icon="&#xe618;" color="#dd5145" size={24} />
             <Text style={styles.item_text}>收藏</Text>
           </View>
         </TouchableHighlight>
         <TouchableHighlight style={{ marginBottom: 8 }} underlayColor='#222' onPress={() => this.props.navigation.navigate('Common_SettingPage')}>
           <View style={styles.item} >
-            <Image style={styles.item_icon} source={require('../../img/setting.png')} />
+            <IconFont style={{marginHorizontal: 18}} icon="&#xe656;" color="#3498eb" size={24} />
             <Text style={styles.item_text}>设置</Text>
           </View>
         </TouchableHighlight>
-        <RowButton title='调试页面' onPress={()=>{}} />
       </View>
     );
   }
@@ -216,12 +215,13 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
   },
   toolText: {
-    color: '#888',
+    color: '#444',
   },
   item: {
     flexDirection: 'row',
     backgroundColor: '#fff',
     alignItems: 'center',
+    paddingVertical: 12,
   },
   item_icon: {
     width: 26,
@@ -232,8 +232,8 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   item_text: {
-    color: '#000',
-    fontSize: 17,
+    color: '#222',
+    fontSize: 16,
   }
 });
 

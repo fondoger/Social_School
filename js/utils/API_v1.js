@@ -398,6 +398,30 @@ const Topic = {
   },
 }
 
+const OfficialAccount = {
+  get: (params, successCallback, errorCallback) => {
+    send_request('/official_account', successCallback, errorCallback, {
+      method: 'GET',
+      params: params,
+    });
+  },
+}
+
+const OfficialAccountSubscription = {
+  create: (params, successCallback, errorCallback) => {
+    send_request('/official_account/subscription', successCallback, errorCallback, {
+      method: 'POST',
+      params: params,
+    });
+  },
+  delete: (params, successCallback, errorCallback) => {
+    send_request('/official_account/subscription', successCallback, errorCallback, {
+      method: 'DELETE',
+      params: params,
+    });
+  }
+};
+
 const Message = {
   create: (params, successCallback, errorCallback) => {
     send_request('/message', successCallback, errorCallback, {
@@ -427,7 +451,7 @@ const Message = {
       loginRequired: true,
     });
   },
-}
+};
 
 function registerLoginRequired(func) {
   loginManager.callback = func;
@@ -452,6 +476,8 @@ const API = {
   SaleComment,
   Topic,
   Message,
+  OfficialAccount,
+  OfficialAccountSubscription,
 }
 
 export default API;

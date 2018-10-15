@@ -10,6 +10,8 @@ import {
   TouchableHighlight
 } from 'react-native';
 import Theme from '../utils/Theme';
+import { IconFont } from '../components';
+import MyToast from '../components/MyToast';
 
 
 export default class DiscoverScreen extends React.Component {
@@ -28,37 +30,29 @@ export default class DiscoverScreen extends React.Component {
     };
   }
 
+  navigateTo = (route_name)=>{
+    this.props.navigation.navigate(route_name);
+  }
+
   render() {
     return (
       <View style={{flex:1, backgroundColor:'#eee'}}>
-        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>console.log('点击了item')}>
+        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>this.navigateTo("Sale_SquarePage")}>
           <View style={styles.item} >
-            <Image style={styles.item_icon} source={require('../../img/voice.png')}/>
-            <Text style={styles.item_text}>北航之声</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>this.props.navigation.navigate('Sale_SquarePage')}>
-          <View style={styles.item} >
-            <Image style={styles.item_icon} source={require('../../img/sale.png')}/>
+            <IconFont icon='&#xe60c;' color='#dd5145' size={23} style={{marginHorizontal: 20}} />
             <Text style={styles.item_text}>跳蚤市场</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>console.log('点击了item')}>
+        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>this.navigateTo("Other_OfficialAccountPage")}>
           <View style={styles.item} >
-            <Image style={styles.item_icon} source={require('../../img/paper_plane.png')}/>
-            <Text style={styles.item_text}>纸飞机</Text>
+            <IconFont icon='&#xe736;' color='#f5ab16' size={23} style={{marginHorizontal: 20}} />
+            <Text style={styles.item_text}>订阅号</Text>
           </View>
         </TouchableHighlight>
-        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>console.log('点击了item')}>
+        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>MyToast.show("修理ing...")}>
           <View style={styles.item} >
-            <Image style={styles.item_icon} source={require('../../img/box.png')}/>
-            <Text style={styles.item_text}>Lost & Found</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>console.log('点击了item')}>
-          <View style={styles.item} >
-            <Image style={styles.item_icon} source={require('../../img/more.png')}/>
-            <Text style={styles.item_text}>更多功能，等你来定！</Text>
+            <IconFont icon='&#xea22;' color='#10aeff' size={23} style={{marginHorizontal: 20}} />
+            <Text style={styles.item_text}>扫一扫</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -72,6 +66,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     alignItems: 'center',
+    paddingVertical: 12.5,
   },
   item_icon: {
     width: 26,
@@ -82,8 +77,9 @@ const styles = StyleSheet.create({
     marginRight: 16,
   },
   item_text: {
-    color: '#000',
-    fontSize: 17,
+    color: '#111',
+    fontSize: 16,
+    lineHeight: 19,
   }
 });
 

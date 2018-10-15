@@ -22,7 +22,7 @@ const _TimelinePage = withNavigation(TimelinePage);
 export default class HomeScreenTab extends React.Component {
   
   static navigationOptions = {
-    title: '首页',
+    title: '广场',
     header: null,
   }
 

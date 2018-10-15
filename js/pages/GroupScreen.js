@@ -25,6 +25,7 @@ class FirstPage extends React.Component {
   static navigationOptions = {
     title: '团体',
   }
+  
   constructor(props) {
     super(props);
     this.state = {

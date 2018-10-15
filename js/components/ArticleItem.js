@@ -72,7 +72,6 @@ export default class StatusesItem extends React.Component {
           <Text style={{fontSize:15, color:'#000'}}
                 onPress={this.onHeaderPress.bind(this)}>
               {display_name}
-              <Text style={{color: '#bbb'}}>{self_intro}</Text>
           </Text>
           <Text style={{fontSize:11}} >{ timestamp } { source }</Text>
         </View>
