@@ -37,14 +37,6 @@ export default class TrendingPage extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.navigation.addListener('willFocus', (playload)=>{
-    //   const before = (this.state.user&&this.state.user.id)||-1;
-    //   const after = (Storage.user&&Storage.user.id)||-1;
-    //   if (before != after) {
-    //     this.setState({user:Storage.user});
-    //     this.refreshStatuses();
-    //   }
-    // });
     this.handleLoadMore();
   }
 
@@ -126,6 +118,10 @@ export default class TrendingPage extends React.Component {
     return (
       <Loading style={{height:60}} error={error} error_msg={error_msg} onRetry={this.handleLoadMore}/>
     )
+  }
+
+  componentDidCatch() {
+    MyToast.show("Caught a error in TrendingPage");
   }
 
 }

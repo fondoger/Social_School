@@ -46,7 +46,9 @@ export default class TimelinePage extends React.Component {
     Storage.init().then(() => {
       this.refreshTimeline();
     });
-    this.checkUpdate();
+    setTimeout(()=>{
+      this.checkUpdate();
+    }, 5000);
   }
 
   checkUpdate = () => {
@@ -118,7 +120,7 @@ export default class TimelinePage extends React.Component {
           ListFooterComponent={this.renderFooter.bind(this)}
           ItemSeparatorComponent={()=><View style={{height:8}}></View>}
           onEndReachedThreshold={0.1}
-          extraData={this.state}
+          //extraData={this.state}
         />
       </View>
     );
@@ -144,7 +146,9 @@ export default class TimelinePage extends React.Component {
                 {...this.props} 
                 status={item}
                 handleDeleteItem={()=>{this.deleteItem(index)}} />
-    if (item.type == API.Article.WEIXIN || item.type == API.Article.WEIBO) {
+    if (item.type == API.Article.WEIXIN || 
+        item.type == API.Article.WEIBO || 
+        item.type == API.Article.BUAANEWS) {
       return <ArticleItem 
                 {...this.props}
                 article={item} />

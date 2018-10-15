@@ -169,6 +169,7 @@ const Status = {
 const Article = {
   WEIXIN: "WEIXIN",
   WEIBO: "WEIBO",
+  BUAANEWS: "BUAANEWS",
 }
 
 const StatusReply = {

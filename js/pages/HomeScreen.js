@@ -3,11 +3,6 @@ import React from 'react';
 import {
   View, 
   Text, 
-  Button, 
-  Image, 
-  TouchableOpacity, 
-  StatusBar, 
-  Platform, 
   TouchableHighlight,
   Dimensions,
   StyleSheet,
@@ -20,6 +15,9 @@ import API from '../utils/API_v1';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { IconFont, MyToast } from '../components';
 
+/* Do this out of render method to avoid re-render when switching tabs */
+const _TrendingPage = withNavigation(TrendingPage);
+const _TimelinePage = withNavigation(TimelinePage);
 
 export default class HomeScreenTab extends React.Component {
   
@@ -52,7 +50,6 @@ export default class HomeScreenTab extends React.Component {
           style={styles.tabBar} 
           labelStyle={styles.tabLabel}
           indicatorStyle={styles.tabIndicator}
-          //onTabPress={args=>{MyToast.show(JSON.stringify(args))}}
           useNativeDriver={true}
         />
         <View style={{flex: 4, alignItems: 'flex-end', justifyContent:'center'}} >
@@ -73,8 +70,8 @@ export default class HomeScreenTab extends React.Component {
       <TabView 
         navigationState={this.state}
         renderScene={SceneMap({
-          first: withNavigation(TimelinePage),
-          second: () => <TrendingPage navigation={_this.props.navigation} screenProps={_this.props.screenProps}/>,
+          first: _TimelinePage,
+          second: _TrendingPage,
         })}
         onIndexChange={(idx)=>this.setState({index: idx})}
         renderTabBar={this.renderTabBar}

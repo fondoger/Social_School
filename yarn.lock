@@ -4313,15 +4313,9 @@ react-native-tab-view@^0.0.77:
   dependencies:
     prop-types "^15.6.0"
 
-react-native-tab-view@^1.0.0:
+react-native-tab-view@^1.0.0, react-native-tab-view@^1.2.0:
   version "1.2.0"
   resolved "http://registry.npm.taobao.org/react-native-tab-view/download/react-native-tab-view-1.2.0.tgz#0cc26a1c8e49b6c0d58a30363dbbe43954907c31"
-  dependencies:
-    prop-types "^15.6.1"
-
-react-native-tab-view@^1.0.2:
-  version "1.0.2"
-  resolved "http://registry.npm.taobao.org/react-native-tab-view/download/react-native-tab-view-1.0.2.tgz#66e0bc6d38a227ed2b212e3a256b7902f6ce02ed"
   dependencies:
     prop-types "^15.6.1"
 

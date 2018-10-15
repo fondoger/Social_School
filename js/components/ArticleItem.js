@@ -110,14 +110,32 @@ export default class StatusesItem extends React.Component {
   renderContentByType = ()=>{
     const article = this.state.article;
     const extra_data = JSON.parse(this.state.article.extra_data);
-    if (article.type == 'WEIXIN')
+    if (article.type === 'WEIXIN')
       return this.renderWeixinContent(extra_data);
-    else if (article.type == 'WEIBO')
+    else if (article.type === 'WEIBO')
       return this.renderWeiboContent(extra_data);
+    else if (article.type === 'BUAANEWS') {
+      return this.renderNewsContent(extra_data);
+    }
     return null;
   }
 
-  
+  renderNewsContent = (article) => {
+    return (
+      <View style={{marginLeft: 12, marginRight: 14}}>
+        <Text style={{textAlignVertical: 'center', color: '#555', fontSize: 15, lineHeight: 26 }}>
+          { article.title + "\n" + article.text}
+          <Text style={{color:'#507daf'}}>查看全文</Text>
+        </Text>
+        {
+          article.pic_url ? 
+          <ImageCard {...this.props} style={{marginTop: 12}} images={[{ uri: article.pic_url, }]}/>:
+          null
+        }
+      </View>
+    )
+  }
+
   renderWeixinContent = (article)=>{
     return (
       <View style={{borderRadius: 5, marginLeft:12, marginRight:14, }}>
@@ -127,7 +145,6 @@ export default class StatusesItem extends React.Component {
           <Text style={{color: 'rgba(255,255,255,.5)', fontSize: 12, padding: 8, alignSelf: 'flex-end'}}>微信公众号</Text>
           <View style={{flex: 1}} />
           <Text style={{color: '#fff', fontSize: 17, padding: 16, paddingBottom: 8}}>{ article.linkInfo.title }</Text>
-          <Text></Text>
         </View>
       </View>
     )
@@ -139,10 +156,11 @@ export default class StatusesItem extends React.Component {
       paddingVertical: 8,
       marginTop: 4,
     } : null;
+    const text = is_retweeted ? `<a href='/n/${weibo.user.screen_name}'>@${weibo.user.screen_name}</a>: ${weibo.text}` : weibo.text;
     return (
       <View style={[{flexDirection: 'column'}, retweeted_style]}>
         <View style={{marginLeft: 12, marginRight: 14}}>
-          { this.renderWeiboText(weibo.text) }
+          { this.renderWeiboText(text) }
           {  
             weibo.pics ? this.renderWeiboPics(weibo) :
             weibo.page_info ? this.renderWeiboPageInfo(weibo) : null

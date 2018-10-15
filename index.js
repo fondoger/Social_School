@@ -190,6 +190,10 @@ class App extends React.Component {
     )
   }
 
+  componentDidCatch() {
+    MyToast.show("Caught a error in App");
+  }
+
 }
 
 //import ExploadingHeats from './js/components/ExplosionHeart';
