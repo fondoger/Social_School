@@ -1,10 +1,10 @@
 'use strict';
 import React from 'react';
-import { 
-  View, 
-  WebView, 
+import {
+  View,
+  WebView,
   BackHandler,
-  ActivityIndicator, 
+  ActivityIndicator,
   TouchableHighlight
  } from 'react-native';
 import { MyToast, IconFont } from '../../components';
@@ -19,7 +19,7 @@ export default class WebviewPage extends React.Component {
       headerTintColor: '#222',
       headerLeft: ({ tintColor }) => (
         <TouchableHighlight onPress={()=>navigation.goBack()} underlayColor='#888'>
-          <IconFont icon='&#xe624;' 
+          <IconFont icon='&#xe624;'
             style={{ width: 40, height: Theme.headerHeight, paddingTop: 1.5,
                      alignItems: 'center', backgroundColor: '#fafafa'}}
             size={20} color='#111' />
@@ -41,13 +41,13 @@ export default class WebviewPage extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { 
+    this.state = {
       loading: true,
     };
   }
 
   onBackButtonPressAndroid = () => {
-    if (this.state.canGoBack) {
+    if (this.state.canGoBack && this.webview) {
       this.webview.goBack();
       return true;
     } else {
