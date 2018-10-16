@@ -13,6 +13,15 @@ import Theme from '../utils/Theme';
 import { IconFont } from '../components';
 import MyToast from '../components/MyToast';
 
+function Header(props) {
+  return (
+    <View style={{backgroundColor: Theme.themeColor,
+                  height: Theme.headerHeight, justifyContent: 'center', 
+                  paddingLeft: 16}}>
+      <Text style={{fontSize: 18, color: '#fff'}}>{props.title}</Text>
+    </View>
+  )
+}
 
 export default class DiscoverScreen extends React.Component {
   static navigationOptions = {
@@ -37,6 +46,7 @@ export default class DiscoverScreen extends React.Component {
   render() {
     return (
       <View style={{flex:1, backgroundColor:'#eee'}}>
+        <Header title="发现"/>
         <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>this.navigateTo("Sale_SquarePage")}>
           <View style={styles.item} >
             <IconFont icon='&#xe60c;' color='#dd5145' size={23} style={{marginHorizontal: 20}} />

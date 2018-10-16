@@ -13,16 +13,16 @@ import API, { timeoutFetch } from '../utils/API_v1';
 import Storage from '../utils/Storage';
 import { MyToast, UserAvatar, IconFont } from '../components';
 
-async function runTestCode() {
-  console.log('Getting course table started...');
-  try {
-    const cookie = await getCookie();
-    const courseTable = await getCourseTable(cookie);
 
-  } catch (error) {
-    // TODO
-    console.log(error);
-  }
+
+function Header(props) {
+  return (
+    <View style={{backgroundColor: Theme.themeColor,
+                  height: Theme.headerHeight, justifyContent: 'center', 
+                  paddingLeft: 16}}>
+      <Text style={{fontSize: 18, color: '#fff'}}>{props.title}</Text>
+    </View>
+  )
 }
 
 function RowButton(props) {
@@ -85,6 +85,8 @@ export default class MyScreen extends React.Component {
     const user = this.state.user;
     return (
       <View style={styles.container}>
+        <Header title="我"/>
+        <View style={{height: 16}} />
         <TouchableHighlight style={styles.row} underlayColor={Theme.btnActiveBackground}
           onPress={this.onUserPress}>
           <View style={styles.rowUser}>
@@ -162,7 +164,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: Theme.backgroundColorLight,
     flex: 1,
-    paddingTop: 16,
   },
   row: {
     backgroundColor: '#fff',
