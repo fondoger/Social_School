@@ -231,7 +231,7 @@ const GroupScreenTab = createMaterialTopTabNavigator({
 });
 
 GroupScreenTab.navigationOptions = {
-  title: '团体'
+  title: '广场'
 };
 
 export default GroupScreenTab;

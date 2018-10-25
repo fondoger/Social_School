@@ -113,7 +113,7 @@ export default class StatusesItem extends React.Component {
       return this.renderWeixinContent(extra_data);
     else if (article.type === 'WEIBO')
       return this.renderWeiboContent(extra_data);
-    else if (article.type === 'BUAANEWS') {
+    else if (article.type === 'BUAANEWS' || article.type === 'BUAAART') {
       return this.renderNewsContent(extra_data);
     }
     return null;

@@ -170,6 +170,7 @@ const Article = {
   WEIXIN: "WEIXIN",
   WEIBO: "WEIBO",
   BUAANEWS: "BUAANEWS",
+  BUAAART: "BUAAART",
 }
 
 const StatusReply = {
@@ -422,6 +423,24 @@ const OfficialAccountSubscription = {
   }
 };
 
+const Timeline = {
+  get: (params, successCallback, errorCallback) => {
+    send_request('/timeline', successCallback, errorCallback, {
+      method: 'GET',
+      params: params,
+    });
+  }
+}
+
+const PublicTimeline = {
+  get: (params, successCallback, errorCallback) => {
+    send_request('/public_timeline', successCallback, errorCallback, {
+      method: 'GET',
+      params: params,
+    });
+  }
+}
+
 const Message = {
   create: (params, successCallback, errorCallback) => {
     send_request('/message', successCallback, errorCallback, {
@@ -478,6 +497,8 @@ const API = {
   Message,
   OfficialAccount,
   OfficialAccountSubscription,
+  Timeline, 
+  PublicTimeline,
 }
 
 export default API;

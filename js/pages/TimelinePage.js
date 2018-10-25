@@ -58,13 +58,14 @@ export default class TimelinePage extends React.Component {
   };
 
   refreshTimeline = () => {
-    API.Status.get({type:'timeline', limit:10}, (responseJson)=>{
+    //API.Status.get({type:'timeline', limit:10}, (responseJson)=>{
+    API.Timeline.get({limit:10}, (responseJson)=>{7
       this.setState({
         refreshing: false, 
         statuses: responseJson, 
         load_more_ing: false,
         load_more_error: false,
-        has_next: responseJson.length == 10,
+        has_next: responseJson.length != 0,
       });
       MyToast.show('刷新成功');
     }, (error)=>{
@@ -82,8 +83,9 @@ export default class TimelinePage extends React.Component {
     if (this.state.load_more_ing)
       return
     this.setState({load_more_ing: true, load_more_err: false});
-    API.Status.get({
-          type:'timeline',
+    // API.Status.get({
+    //       type:'timeline',
+    API.Timeline.get({
           limit:10,
           offset:this.state.statuses.length,
     }, (responseJson)=>{
@@ -91,7 +93,7 @@ export default class TimelinePage extends React.Component {
       this.setState({
         load_more_ing: false,
         statuses: _statuses,
-        has_next: responseJson.length == 10,
+        has_next: responseJson.length != 0,
       });
     }, (error)=>{
       this.setState({load_more_ing: false, load_more_err: true});
@@ -148,7 +150,8 @@ export default class TimelinePage extends React.Component {
                 handleDeleteItem={()=>{this.deleteItem(index)}} />
     if (item.type == API.Article.WEIXIN || 
         item.type == API.Article.WEIBO || 
-        item.type == API.Article.BUAANEWS) {
+        item.type == API.Article.BUAANEWS ||
+        item.type == API.Article.BUAAART) {
       return <ArticleItem 
                 {...this.props}
                 article={item} />
