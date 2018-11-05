@@ -18,8 +18,8 @@ import { MyToast, UserAvatar, IconFont } from '../components';
 function Header(props) {
   return (
     <View style={{backgroundColor: Theme.themeColor,
-                  height: Theme.headerHeight, justifyContent: 'center', 
-                  paddingLeft: 16}}>
+                  height: Theme.headerHeight + Theme.statusBarHeight, justifyContent: 'center', 
+                  paddingLeft: 16, paddingTop: Theme.statusBarHeight}}>
       <Text style={{fontSize: 18, color: '#fff'}}>{props.title}</Text>
     </View>
   )

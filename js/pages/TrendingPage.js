@@ -41,7 +41,7 @@ export default class TrendingPage extends React.Component {
   }
 
   refreshStatuses = () => {
-    API.Status.get({type:'trending', limit:10}, (responseJson)=>{
+    API.PublicTimeline.get({limit:10}, (responseJson)=>{
       this.setState({refreshing: false, statuses: responseJson, load_more_ing:false});
       MyToast.show('刷新成功');
     }, (error)=>{
@@ -59,8 +59,7 @@ export default class TrendingPage extends React.Component {
     if (this.state.load_more_ing)
       return
     this.setState({load_more_ing: true, load_more_err: false});
-    API.Status.get({
-          type:'trending',
+    API.PublicTimeline.get({
           limit:10,
           offset:this.state.statuses.length
     }, (responseJson)=>{

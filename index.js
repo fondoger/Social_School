@@ -93,7 +93,8 @@ const MainTabs = createBottomTabNavigator({
 });
 
 MainTabs.navigationOptions = {
-  header: <View style={{height: Theme.statusBarHeight, backgroundColor: Theme.themeColor}}/>,
+  //header: <View style={{height: Theme.statusBarHeight, backgroundColor: Theme.themeColor}}/>, 
+  header: null,
 }
 
 const RootStack = createStackNavigator({

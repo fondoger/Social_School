@@ -5,6 +5,7 @@ import {
   View,
   FlatList,
   StyleSheet,
+  PanResponder,
 } from 'react-native';
 import API from '../utils/API_v1';
 import Storage from '../utils/Storage';
@@ -39,7 +40,6 @@ export default class TimelinePage extends React.Component {
   }
 
   componentDidMount() {
-    SplashScreen.hide();
     API.registerLoginRequired(()=>{
       this.props.navigation.navigate('Common_LoginPage');
     });
@@ -58,7 +58,6 @@ export default class TimelinePage extends React.Component {
   };
 
   refreshTimeline = () => {
-    //API.Status.get({type:'timeline', limit:10}, (responseJson)=>{
     API.Timeline.get({limit:10}, (responseJson)=>{7
       this.setState({
         refreshing: false, 
@@ -83,8 +82,6 @@ export default class TimelinePage extends React.Component {
     if (this.state.load_more_ing)
       return
     this.setState({load_more_ing: true, load_more_err: false});
-    // API.Status.get({
-    //       type:'timeline',
     API.Timeline.get({
           limit:10,
           offset:this.state.statuses.length,
@@ -97,7 +94,7 @@ export default class TimelinePage extends React.Component {
       });
     }, (error)=>{
       this.setState({load_more_ing: false, load_more_err: true});
-    })
+    });
   }
 
   renderFooter() {
@@ -110,7 +107,7 @@ export default class TimelinePage extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.container} >
         <FlatList
           data={this.state.statuses}
           keyExtractor={((item, index) => `${item.id}`)}
@@ -122,7 +119,6 @@ export default class TimelinePage extends React.Component {
           ListFooterComponent={this.renderFooter.bind(this)}
           ItemSeparatorComponent={()=><View style={{height:8}}></View>}
           onEndReachedThreshold={0.1}
-          //extraData={this.state}
         />
       </View>
     );
