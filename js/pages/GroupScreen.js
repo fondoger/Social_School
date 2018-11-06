@@ -104,6 +104,7 @@ class FirstPage extends React.Component {
 
   render() {
     const { hotActivities, hotGroups, hotPublicGroups } = this.state;
+    return <Loading fullScreen={true} />
     if (!hotActivities || !hotActivities || !hotPublicGroups) {
       return <Loading fullScreen={true} />
     }

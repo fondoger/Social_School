@@ -1,10 +1,11 @@
 import React from 'react';
 import { AppRegistry, Button, StyleSheet, Image, Text, View, StatusBar, Platform, TouchableOpacity, TouchableWithoutFeedback, TouchableHighlight } from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
-import MyScreen from './js/pages/MyScreen';
-import HomeScreen from './js/pages/HomeScreen';
-import GroupScreen from './js/pages/GroupScreen';
-import DiscoverScreen from './js/pages/DiscoverScreen';
+import MyScreen from './js/pages/MainTabs/MyScreen';
+import HomeScreen from './js/pages/MainTabs/HomeScreen';
+import GroupScreen from './js/pages/MainTabs/SquareScreen';
+//import GroupScreen from './js/pages/GroupScreen';
+import DiscoverScreen from './js/pages/MainTabs/DiscoverScreen';
 import Theme from './js/utils/Theme';
 import KebiaoPage from './js/pages/KebiaoPage';
 import WechatArticlePage from './js/pages/WechatArticlePage';
