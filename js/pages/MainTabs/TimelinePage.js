@@ -139,7 +139,7 @@ export default class TimelinePage extends React.Component {
                 {...this.props}
                 showSource={true}
                 status={item} />
-    if (item.type == API.Status.USERSTATUS)
+    if (item.type == API.Status.USERSTATUS || item.type == API.Status.GROUPSTATUS)
       return <StatusesItem 
                 {...this.props} 
                 status={item}

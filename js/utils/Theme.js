@@ -1,10 +1,14 @@
-import { Platform, StatusBar } from 'react-native';
+import { Platform, StatusBar, Dimensions } from 'react-native';
+
+const _window = Dimensions.get('window');
 
 const Theme = {
     statusBarColor: '#1d7fd1',
     statusBarHeight: (Platform.OS === 'ios' ? 20 : StatusBar.currentHeight),
     headerHeight: 48,
     tabBarHeight: 50,
+    screenHeight: _window.height,
+    screenWidth: _window.width,
     themeColor: '#2096f3',
     themeColorDeep: '#1872ba',
     themeColorLight: '#53a9ed',

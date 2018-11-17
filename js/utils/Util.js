@@ -22,14 +22,14 @@ export function calcGMTTimeDiff(GMTString, GMTString2) {
 function descHourMin(hour, min) {
   let res = hour + ':' + ('0' +min).slice(-2);
   if (hour < 6)
-    return '凌晨' + res;
+    return '凌晨 ' + res;
   if (hour < 11)
-    return '早上' + res;
+    return '早上 ' + res;
   if (hour < 13)
-    return '中午' + res;
+    return '中午 ' + res;
   if (hour < 18)
-    return '下午' + res;
-  return '晚上' + res;
+    return '下午 ' + res;
+  return '晚上 ' + res;
 }
 
 export function getGMTTimeDiff(GMTString, type) {
@@ -57,9 +57,9 @@ export function getGMTTimeDiff(GMTString, type) {
     return hour_min;
   }
   if (isYestday(dateTime, now))
-    return '昨天 '+ hour_min;
+    return '昨天 '+ hour + ':' + ('0' +minute).slice(-2);
   if (isTheDayBeforeYestday(dateTime, now))
-    return '前天 '+ hour_min;
+    return '前天 '+ hour + ':' + ('0' +minute).slice(-2);
   if (year == year_new)
     return `${month}月${day}日`;
   return `${year}年${month}月${day}日` ;

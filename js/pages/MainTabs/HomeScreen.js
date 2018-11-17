@@ -36,13 +36,21 @@ export default class HomeScreenTab extends React.Component {
     title: '首页',
   });
 
-  state = {
-    index: 0,
-    routes: [
-      { key: 'first', title: '关注', index: 0 },
-      { key: 'second', title: '推荐', index: 1 },
-    ],
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0,
+      routes: [
+        { key: 'first', title: '关注', index: 0 },
+        { key: 'second', title: '推荐', index: 1 },
+      ],
+    };
+    this.tabFocuslistenrs = [null, null];
+  }
+
+  setTabFocusListner = (index, listner) => {
+    this.tabFocuslistenrs[index] = listner;
+  }
 
   componentDidMount() {
     SplashScreen.hide();
@@ -59,7 +67,7 @@ export default class HomeScreenTab extends React.Component {
           <TouchableWithoutFeedback onPress={()=>{this.props.navigation.navigate('Common_SearchPage')}}>
             <View style={{flexDirection:'row', marginLeft: 8, backgroundColor:'rgba(255,255,255,.25)', borderRadius: 20, paddingVertical: 3, paddingLeft: 6, paddingRight: 10}}>
               <IconFont color='#fff' size={18} icon='&#xe623;' />
-              <Text style={{color:'#fff', fontSize:15, marginLeft: 4}}>搜索</Text>
+              <Text style={{color:'rgba(255,255,255,.85)', fontSize:15, marginLeft: 4}}>搜索</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -88,11 +96,24 @@ export default class HomeScreenTab extends React.Component {
     return (
       <TabView 
         navigationState={this.state}
-        renderScene={SceneMap({
-          first: _TimelinePage,
-          second: _TrendingPage,
-        })}
-        onIndexChange={(idx)=>this.setState({index: idx})}
+        // renderScene={SceneMap({
+        //   first: _TimelinePage,
+        //   second: _TrendingPage,
+        // })}
+        renderScene={({ route }) => {
+          switch (route.index) {
+            case 0: return <TimelinePage {...this.props} setTabFocusListner={this.setTabFocusListner} />;
+            case 1: return <TrendingPage {...this.props} setTabFocusListner={this.setTabFocusListner}/>;
+            default: return null;
+          }
+        }} 
+        onIndexChange={(idx)=>{
+          this.setState({index: idx});
+          if (this.tabFocuslistenrs[idx]) {
+            this.tabFocuslistenrs[idx]();
+          }
+          return true;
+        }}
         renderTabBar={this.renderTabBar}
         initialLayout={Dimensions.get('window')}
       />

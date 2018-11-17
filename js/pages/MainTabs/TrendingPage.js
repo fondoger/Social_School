@@ -17,7 +17,7 @@ import {
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
-import { GroupPostItem, Loading, MyToast, StatusesItem } from '../../components';
+import { GroupPostItem, Loading, MyToast, StatusesItem, ArticleItem } from '../../components';
 
 export default class TrendingPage extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -27,17 +27,24 @@ export default class TrendingPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: Storage.user,
       statuses: [],
       refreshing: false,
       load_more_ing: false,
       load_more_err: false,
       has_next: true,
+      pageInitialized: false,
     };
   }
 
   componentDidMount() {
-    this.handleLoadMore();
+    //this.handleLoadMore();
+    //this.props.navigation
+    this.props.setTabFocusListner(1, ()=>{
+      if (!this.state.pageInitialized && Storage.user) {
+        //this.setState({pageInitialized: true});
+        this.handleLoadMore();
+      };
+    })
   }
 
   refreshStatuses = () => {
@@ -64,7 +71,7 @@ export default class TrendingPage extends React.Component {
           offset:this.state.statuses.length
     }, (responseJson)=>{
       const _statuses = [...this.state.statuses, ...responseJson]
-      this.setState({load_more_ing: false, statuses: _statuses, has_next: responseJson.length==10});
+      this.setState({load_more_ing: false, statuses: _statuses, has_next: responseJson.length!=0});
     }, (error)=>{
       MyToast.show(error.message)
       this.setState({load_more_ing: false, load_more_err: true});
@@ -72,6 +79,17 @@ export default class TrendingPage extends React.Component {
   }
 
   render() {
+    // if (!this.state.pageInitialized) {
+    //   return (
+    //     <View style={{flex: 1, backgroundColor: '#fff',
+    //         justifyContent: 'center', alignItems: 'center'}}>
+    //       <View style={{flexDirection: 'row'}}>
+    //         <ActivityIndicator size='small' color='#ccc' />
+    //         <Text style={{color:'#aaa', fontSize:15, marginLeft: 5}}>Loading...</Text>
+    //       </View>
+    //     </View>
+    //   );
+    // }
     return (
       <View style={{flex:1, backgroundColor:'#eee'}}>
         <FlatList
@@ -99,16 +117,27 @@ export default class TrendingPage extends React.Component {
 
   renderByType(_item) {
     const { index, item } = _item;
+    if (item.price)
+      return <SaleItem {...this.props} sale={item} />
     if (item.type == API.Status.GROUPPOST)
       return <GroupPostItem 
                 {...this.props}
                 showSource={true}
                 status={item} />
-    return <StatusesItem 
-              {...this.props} 
-              status={item}
-              handleDeleteItem={()=>{this.deleteItem(index)}}
-            />
+    if (item.type == API.Status.USERSTATUS)
+      return <StatusesItem 
+                {...this.props} 
+                status={item}
+                handleDeleteItem={()=>{this.deleteItem(index)}} />
+    if (item.type == API.Article.WEIXIN || 
+        item.type == API.Article.WEIBO || 
+        item.type == API.Article.BUAANEWS ||
+        item.type == API.Article.BUAAART) {
+      return <ArticleItem 
+                {...this.props}
+                article={item} />
+    }
+    return null;
   }
 
   renderFooter() {

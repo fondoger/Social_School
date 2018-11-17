@@ -6,6 +6,7 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
+  ActivityIndicator,
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from 'react-native';
@@ -31,7 +32,7 @@ export function DividingLine(props) {
 
 export function Loading(props) {
   const { fullScreen, error } = props;
-  const size = fullScreen ? 60 : 40;
+  const size = fullScreen ? 40 : 20;
   const error_msg = props.error_msg !== undefined ? props.error_msg : 'Please provide error_msg';
   return (
     <TouchableWithoutFeedback onPress={props.onRetry}>
@@ -39,7 +40,7 @@ export function Loading(props) {
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
           {error ?
             <Text style={{ fontSize: 14, color: '#888' }}>{error_msg}</Text> :
-            <Image style={{ width: size, height: size }} source={require('../../img/loading-120px.webp')} />
+            <ActivityIndicator size={size} color="#bbb"/>
           }
         </View>
         <View style={fullScreen ? { flex: 1 } : null}></View>
@@ -204,12 +205,12 @@ function _UserAvatar(props) {
 export const UserAvatar = withNavigation(_UserAvatar);
 
 function _SquareAvatarView(props) {
-  const { avatar, size } = props;
+  const { avatar, size, borderRadius } = props;
   return (
     <PlaceholderImage
       style={{
-        width: size, height: size, borderRadius: 3,
-        borderWidth: 0.5, borderColor: 'rgba(200,200,200,0.5)'
+        width: size, height: size, borderRadius: borderRadius || 3,
+        borderWidth: 0.5, borderColor: 'rgba(200,200,200,0.3)'
       }}
       source={{ uri: avatar + '!thumbnail' }} 
     />

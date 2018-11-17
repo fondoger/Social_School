@@ -116,11 +116,11 @@ export default class StatusPage extends React.Component {
     const error_msg = load_more_err ? '加载失败, 点击重试' : '没有更多内容';
     //const height = replies.length==0?160: 60;
     if (replies.length != 0 && !has_next)
-      return <View style={{ height: 120 }} />
+      return <View style={{ height: 120, marginBottom: 300, }} />
     return (
       <Loading
         error={error}
-        style={{ height: 120, backgroundColor: '#fff', marginBottom: 120 }}
+        style={{ height: 120, marginBottom: 400, backgroundColor: '#fff'}}
         error_msg={error_msg}
         onRetry={this.handleLoadMore.bind(this)}
       />
@@ -149,7 +149,7 @@ export default class StatusPage extends React.Component {
         onRetry={this.initialLoading.bind(this)}
       />
     return (
-      <View style={{ flex: 1, backgroundColor: Theme.backgroundColorDeep }}>
+      <View style={{ flex: 1, backgroundColor: '#F2F1EE' }}>
         <FlatList
           ListHeaderComponent={this.renderHeader.bind(this)}
           ListFooterComponent={this.renderFooter.bind(this)}

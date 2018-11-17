@@ -1,5 +1,12 @@
 import React from 'react';
-import { AppRegistry, Button, StyleSheet, Image, Text, View, StatusBar, Platform, TouchableOpacity, TouchableWithoutFeedback, TouchableHighlight } from 'react-native';
+import { 
+  Text, 
+  View, 
+  Easing,
+  Animated, 
+  StatusBar, 
+  AppRegistry, 
+} from 'react-native';
 import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 import MyScreen from './js/pages/MainTabs/MyScreen';
 import HomeScreen from './js/pages/MainTabs/HomeScreen';
@@ -143,6 +150,13 @@ const RootStack = createStackNavigator({
     headerTintColor: '#ffffff',
     gesturesEnabled: true,
     headerLeft: HeaderLeft,
+  }),
+  transitionConfig : () => ({
+  	transitionSpec: {
+  		duration: 0,
+  		timing: Animated.timing,
+  		easing: Easing.step0,
+  	},
   }),
 });
 

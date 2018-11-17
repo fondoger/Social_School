@@ -67,7 +67,6 @@ export default class StatusesItem extends React.Component {
     ContextMenu.showMenu(options, e);
   }
 
-
   renderUserInfo() {
     const item = this.state.status;
     const isGroupStatus = item.type === API.Status.GROUPSTATUS;
@@ -153,7 +152,6 @@ export default class StatusesItem extends React.Component {
     }
   }
 
-
   renderFooter() {
     const item = this.state.status;
     return (
@@ -170,7 +168,6 @@ export default class StatusesItem extends React.Component {
             <Text style={{marginLeft:2, color:'#697480', fontSize:10}}>{item.likes==0?'赞':item.likes}</Text>
           </View>
         </TouchableWithoutFeedback>
-        
       </View>
     )
   }

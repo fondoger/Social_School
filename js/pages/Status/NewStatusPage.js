@@ -151,7 +151,7 @@ export default class NewStatusPage extends React.Component {
             multiline={true}
             value={this.state.textValue}
             placeholder={
-              navParams.type==API.Status.USERSTATUS?"分享新鲜事...":
+              navParams.type==API.Status.USERSTATUS?"发布你的想法、新鲜事、照片...":
               navParams.type==API.Status.GROUPSTATUS?"分享团体新鲜事":
               navParams.type==API.Status.GROUPPOST?"正文":null
             }
