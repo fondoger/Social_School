@@ -32,7 +32,7 @@ export function DividingLine(props) {
 
 export function Loading(props) {
   const { fullScreen, error } = props;
-  const size = fullScreen ? 40 : 20;
+  const size = fullScreen ? 30 : 20;
   const error_msg = props.error_msg !== undefined ? props.error_msg : 'Please provide error_msg';
   return (
     <TouchableWithoutFeedback onPress={props.onRetry}>
@@ -83,7 +83,7 @@ export function HeaderRight(props) {
   return (
     <TouchableHighlight onPress={onPress} underlayColor={tintColor}>
       <View style={{ backgroundColor }} >
-        <IconFont icon={icon} style={{ width: 54, alignItems: 'center', padding: 12 }} size={22} color={tintColor} />
+        <IconFont icon={icon} style={{ width: 54, alignItems: 'center', padding: 12 }} size={20} color={tintColor} />
       </View>
     </TouchableHighlight>
   );
@@ -108,7 +108,7 @@ function _ListUserItem(props) {
   const backgroundColor = props.backgroundColor || Theme.backgroundColorLight;
   const dividingLineColor = props.dividingLineColor || '#ddd';
   const onPress = () => {
-    props.navigation.navigate('User_ProfilePage', { user });
+    props.navigation.navigate('User_UserPage', { user });
   }
   return (
     <View>
@@ -192,7 +192,7 @@ function _UserAvatarView(props) {
 function _UserAvatar(props) {
   const {  user, hideLogo, size, onPress} = props;
   const defaultOnPress = () => {
-    props.navigation.navigate('User_ProfilePage', { user });
+    props.navigation.navigate('User_UserPage', { user });
   }
   return (
     <TouchableWithoutFeedback onPress={onPress || defaultOnPress} >
@@ -224,7 +224,7 @@ function _GroupAvatar(props) {
   }
   return (
     <TouchableWithoutFeedback onPress={onPress || defaultOnPress}>
-      <View><_SquareAvatarView {...props} avatar={group.avatar} /></View>
+      <View style={props.style}><_SquareAvatarView {...props} avatar={group.avatar} /></View>
     </TouchableWithoutFeedback>
   )
 }

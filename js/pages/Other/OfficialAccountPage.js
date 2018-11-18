@@ -55,21 +55,21 @@ export default class OfficialAccountPage extends React.Component {
   renderAccountItem({item, index}) {
     const display_name = item.accountname;
     return (
-      <TouchableHighlight onPress={()=>this.goToDetailPage(item)}>
+      <TouchableHighlight onPress={()=>this.goToDetailPage(item)} underlayColor={Theme.activeUnderlayColor}>
       <View style={{backgroundColor: '#fff'}}>
-        <View style={{flexDirection:'row', padding: 12, alignItems:'center'}}>
-            <OfficialAccountAvatar account={item} size={44} />
-            <View style={{paddingLeft:12, flex: 1}}>
+        <View style={{flexDirection:'row', padding: 12, paddingVertical: 16, alignItems:'center'}}>
+            <OfficialAccountAvatar account={item} size={48} />
+            <View style={{paddingHorizontal:12, flex: 1,}}>
                 <Text style={{fontSize:15, color:'#000'}}>
                     {display_name}
                 </Text>
-                <Text style={{fontSize:12, color:'#666'}} >
+                <Text style={{fontSize:12, color:'#666', marginTop: 4,}} numberOfLines={1} >
                     { item.description }
                 </Text>
             </View>
             <FollowButton id={item.id} followed_by_me={item.followed_by_me} />
         </View>
-        <DividingLine color="#eee" paddingLeft={12} paddingRight={12}/>
+        <DividingLine color="#eee" paddingLeft={0} paddingRight={0}/>
       </View>
       </TouchableHighlight>
     )
@@ -89,10 +89,17 @@ export default class OfficialAccountPage extends React.Component {
     }
     return (
       <FlatList
-        style={{backgroundColor: '#fff'}}
+        style={{flex: 1, backgroundColor: '#fff'}}
         data={this.state.items}
         keyExtractor={(item) => item.id.toString()}
         renderItem={this.renderAccountItem.bind(this)}
+        ListFooterComponent={()=>(
+          <View style={{paddingTop: 40, flexDirection: 'row', alignItems: 'center'}}>
+            <View style={{height: .5, backgroundColor: '#e8e8e8', flex: 1}}/>
+            <Text style={{margin: 8, color: '#ddd', fontSize: 12}}>我也是有底线的！</Text>
+            <View style={{height: .5, backgroundColor: '#e8e8e8', flex: 1}}/>
+          </View>
+        )}
       />
     )
   }
@@ -129,10 +136,10 @@ class FollowButton extends React.Component {
     renderUnfollowButton = () => {
       return (
         <TouchableWithoutFeedback onPress={this.onUnfollowPress} >
-          <View style={{width: 60, height:30, backgroundColor: '#ddd', flexDirection: 'row',
-              justifyContent:'center', alignItems:'center', borderRadius:3, borderWidth:1, borderColor:'#ddd'}}>
+          <View style={{width: 60, height:28, backgroundColor: '#ddd', flexDirection: 'row',
+              justifyContent:'center', alignItems:'center', borderRadius:5, }}>
             { this.state.unfollowing ? <ActivityIndicator style={{marginRight:12,}} size='small' color="#666" />:
-              <Text style={{color:'#666', fontSize:14}}>已关注</Text>}
+              <Text style={{color:'#aaa', fontSize:13}}>已关注</Text>}
           </View>
         </TouchableWithoutFeedback>
       )
@@ -140,10 +147,13 @@ class FollowButton extends React.Component {
     renderFollowButton = () => {
       return (
         <TouchableWithoutFeedback onPress={this.onFollowPress} >        
-          <View style={{ width: 60, height:30, flexDirection: 'row',
-              justifyContent:'center', alignItems:'center', borderRadius:3, borderWidth:1, borderColor:Theme.themeColor}}>
-            { this.state.following ? <ActivityIndicator style={{marginRight:12,}} size='small' color={Theme.themeColor} /> :
-              <Text style={{color:Theme.themeColor, fontSize:14}}>关注</Text> }
+          <View style={{width: 60, height: 28, backgroundColor: Theme.themeColor, padding: 1, borderRadius: 5}}>
+            <View style={{height: 26, width: 58, flexDirection: 'row', backgroundColor: '#fff',
+                justifyContent:'center', alignItems:'center', borderRadius: 4, }}>
+              { this.state.following ? <ActivityIndicator style={{marginRight:12,}} size='small' color={Theme.themeColorD} /> :
+                <Text style={{color:Theme.themeColor, fontSize:13}}>关注</Text> }
+            </View>
+
           </View>
         </TouchableWithoutFeedback>
       )

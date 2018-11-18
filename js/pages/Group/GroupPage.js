@@ -64,10 +64,14 @@ export default class GroupPage extends React.Component {
   onMoreButtonPress(e) {
 		const options = [
 			[ '发表贴子', '\ue66c', () => {
+        setTimeout(()=>{
 					this.props.navigation.navigate('Status_NewStatusPage', { type: API.Status.GROUPPOST, group: this.state.group });
+        }, 300);
 			}],
 			[ '团体微博', '\ue62d', () => {
+        setTimeout(()=>{
 					this.props.navigation.navigate('Status_NewStatusPage', { type: API.Status.GROUPSTATUS, group: this.state.group });
+        }, 300);
 			}],
 			[ '发起活动', '\ue6c5', () => MyToast.show('发起活动') ],
 		];
@@ -240,7 +244,6 @@ export default class GroupPage extends React.Component {
           renderSectionHeader={this.renderSectionHeader.bind(this)}
           renderItem={this.renderSectionItem.bind(this)}
           stickySectionHeadersEnabled={false}
-          ItemSeparatorComponent={()=><View style={{height:8}}></View>}
           onScroll={this.handleScroll.bind(this)}
         />
         <Animated.View style={{position:'absolute', top:0, left:0, right:0,

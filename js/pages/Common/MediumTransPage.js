@@ -24,7 +24,7 @@ export default class MediumTransPage extends React.Component {
     const { username, topic } = this.props.navigation.state.params;
     if (username) {
       API.User.get({username:username}, (responseJson)=>{
-        this.props.navigation.replace('User_ProfilePage', {user:responseJson});
+        this.props.navigation.replace('User_UserPage', {user:responseJson});
       }, (error)=>{});
     }
     if (topic) {

@@ -34,20 +34,26 @@ export default class StatusReplyItem extends React.Component {
     const item = this.state.reply;
     return (
       <TouchableHighlight underlayColor={Theme.activeUnderlayColor} onPress={this.handleLongPress} >
-        <View style={{backgroundColor: '#fff', flexDirection:'row', paddingTop:2}}>
-          <UserAvatar {...this.props} user={item.user} size={38} style={{margin:12}}/>
-          <View style={{flex:1, borderBottomWidth:0.5, borderColor:'#e8e8e8', paddingTop:12, paddingBottom: 12}}>
-            <Text style={{color:'#555', fontSize:12}}>{item.user.username}</Text>
-            <Text style={{color: '#888', fontSize: 10}}>{getGMTTimeDiff(item.timestamp)}</Text>
-            <View style={{paddingTop:8, paddingRight:12}}>
-              {this._renderContent(item.text)}
-            </View>
-            <TouchableWithoutFeedback hint='Like Button' onPress={this.onLikePress} >
-              <View style={{position: 'absolute', flexDirection: 'row', top:0, right: 0, padding: 12, alignItems:'center'}}>
-                <Text style={{marginRight:2, paddingBottom: 1, color:'#697480', fontSize:10}}>{item.likes==0?'赞':item.likes}</Text>
-                <IconFont icon={item.liked_by_me?'\ue672':'\ue671'} size={17} color={item.liked_by_me?'#f56262':'#666'} />
+        <View>
+          <View style={{backgroundColor: '#fff', flexDirection:'row', paddingTop:2}}>
+            <UserAvatar {...this.props} user={item.user} size={38} style={{margin:12}}/>
+            <View style={{flex:1, paddingTop:12, paddingBottom: 12}}>
+              <Text style={{color:'#555', fontSize:12}}>{item.user.username}</Text>
+              <Text style={{color: '#888', fontSize: 10}}>{getGMTTimeDiff(item.timestamp)}</Text>
+              <View style={{paddingTop:8, paddingRight:12}}>
+                {this._renderContent(item.text)}
               </View>
-            </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback hint='Like Button' onPress={this.onLikePress} >
+                <View style={{position: 'absolute', flexDirection: 'row', top:0, right: 0, padding: 12, alignItems:'center'}}>
+                  <Text style={{marginRight:2, paddingBottom: 1, color:'#697480', fontSize:10}}>{item.likes==0?'赞':item.likes}</Text>
+                  <IconFont icon={item.liked_by_me?'\ue672':'\ue671'} size={17} color={item.liked_by_me?'#f56262':'#666'} />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </View>
+          <View style={{flexDirection: 'row'}}>
+            <View style={{width: 62, height: .5, backgroundColor: '#f4f4f4'}} />
+            <View style={{flex: 1, height: .5, backgroundColor: '#e8e8e8'}} />
           </View>
         </View>
       </TouchableHighlight>
@@ -58,7 +64,7 @@ export default class StatusReplyItem extends React.Component {
     const reply = this.state.reply;
     const index = this.props.index;
     const option = (Storage.user && (reply.user.id == Storage.user.id) ? 
-      {name: '删除评论', callback: () => {
+      ['删除评论', () => {
           API.StatusReply.delete({'id': reply.id}, (responseJson)=>{
             MyToast.show('删除成功');
             this.props.handleDeleteItem();
@@ -66,11 +72,11 @@ export default class StatusReplyItem extends React.Component {
             MyToast.show('删除失败', {type:'warning'});
           });
         }
-      }:
-      {name: '举报评论', callback: () => MyToast.show('点击了举报')});
+      ]:
+      ['举报评论', () => MyToast.show('点击了举报')]);
     let options = [
-      {name: '回复评论', callback: () => MyToast.show('点击了回复')}, 
-      {name: '复制评论', callback: () => MyToast.show('点击了复制')}, 
+      ['回复评论', () => MyToast.show('点击了回复')], 
+      ['复制评论', () => MyToast.show('点击了复制')], 
       option
     ];
     ContextMenu.showMenu(options, e);

@@ -21,7 +21,7 @@ const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;
 const ScreenHeight = _window.height;
 
-export default class EditProfilePage extends React.Component {
+export default class EditUserPage extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     title: '编辑个人信息',
   });

@@ -13,6 +13,7 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import { IconFont } from './Utils';
+import Theme from '../utils/Theme';
 
 const _window = require('Dimensions').get('window');
 const ScreenWidth = _window.width;
@@ -71,11 +72,12 @@ export default class ContextMenu extends React.Component {
             {
               options.map((option, index) => (
                 <TouchableHighlight
-                  key={index} onPress={() => {
+                  key={index.toString()} onPress={() => {
                     const callback = withIcon ? option[2]: option[1];
                     callback();
                     setTimeout(this._hide, 150);
                   }}
+                  underlayColor="#a0a0a0"
                 >
                   {withIcon ? this.renderOptionWithIcon(option) : this.renderOption(option)}
                 </TouchableHighlight>

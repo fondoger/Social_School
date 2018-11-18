@@ -31,8 +31,8 @@ export default class StatusesItem extends React.Component {
     }
   }
 
-  jumpToUserProfilePage = () => {
-    this.props.navigation.navigate('User_ProfilePage', {user: this.state.status.user});
+  jumpToUserPage = () => {
+    this.props.navigation.navigate('User_UserPage', {user: this.state.status.user});
   };
 
   jumpToGroupPage = () => {
@@ -43,7 +43,7 @@ export default class StatusesItem extends React.Component {
     if (this.state.status.type == API.Status.GROUPSTATUS)
       this.jumpToGroupPage();
     else
-      this.jumpToUserProfilePage();
+      this.jumpToUserPage();
   };
 
   handleLongPress = (e) => {
@@ -81,7 +81,7 @@ export default class StatusesItem extends React.Component {
       <Text style={{color:'#888'}}>{getGMTTimeDiff(item.timestamp)}</Text>
     );
     const groupStatusSender = isGroupStatus ? (
-      <Text style={{color: Theme.themeColor}} onPress={this.jumpToUserProfilePage}>  {item.user.username}</Text>
+      <Text style={{color: Theme.themeColor}} onPress={this.jumpToUserPage}>  {item.user.username}</Text>
     ) : null;
     return (
       <View style={{flexDirection:'row', paddingLeft:12, paddingTop:12, alignItems:'center'}}>

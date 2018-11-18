@@ -39,7 +39,7 @@ import Status_NewStatusPage from './js/pages/Status/NewStatusPage';
 import User_ChatPage from './js/pages/User/ChatPage';
 import User_QRCodePage from './js/pages/User/QRCodePage';
 import User_MessagePage from './js/pages/User/MessagePage';
-import User_ProfilePage from './js/pages/User/ProfilePage';
+import User_UserPage from './js/pages/User/UserPage';
 import User_EditProfilePage from './js/pages/User/EditProfilePage';
 import User_EditUsernamePage from './js/pages/User/EditUsernamePage';
 import User_EditSelfIntroPage from './js/pages/User/EditSelfIntroPage';
@@ -122,7 +122,7 @@ const RootStack = createStackNavigator({
   User_ChatPage,
   User_QRCodePage,
   User_MessagePage,
-  User_ProfilePage,
+  User_UserPage,
   User_EditProfilePage,
   User_EditUsernamePage,
   User_EditSelfIntroPage,

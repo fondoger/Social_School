@@ -24,7 +24,7 @@ const ScreenHeight = _window.height;
 const StatusBarHeight = (Platform.OS === 'ios' ? 20 : StatusBar.currentHeight);
 const headerHeight = Theme.headerHeight + StatusBarHeight;
 
-export default class ProfilePage extends React.Component {
+export default class UserPage extends React.Component {
   static navigationOptions = ({ navigation }) => ({
     headerTransparent: true,
     headerStyle: {

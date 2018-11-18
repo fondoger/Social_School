@@ -18,11 +18,22 @@ export default class StatusPage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const status = navigation.state.params.status;
     const name = status.type == API.Status.GROUPSTATUS ? status.group.groupname : status.user.username;
-    const title = status.type == API.Status.GROUPPOST ? '的帖子' : '的微博';
+    const _title = name + (status.type == API.Status.GROUPPOST ? '的帖子' : '的微博');
+    const title = navigation.state.params.showTitle ? _title : "";
+    
+    const style = {
+        backgroundColor: '#fff',
+        borderBottomWidth: navigation.state.params.showTitle ? .5 : 0,
+        borderColor:'#ccc',      
+        paddingTop: Theme.statusBarHeight,
+        height: Theme.headerHeight + Theme.statusBarHeight,
+        elevation: 0,
+        shadowOpacity: 0,
+    }
     return {
-      title: name + title,
+      title: title,
       headerTintColor: Theme.lightHeaderTintColor,
-      headerStyle: Theme.lightHeaderStyle,
+      headerStyle: style,
       headerRight: (
         <HeaderRight 
           tintColor={Theme.lightHeaderTintColor} 
@@ -139,11 +150,22 @@ export default class StatusPage extends React.Component {
     });
   }
 
+  handleScroll = (e) => {
+    const offsetY = e.nativeEvent.contentOffset.y;
+    if (offsetY > 25 && !this.showTitle) {
+      this.showTitle = true;
+      this.props.navigation.setParams({showTitle: true});
+    } else if (offsetY <= 25 && this.showTitle ){
+      this.showTitle = false;
+      this.props.navigation.setParams({showTitle: false});
+    }
+  }
+
   render() {
     const { status, init_load_ing, init_load_err, } = this.state;
     if (init_load_ing)
       return <Loading
-        style={{ backgroundColor: '#eee' }}
+        style={{ backgroundColor: '#fff' }}
         fullScreen={true}
         error={init_load_err}
         onRetry={this.initialLoading.bind(this)}
@@ -160,6 +182,7 @@ export default class StatusPage extends React.Component {
           onRefresh={this.handleRefresh}
           onEndReached={this.handleLoadMore}
           onEndReachedThreshold={0.01}
+          onScroll={this.handleScroll}
         />
         <BottomInputBar onSendPress={this.onSendPress.bind(this)} />
       </View>
@@ -197,16 +220,34 @@ export default class StatusPage extends React.Component {
     this.handleLoadMore({ reload: true });
   }
 
-  renderHeader() {
+  renderUserStatus() {
     const item = this.state.status;
     return (
-      <View style={{ paddingTop: 8 }}>
-        {item.type === API.Status.GROUPPOST ? this.renderPostTitle() : null}
-        <StatusesItem style={{ borderBottomWidth: 0.5, borderColor: '#ddd' }} {...this.props} hideMenuButtom={true} status={item} />
-        {item.type === API.Status.GROUPPOST ? null : null}
+      <View style={{ marginTop: -12}}>
+        <StatusesItem style={{ borderBottomWidth: 0.5, borderColor: '#ddd', }} {...this.props} hideMenuButtom={true} status={item} />
         {this.renderSectionHeader()}
       </View>
-    )
+    );
+
+  }
+
+  renderGroupPost() {
+    const item = this.state.status;
+    return (
+      <View>
+        { this.renderPostTitle() }
+        <StatusesItem style={{ borderBottomWidth: 0.5, borderColor: '#ddd' }} {...this.props} hideMenuButtom={true} status={item} />
+        {this.renderSectionHeader()}
+      </View>
+    );
+  }
+
+  renderHeader() {
+    if (this.state.status.type === API.Status.GROUPPOST) {
+      return this.renderGroupPost();
+    } else {
+      return this.renderUserStatus();
+    }
   }
 
   renderSectionHeader() {
@@ -214,7 +255,7 @@ export default class StatusPage extends React.Component {
     const color = this.state.reverseOrder ? Theme.themeColor : '#666';
     return (
       <View style={{
-        padding: 12, marginTop: 8, flexDirection: 'row', alignItems: 'center',
+        padding: 12, marginTop: 10, flexDirection: 'row', alignItems: 'center',
         backgroundColor: '#fff', borderBottomWidth: 0.5, borderColor: '#ddd'
       }}>
         <View style={{ height: 15, borderRadius: 2, marginRight: 4, width: 3, backgroundColor: Theme.themeColor }} />
@@ -234,46 +275,45 @@ export default class StatusPage extends React.Component {
   }
 
   navigateToUserPage() {
-    this.props.navigation.navigate('User_ProfilePage', { user: this.state.status.user });
+    this.props.navigation.navigate('User_UserPage', { user: this.state.status.user });
   }
 
   renderPostTitle() {
     const status = this.state.status;
     return (
-      <View style={{ backgroundColor: '#fff', flexDirection: 'row', padding: 12, borderColor: '#ddd', borderBottomWidth: 0.5, }} >
-        <View style={{ flex: 1, paddingTop: 4 }}>
-          <Text style={{ color: Theme.themeColor || '#444', fontSize: 17, fontWeight: '500', }}>{status.title}</Text>
-          <Text style={{ color: '#888', fontSize: 12, marginTop: 4 }}>
-            By <Text onPress={this.navigateToUserPage.bind(this)}>{status.user.username} </Text>
-            in <Text onPress={this.navigateToGroupPage.bind(this)} >{status.group.groupname} </Text>
-            at {getGMTTimeDiff(status.timestamp)}
+      <View style={{ backgroundColor: '#fff', flexDirection: 'row', padding: 12, paddingTop: 0,
+            borderColor: '#ddd', borderBottomWidth: 0.5, alignItems: 'flex-start' }} >
+        <View style={{ flex: 1, paddingTop: 0 }}>
+          <Text style={{ color: '#222', fontSize:  22, fontWeight: 'bold', lineHeight: 30}}>{status.title}</Text>
+          <Text style={{ color: '#aaa', fontSize: 12,  marginTop: 8, marginBottom: 4 }}>
+            <Text style={{color: '#555'}} onPress={this.navigateToUserPage.bind(this)}>{status.user.username} </Text>
+            来自 <Text style={{color: Theme.themeColor}} onPress={this.navigateToGroupPage.bind(this)} >{status.group.groupname} </Text>
+            小组    {getGMTTimeDiff(status.timestamp)}
           </Text>
         </View>
-        <View style={{ justifyContent: 'center' }}>
-          <UserAvatar user={status.user} size={40} />
-        </View>
+        <UserAvatar style={{marginLeft: 8}} user={status.user} size={44} />
       </View>
     )
   }
 
-  renderPostUserDetail() {
-    const status = this.state.status;
-    return (
-      <TouchableHighlight
-        underlayColor={Theme.activeUnderlayColor}
-        onPress={() => this.props.navigation.navigate('User_ProfilePage', { user: status.user })}
-        style={[{ marginTop: 8 }, Styles.borderBlockItem]}>
-        <View style={{ flexDirection: 'row', padding: 12, backgroundColor: '#fff' }} >
-          <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: 16, color: '#444', fontWeight: '500', marginBottom: 4 }}
-            >{status.user.username}</Text>
-            <Text style={{ fontSize: 12, color: '#888' }} >{status.user.self_intro}</Text>
-          </View>
-          <UserAvatar size={48} {...this.props} user={this.state.status.user} />
-        </View>
-      </TouchableHighlight>
-    )
-  }
+  // renderPostUserDetail() {
+  //   const status = this.state.status;
+  //   return (
+  //     <TouchableHighlight
+  //       underlayColor={Theme.activeUnderlayColor}
+  //       onPress={() => this.props.navigation.navigate('User_UserPage', { user: status.user })}
+  //       style={[{ marginTop: 8 }, Styles.borderBlockItem]}>
+  //       <View style={{ flexDirection: 'row', padding: 12, backgroundColor: '#fff', alignItems: 'flex-start' }} >
+  //         <View style={{ flex: 1 }}>
+  //           <Text style={{ fontSize: 16, color: '#444', fontWeight: '500', marginBottom: 4 }}
+  //           >{status.user.username}</Text>
+  //           <Text style={{ fontSize: 12, color: '#888' }} >{status.user.self_intro}</Text>
+  //         </View>
+  //         <UserAvatar size={48} {...this.props} user={this.state.status.user} />
+  //       </View>
+  //     </TouchableHighlight>
+  //   )
+  // }
 
   renderReplyItem(_item) {
     const { index, item } = _item;

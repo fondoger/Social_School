@@ -7,7 +7,7 @@ import Theme from '../utils/Theme';
 export default class SaleItem extends React.Component {
   onProfilePress = () => {
     const user = this.props.sale.user;
-    this.props.navigation.navigate('User_ProfilePage', {user:user});
+    this.props.navigation.navigate('User_UserPage', {user:user});
   }
   render() {
     const sale = this.props.sale;
@@ -33,7 +33,7 @@ export default class SaleItem extends React.Component {
                 <Text style={{fontSize:15, color:'#222'}}
                       onPress={this.onProfilePress}>{user.username}</Text>
                 <Text style={{fontSize:12, color:'#888'}}
-                      onPress={this.jumpToUserProfilePage}>{user.self_intro}</Text>
+                      onPress={this.jumpToUserPage}>{user.self_intro}</Text>
               </View>
             </View>
             <View style={{marginLeft:12, marginRight:14, paddingTop:6, marginBottom:16}}>

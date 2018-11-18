@@ -19,7 +19,7 @@ const Theme = {
     headerColorLightTint: '#444',
     secondaryColor: '#228f1b',
     lightBackgroundColor: '#f5f5f5',
-    activeUnderlayColor: '#aaacad',
+    activeUnderlayColor: '#c0c0ba',
     btnActiveBackground: '#e0e0e0',
     borderWidth: 0.5,
     borderColor: '#d8d8d8',
@@ -29,8 +29,8 @@ const Theme = {
 const patterns = {
     lightHeaderTintColor: '#444',
     lightHeaderStyle: {
-        backgroundColor: Theme.headerColorLight,
-        borderBottomWidth:0.5,
+        backgroundColor: '#fff',
+        borderBottomWidth:0,
         borderColor:'#ccc',      
         paddingTop: Theme.statusBarHeight,
         height: Theme.headerHeight + Theme.statusBarHeight,

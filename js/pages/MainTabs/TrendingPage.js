@@ -17,7 +17,7 @@ import {
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
-import { GroupPostItem, Loading, MyToast, StatusesItem, ArticleItem } from '../../components';
+import { GroupPostItem2, Loading, MyToast, StatusesItem, ArticleItem } from '../../components';
 
 export default class TrendingPage extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -120,12 +120,12 @@ export default class TrendingPage extends React.Component {
     if (item.price)
       return <SaleItem {...this.props} sale={item} />
     if (item.type == API.Status.GROUPPOST)
-      return <GroupPostItem 
+      return <GroupPostItem2
                 {...this.props}
                 showSource={true}
                 status={item} />
-    if (item.type == API.Status.USERSTATUS)
-      return <StatusesItem 
+    if (item.type == API.Status.USERSTATUS || item.type == API.Status.GROUPSTATUS)
+      return <StatusesItem
                 {...this.props} 
                 status={item}
                 handleDeleteItem={()=>{this.deleteItem(index)}} />

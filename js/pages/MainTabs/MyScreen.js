@@ -143,7 +143,7 @@ export default class MyScreen extends React.Component {
 
   onUserPress = () => {
     if (this.state.user)
-      this.props.navigation.navigate('User_ProfilePage', { user: this.state.user });
+      this.props.navigation.navigate('User_UserPage', { user: this.state.user });
     else
       this.props.navigation.navigate('Common_LoginPage');
   }

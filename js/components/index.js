@@ -7,6 +7,7 @@ import BottomInputBar from './BottomInputBar';
 import { NormalButton, SelectButton } from './MyButton';
 import SaleItem from './SaleItem';
 import GroupPostItem from './GroupPostItem';
+import GroupPostItem2 from './GroupPostItem2';
 import StatusesItem from './StatusesItem';
 import StatusReplyItem from './StatusReplyItem';
 import ArticleItem from './ArticleItem';
@@ -39,6 +40,7 @@ module.exports = {
   SelectButton,
   SaleItem,
   GroupPostItem,
+  GroupPostItem2,
   StatusesItem,
   StatusReplyItem,
   ArticleItem,

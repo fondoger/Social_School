@@ -15,7 +15,7 @@ import {
   SaleItem, 
   ArticleItem,
   StatusesItem, 
-  GroupPostItem, 
+  GroupPostItem2, 
 } from '../../components';
 import SplashScreen from 'react-native-splash-screen'
 
@@ -135,10 +135,10 @@ export default class TimelinePage extends React.Component {
     if (item.price)
       return <SaleItem {...this.props} sale={item} />
     if (item.type == API.Status.GROUPPOST)
-      return <GroupPostItem 
+      return <GroupPostItem2 
                 {...this.props}
                 showSource={true}
-                status={item} />
+                status={item}/>
     if (item.type == API.Status.USERSTATUS || item.type == API.Status.GROUPSTATUS)
       return <StatusesItem 
                 {...this.props} 

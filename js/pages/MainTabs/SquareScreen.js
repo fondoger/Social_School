@@ -16,7 +16,7 @@ import {
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
-import { Loading, MyToast, IconFont, DividingLine, GroupAvatar, UserAvatar } from '../../components';
+import { Loading, MyToast, IconFont, DividingLine, GroupAvatar, UserAvatar, GroupPostItem } from '../../components';
 import Styles from '../../utils/Styles';
 import FastImage from 'react-native-fast-image';
 import { getGMTTimeDiff } from '../../utils/Util';
@@ -28,9 +28,16 @@ function SearchHeader(props) {
                   paddingTop: Theme.statusBarHeight}}>
           <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate('Common_SearchPage')}}>
             <View style={{flexDirection:'row', marginHorizontal: 10, backgroundColor:'rgba(255,255,255,.25)', 
-                  borderRadius: 20, paddingVertical: 6.5, paddingHorizontal: 12}}>
+                  borderRadius: 20, height: 36, alignItems: 'center', paddingLeft: 12}}>
               <IconFont color='#fff' size={20} icon='&#xe623;' />
-              <Text style={{color: 'rgba(255,255,255,.9)', fontSize:15, marginLeft: 8}}>这或许是一个有趣的搜索框</Text>
+              <Text style={{color: 'rgba(255,255,255,.9)', fontSize:15, flex: 1, 
+                           marginHorizontal: 8, lineHeight: 21}}
+                    numberOfLines={1}>这或许是一个有趣的搜索框</Text>
+              <TouchableWithoutFeedback onPress={()=>MyToast.show("修理ing...")}>
+                <View style={{padding: 8, paddingRight: 12}}>
+                  <IconFont color='#fff' size={21} icon='&#xe60f;' />
+                </View>
+              </TouchableWithoutFeedback>
             </View>
           </TouchableWithoutFeedback>
     </View>
@@ -46,7 +53,7 @@ function GroupCard(props) {
       <View style={{flex: 1, height: 10, backgroundColor: '#fff'}} />
       <View style={{position: 'absolute', left: 10, right: 10, top: 10, bottom: 10 }}>
         <Text style={{color: '#fff', fontSize: 13}}>{props.title}</Text>
-        <View style={{paddingVertical: 12, paddingHorizontal: 0}}>
+        <View style={{paddingVertical: 13, paddingHorizontal: 0}}>
           { props.children }
         </View>
       </View>
@@ -74,13 +81,7 @@ export default class SquareScreen extends React.Component {
     }
   }
 
-  componentDidMount() {
-    // API.Activity.get({type:'hot'}, (responseJson)=>{d
-    //   this.setState({hotActivities: responseJson});
-    // }, (error)=>{});
-    // setTimeout(()=>{
-    //   this.setState({show:true})
-    // }, 1);
+  makeRemoteRequest() {
     API.Group.get({type:'hot'}, (responseJson)=>{
       this.setState({hotGroups: responseJson});
     }, (error)=>{});
@@ -88,6 +89,16 @@ export default class SquareScreen extends React.Component {
       this.setState({hotPublicGroups: responseJson});
     }, (error)=>{});
     this.refreshPosts();
+  }
+
+  componentDidMount() {
+    // API.Activity.get({type:'hot'}, (responseJson)=>{d
+    //   this.setState({hotActivities: responseJson});
+    // }, (error)=>{});
+    // setTimeout(()=>{
+    //   this.setState({show:true})
+    // }, 1);
+    this.makeRemoteRequest();
   }
 
   refreshPosts = () => {
@@ -107,10 +118,10 @@ export default class SquareScreen extends React.Component {
   };
   handleRefresh = () => {
     this.setState({refreshing: true,});
-    this.refreshPosts();
+    this.makeRemoteRequest();
   };
   handleLoadMore = () => {
-    if (this.state.load_more_ing)
+    if (this.state.load_more_ing || !this.state.has_next)
       return
     this.setState({load_more_ing: true, load_more_err: false});
     API.Status.get({
@@ -136,7 +147,7 @@ export default class SquareScreen extends React.Component {
                   item.replies <= 5 ? "#FAD389" :
                   item.replies <= 10 ? "#F7B26D" : "#F58A5F";
     return (
-      <TouchableHighlight onPress={onPress} underlayColor="#ccc">
+      <TouchableHighlight onPress={onPress} underlayColor={Theme.activeUnderlayColor}>
         <View style={{flexDirection: 'row', borderBottomWidth: 0.5, borderColor: '#ddd', 
                       backgroundColor: '#fff', paddingVertical: 12, paddingRight: 12}}>
           <View style={{width: 48, alignItems: 'center'}}>
@@ -165,10 +176,13 @@ export default class SquareScreen extends React.Component {
   }
 
   reloadPosts = () => {
+    this.state.has_next = true;
+    this.state.load_more_ing = false;
     this.setState({posts: [], has_next: true});
+    this.state.posts = [];
     this.handleLoadMore();
   }
-   
+
   renderListHeader = () => {
     return (
       <View style={{borderBottomWidth: .5, 
@@ -191,7 +205,8 @@ export default class SquareScreen extends React.Component {
         sections={[{key:"0", data:this.state.posts, title:"正在讨论",}]}
         renderSectionHeader={this.renderListHeader}
         keyExtractor={((item, index) => `${item.id}`)}
-        renderItem={this.renderPostItem.bind(this)}
+        //renderItem={this.renderPostItem.bind(this)}
+        renderItem={({index, item, section})=><GroupPostItem status={item} groupMode/>}
         refreshing={this.state.refreshing}
         onRefresh={this.handleRefresh}
         onEndReached={this.handleLoadMore}
@@ -227,8 +242,8 @@ export default class SquareScreen extends React.Component {
     const onPress = () => this.props.navigation.navigate('Group_GroupPage', {group:group});
     return (
       <TouchableWithoutFeedback onPress={onPress} >
-        <View key={group.id.toString()} style={{flexDirection:'row', alignItems: 'center', marginVertical: 4}}>
-          <Image style={{width: 30, height: 30, borderRadius: 3, marginRight: 8}} source={{uri: group.avatar + '!thumbnail'}} />
+        <View key={group.id.toString()} style={{flexDirection:'row', alignItems: 'center', marginVertical: 5}}>
+          <GroupAvatar size={28} group={group} borderRadius={2} style={{marginRight: 8}}/>
           <Text style={{color: '#444', fontSize: 13, flex: 1}}>{group.groupname}</Text>
           <Text style={{color: '#aaa', fontSize: 11}}>帖子数: {group.daily_statuses}</Text>
         </View>
