@@ -290,7 +290,7 @@ export default class UserPage extends React.Component {
           </TouchableWithoutFeedback>
         </View>
         <Animated.View style={{position:'absolute', top:0, left:0, right:0, height:ScreenWidth/2.2, 
-            backgroundColor:Theme.themeColor, opacity:this.state.headerOverlayOpacity}} />
+            backgroundColor: '#fff', opacity:this.state.headerOverlayOpacity}} />
         <Animated.View style={{position:'absolute', top:0, left:0, right:0, height:ScreenWidth/2.2,
             opacity: this.state.headerUnderlayTextOpacity}} >
           <Text style={{position:'absolute', left:64, bottom:12, color:'#fff', fontSize:18}}>{user.username}</Text>

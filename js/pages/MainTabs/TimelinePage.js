@@ -110,7 +110,7 @@ export default class TimelinePage extends React.Component {
       <View style={styles.container} >
         <FlatList
           data={this.state.statuses}
-          keyExtractor={((item, index) => `${item.id}`)}
+          keyExtractor={((item, index) => `${item.type}+${item.id}+${item.likes}+${item.replies}`)}
           renderItem={this.renderByType.bind(this)}
           refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
@@ -118,7 +118,6 @@ export default class TimelinePage extends React.Component {
           ListHeaderComponent={this.renderTopNotice.bind(this)}
           ListFooterComponent={this.renderFooter.bind(this)}
           ItemSeparatorComponent={()=><View style={{height:8}}></View>}
-          onEndReachedThreshold={0.1}
         />
       </View>
     );

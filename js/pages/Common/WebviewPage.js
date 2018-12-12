@@ -20,7 +20,7 @@ export default class WebviewPage extends React.Component {
       headerLeft: ({ tintColor }) => (
         <TouchableHighlight onPress={()=>navigation.goBack()} underlayColor='#888'>
           <IconFont icon='&#xe624;'
-            style={{ width: 40, height: Theme.headerHeight, paddingTop: 1.5,
+            style={{ width: 40, height: Theme.headerHeight - 1, paddingTop: 1.5,
                      alignItems: 'center', backgroundColor: '#fafafa'}}
             size={20} color='#111' />
         </TouchableHighlight>
@@ -76,7 +76,7 @@ export default class WebviewPage extends React.Component {
           ref={ref=>this.webview=ref}
         />
         <ActivityIndicator
-          style={{ position: "absolute", top: 15, left: 15 }}
+          style={{ position: "absolute", top: 16, left: 15 }}
           size="large"
           ref={ref=>this.progressIndicator=ref}
         />
@@ -85,7 +85,6 @@ export default class WebviewPage extends React.Component {
   }
 
   _onNavigationStateChange = (navState) => {
-    // No need to use setState()
     this.state.canGoBack = navState.canGoBack;
     this.props.navigation.setParams({title: navState.title || 'Loading...'});
   }

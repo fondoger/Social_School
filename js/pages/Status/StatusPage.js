@@ -282,10 +282,10 @@ export default class StatusPage extends React.Component {
     const status = this.state.status;
     return (
       <View style={{ backgroundColor: '#fff', flexDirection: 'row', padding: 12, paddingTop: 0,
-            borderColor: '#ddd', borderBottomWidth: 0.5, alignItems: 'flex-start' }} >
+            borderColor: '#eee', borderBottomWidth: 0.5, alignItems: 'flex-start' }} >
         <View style={{ flex: 1, paddingTop: 0 }}>
           <Text style={{ color: '#222', fontSize:  22, fontWeight: 'bold', lineHeight: 30}}>{status.title}</Text>
-          <Text style={{ color: '#aaa', fontSize: 12,  marginTop: 8, marginBottom: 4 }}>
+          <Text style={{ color: '#aaa', fontSize: 12,  marginTop: 8, marginBottom: 0 }}>
             <Text style={{color: '#555'}} onPress={this.navigateToUserPage.bind(this)}>{status.user.username} </Text>
             来自 <Text style={{color: Theme.themeColor}} onPress={this.navigateToGroupPage.bind(this)} >{status.group.groupname} </Text>
             小组    {getGMTTimeDiff(status.timestamp)}

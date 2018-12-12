@@ -106,37 +106,15 @@ export default class MyScreen extends React.Component {
         <View style={[styles.row, styles.rowTools]}>
           <Text style={styles.rowTitle}>教务服务</Text>
           <View style={styles.toolContainer}>
-            {this.renderRowItem('课表', '\ue612', '#ff9800', () => this.props.navigation.navigate('KebiaoPage'))}
-            {this.renderRowItem('校车', '\ue67a', '#00bcd4', () => this.props.navigation.navigate('KebiaoPage'))}
-            {this.renderRowItem('博雅', '\ue7a9', '#a671ff', () => this.props.navigation.navigate('KebiaoPage'))}
-            {this.renderRowItem('其他', '\ue613', '#2196f3', () => this.props.navigation.navigate('KebiaoPage'))}
+            {this.renderRowItem('课表', '\ue612', '#ff9800', this.handleCourseOnPress)}
+            {this.renderRowItem('校车', '\ue67a', '#00bcd4', this.handleBusOnPress)}
+            {this.renderRowItem('博雅(内网)', '\ue7a9', '#a671ff', this.handleBoYaOnPress)}
+            {this.renderRowItem('校历', '\ue613', '#2196f3', this.handleCalendarOnPress)}
           </View>
         </View>
-        {/*
-        <View style={[styles.row, styles.rowTools, {flex:1, marginBottom:16}]}>
-          <Text style={styles.rowTitle}>我的消息</Text>
-          <View style={[styles.toolContainer, {flex:1, justifyContent:'center', alignItems: 'center'}]}>
-            <Text>收到新私信: 一封邀您加入创业团队的邀请函.</Text>
-          </View>
-        </View> */}
-        <TouchableHighlight style={{ marginBottom: 8 }} underlayColor='#222' onPress={() => this.props.navigation.navigate('User_MessagePage')}>
-          <View style={styles.item} >
-            <IconFont style={{marginHorizontal: 18}} icon="&#xe6eb;" color="#1296db" size={24} />
-            <Text style={styles.item_text}>聊天</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={{ marginBottom: 8 }} underlayColor='#222' onPress={() => MyToast.show('功能开发中')}>
-          <View style={styles.item} >
-            <IconFont style={{marginHorizontal: 18}} icon="&#xe618;" color="#dd5145" size={24} />
-            <Text style={styles.item_text}>收藏</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={{ marginBottom: 8 }} underlayColor='#222' onPress={() => this.props.navigation.navigate('Common_SettingPage')}>
-          <View style={styles.item} >
-            <IconFont style={{marginHorizontal: 18}} icon="&#xe656;" color="#3498eb" size={24} />
-            <Text style={styles.item_text}>设置</Text>
-          </View>
-        </TouchableHighlight>
+        <RowItem title="聊天" icon="&#xe6eb;" color="#1296db" onPress={() => this.props.navigation.navigate('User_MessagePage')} />
+        <RowItem title="收藏" icon="&#xe618;" color="#dd6145" onPress={() => MyToast.show("功能开发中")} />
+        <RowItem title="设置" icon="&#xe656;" color="#3498eb" onPress={() => this.props.navigation.navigate('Common_SettingPage')} />
       </View>
     );
   }
@@ -147,18 +125,32 @@ export default class MyScreen extends React.Component {
     else
       this.props.navigation.navigate('Common_LoginPage');
   }
-
-  _toolCallback(who) {
-    const tools = this.state.tools;
-    if (who == tools.Xiaoche) {
-      MyToast.show(Storage.user.username);
-    }
-    else if (who == tools.Bykt)
-      MyToast.show('功能开发中');
-    else if (who == tools.Other)
-      MyToast.show('功能开发中');
+  handleCourseOnPress = () => {
+    const timetable = "https://app.buaa.edu.cn/timetable/wap/default/index";
+    this.props.navigation.navigate("Common_WebviewPage", {url: timetable});
+  }
+  handleBusOnPress = () => {
+    const bus = "https://app.buaa.edu.cn/regularbus/wap/default/index?bus_id=6";
+    this.props.navigation.navigate("Common_WebviewPage", {url: bus});
+  }
+  handleBoYaOnPress = () => {
+    const boya = "http://bykc.buaa.edu.cn";
+    this.props.navigation.navigate("Common_WebviewPage", {url: boya});
+  }
+  handleCalendarOnPress = () => {
+    const calendar = "https://app.buaa.edu.cn/schedule/wap/default/index";
+    this.props.navigation.navigate("Common_WebviewPage", {url: calendar});
   }
 }
+
+const RowItem = ({icon, color, title, onPress}) => (
+  <TouchableHighlight style={{ marginBottom: 8 }} underlayColor='#222' onPress={onPress}>
+    <View style={styles.item} >
+      <IconFont style={{marginHorizontal: 18}} icon={icon} color={color} size={24} />
+      <Text style={styles.item_text}>{title}</Text>
+    </View>
+  </TouchableHighlight>
+);
 
 const styles = StyleSheet.create({
   container: {

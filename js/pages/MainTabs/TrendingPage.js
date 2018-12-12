@@ -94,7 +94,7 @@ export default class TrendingPage extends React.Component {
       <View style={{flex:1, backgroundColor:'#eee'}}>
         <FlatList
           data={this.state.statuses}
-          keyExtractor={((item, index) => `${item.id}+${item.likes}+${item.replies}`)}
+          keyExtractor={((item, index) => `${item.type}+${item.id}+${item.likes}+${item.replies}`)}
           renderItem={this.renderByType.bind(this)}
           refreshing={this.state.refreshing}
           onRefresh={this.handleRefresh}
@@ -102,7 +102,6 @@ export default class TrendingPage extends React.Component {
           ListHeaderComponent={()=><View style={{height:8}}></View>}
           ListFooterComponent={this.renderFooter.bind(this)}
           ItemSeparatorComponent={()=><View style={{height:8}}></View>}
-          onEndReachedThreshold={0.05}
         />
       </View>
     );
