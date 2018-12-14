@@ -47,28 +47,18 @@ export default class DiscoverScreen extends React.Component {
     return (
       <View style={{flex:1, backgroundColor:'#eee'}}>
         <Header title="发现"/>
-        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>this.navigateTo("Sale_SquarePage")}>
-          <View style={styles.item} >
-            <IconFont icon='&#xe60c;' color='#dd5145' size={23} style={{marginHorizontal: 20}} />
-            <Text style={styles.item_text}>跳蚤市场</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>this.navigateTo("Other_OfficialAccountPage")}>
-          <View style={styles.item} >
-            <IconFont icon='&#xe736;' color='#f5ab16' size={23} style={{marginHorizontal: 20}} />
-            <Text style={styles.item_text}>订阅号</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={()=>MyToast.show("修理ing...")}>
-          <View style={styles.item} >
-            <IconFont icon='&#xea22;' color='#10aeff' size={23} style={{marginHorizontal: 20}} />
-            <Text style={styles.item_text}>扫一扫</Text>
-          </View>
-        </TouchableHighlight>
+        <RowItem icon="&#xe60c;" color="#dd5145" title="跳蚤市场" onPress={()=>this.navigateTo("Sale_SquarePage")} />
+        <RowItem icon="&#xe736;" color="#f5ab16" title="校园订阅号" onPress={()=>this.navigateTo("Other_OfficialAccountPage")} />
+        <RowItem icon="&#xe626;" color="#7586db" title="失物招领" onPress={this.handleLostFoundOnPress} />
+        <RowItem icon="&#xea22;" color="#10aeff" title="扫一扫" onPress={()=>MyToast.show("修理ing...")} />
       </View>
     );
   }
 
+  handleLostFoundOnPress = () => {
+    const lostFound = "https://app.buaa.edu.cn/lost/wap/default";
+    this.props.navigation.navigate("Common_WebviewPage", {url: lostFound});
+  }
 }
 
 const styles = StyleSheet.create({
@@ -93,3 +83,11 @@ const styles = StyleSheet.create({
   }
 });
 
+const RowItem = ({icon, color, title, onPress}) => (
+  <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={onPress}>
+    <View style={styles.item} >
+      <IconFont icon={icon} color={color} size={23} style={{marginHorizontal: 20}} />
+      <Text style={styles.item_text}>{title}</Text>
+    </View>
+  </TouchableHighlight>
+);

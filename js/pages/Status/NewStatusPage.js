@@ -150,6 +150,7 @@ export default class NewStatusPage extends React.Component {
             underlineColorAndroid="transparent"
             multiline={true}
             value={this.state.textValue}
+            autoFocus={true}
             placeholder={
               navParams.type==API.Status.USERSTATUS?"发布你的想法、新鲜事、照片...":
               navParams.type==API.Status.GROUPSTATUS?"分享团体新鲜事":
@@ -240,10 +241,10 @@ export default class NewStatusPage extends React.Component {
     imageSelector._onSelectMorePress();
   }
   _onToolbarMention = () => {
-    this.setState({textValue: this.state.textValue + '@张三 '});
+    this.setState({textValue: this.state.textValue + '@在这里输入用户名 '});
   }
   _onToolbarTopic = () => {
-    this.setState({textValue: this.state.textValue + '#北航美食#'});
+    this.setState({textValue: this.state.textValue + '#在这里输入话题# '});
   }
   _onToolbarMore = () => {
   }
