@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from 'react-native';
+import { withNavigation } from 'react-navigation';
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
 import { getGMTTimeDiff } from '../../utils/Util';
@@ -314,18 +315,19 @@ export default class StatusPage extends React.Component {
 
 }
 
-const GroupDetailBanner = ({ group }) => (
+const GroupDetailBanner_ = ({ group, ...props }) => (
   <TouchableHighlight
     underlayColor={Theme.activeUnderlayColor}
-    onPress={() => this.props.navigation.navigate('Group_GroupPage', { group })}
+    onPress={() => props.navigation.navigate('Group_GroupPage', { group })}
     style={[{ marginTop: 8 }, Styles.borderBlockItem]}>
     <View style={{ flexDirection: 'row', padding: 12, backgroundColor: '#fff', alignItems: 'flex-start' }} >
       <View style={{ flex: 1 }}>
         <Text style={{ fontSize: 16, color: '#444', fontWeight: '500', marginBottom: 4 }}
         >{group.groupname}</Text>
-        <Text style={{ fontSize: 12, color: '#888' }} >{group.description}</Text>
+        <Text style={{ fontSize: 12, color: '#888' }} >{group.description||"并没有小组介绍。。。"}</Text>
       </View>
-      <GroupAvatar size={48} {...this.props} group={group} />
+      <GroupAvatar size={48} group={group} />
     </View>
   </TouchableHighlight>
 );
+const GroupDetailBanner = withNavigation(GroupDetailBanner_);

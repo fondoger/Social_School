@@ -20,6 +20,7 @@ import { Loading, MyToast, IconFont, DividingLine, GroupAvatar, UserAvatar, Grou
 import Styles from '../../utils/Styles';
 import FastImage from 'react-native-fast-image';
 import { getGMTTimeDiff } from '../../utils/Util';
+import { withNavigation } from 'react-navigation';
 
 const SearchHeader = (props) => (
   <View style={{backgroundColor: Theme.themeColor, justifyContent: 'center', 
@@ -296,7 +297,7 @@ const GroupCard = ({ image, title, children }) => (
   </View>
 );
 
-const GroupItem = ({ group, ...props }) => (
+const GroupItem_ = ({ group, ...props }) => (
   <TouchableWithoutFeedback onPress={() => props.navigation.navigate('Group_GroupPage', { group })} >
     <View key={group.id.toString()} style={{flexDirection:'row', alignItems: 'center', marginVertical: 5}}>
       <GroupAvatar size={28} group={group} borderRadius={2} style={{marginRight: 8}}/>
@@ -305,3 +306,4 @@ const GroupItem = ({ group, ...props }) => (
     </View>
   </TouchableWithoutFeedback>
 );
+const GroupItem = withNavigation(GroupItem_);
