@@ -1,19 +1,19 @@
-import MyToast from './MyToast';
-import ModalMenu from './ModalMenu';
-import ContextMenu from './ContextMenu';
-import SlideInMenu from './SlideInMenu';
-import ImageSelector from './ImageSelector';
-import BottomInputBar from './BottomInputBar';
-import { NormalButton, SelectButton } from './MyButton';
-import SaleItem from './SaleItem';
-import GroupPostItem from './GroupPostItem';
-import GroupPostItem2 from './GroupPostItem2';
-import StatusesItem from './StatusesItem';
-import StatusReplyItem from './StatusReplyItem';
-import ArticleItem from './ArticleItem';
+export { default as MyToast } from './MyToast';
+export { default as ModalMenu } from './ModalMenu';
+export { default as ContextMenu } from './ContextMenu';
+export { default as SlideInMenu } from './SlideInMenu';
+export { default as ImageSelector } from './ImageSelector';
+export { default as BottomInputBar } from './BottomInputBar';
+export { NormalButton, SelectButton } from './MyButton';
+export { default as SaleItem } from './SaleItem';
+export { default as GroupPostItem } from './GroupPostItem';
+export { default as GroupPostItem2 } from './GroupPostItem2';
+export { default as StatusesItem } from './StatusesItem';
+export { default as StatusReplyItem } from './StatusReplyItem';
+export { default as ArticleItem } from './ArticleItem';
 
 
-import {
+export {
   Loading,
   IconFont,
   DividingLine,
@@ -28,33 +28,3 @@ import {
   HeaderSettingButton,
 } from './Utils';
 
-
-module.exports = {
-  MyToast,
-  ModalMenu,
-  ContextMenu,
-  SlideInMenu,
-  ImageSelector,
-  BottomInputBar,
-  NormalButton,
-  SelectButton,
-  SaleItem,
-  GroupPostItem,
-  GroupPostItem2,
-  StatusesItem,
-  StatusReplyItem,
-  ArticleItem,
-  // Utils
-  Loading,
-  IconFont,
-  DividingLine,
-  PlaceholderImage,
-  HeaderLeft,
-  HeaderRight,
-  ListUserItem,
-  ListGroupItem,
-  UserAvatar,
-  GroupAvatar,
-  OfficialAccountAvatar,
-  HeaderSettingButton,
-};

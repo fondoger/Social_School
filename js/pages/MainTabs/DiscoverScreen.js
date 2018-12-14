@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   StyleSheet, 
+  Alert,
   Text,
   View,
   Button,
@@ -56,6 +57,15 @@ export default class DiscoverScreen extends React.Component {
   }
 
   handleLostFoundOnPress = () => {
+    Alert.alert(
+      '提示信息',
+      '本服务由信息北航微信公众号提供。',
+      [
+        {text: '不再显示', onPress: () => console.log('Ask me later pressed')},
+        {text: '我已知晓', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    );
     const lostFound = "https://app.buaa.edu.cn/lost/wap/default";
     this.props.navigation.navigate("Common_WebviewPage", {url: lostFound});
   }

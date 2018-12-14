@@ -11,7 +11,7 @@ import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
 import { getGMTTimeDiff } from '../../utils/Util';
 import Styles from '../../utils/Styles';
-import { SlideInMenu, BottomInputBar, UserAvatar, StatusesItem, StatusReplyItem, Loading, MyToast, HeaderRight } from '../../components';
+import { SlideInMenu, BottomInputBar, GroupAvatar, UserAvatar, StatusesItem, StatusReplyItem, Loading, MyToast, HeaderRight } from '../../components';
 
 export default class StatusPage extends React.Component {
 
@@ -237,6 +237,7 @@ export default class StatusPage extends React.Component {
       <View>
         { this.renderPostTitle() }
         <StatusesItem style={{ borderBottomWidth: 0.5, borderColor: '#ddd' }} {...this.props} hideMenuButtom={true} status={item} />
+        <GroupDetailBanner group={item.group} />
         {this.renderSectionHeader()}
       </View>
     );
@@ -296,25 +297,6 @@ export default class StatusPage extends React.Component {
     )
   }
 
-  // renderPostUserDetail() {
-  //   const status = this.state.status;
-  //   return (
-  //     <TouchableHighlight
-  //       underlayColor={Theme.activeUnderlayColor}
-  //       onPress={() => this.props.navigation.navigate('User_UserPage', { user: status.user })}
-  //       style={[{ marginTop: 8 }, Styles.borderBlockItem]}>
-  //       <View style={{ flexDirection: 'row', padding: 12, backgroundColor: '#fff', alignItems: 'flex-start' }} >
-  //         <View style={{ flex: 1 }}>
-  //           <Text style={{ fontSize: 16, color: '#444', fontWeight: '500', marginBottom: 4 }}
-  //           >{status.user.username}</Text>
-  //           <Text style={{ fontSize: 12, color: '#888' }} >{status.user.self_intro}</Text>
-  //         </View>
-  //         <UserAvatar size={48} {...this.props} user={this.state.status.user} />
-  //       </View>
-  //     </TouchableHighlight>
-  //   )
-  // }
-
   renderReplyItem(_item) {
     const { index, item } = _item;
     return (
@@ -331,3 +313,19 @@ export default class StatusPage extends React.Component {
   }
 
 }
+
+const GroupDetailBanner = ({ group }) => (
+  <TouchableHighlight
+    underlayColor={Theme.activeUnderlayColor}
+    onPress={() => this.props.navigation.navigate('Group_GroupPage', { group })}
+    style={[{ marginTop: 8 }, Styles.borderBlockItem]}>
+    <View style={{ flexDirection: 'row', padding: 12, backgroundColor: '#fff', alignItems: 'flex-start' }} >
+      <View style={{ flex: 1 }}>
+        <Text style={{ fontSize: 16, color: '#444', fontWeight: '500', marginBottom: 4 }}
+        >{group.groupname}</Text>
+        <Text style={{ fontSize: 12, color: '#888' }} >{group.description}</Text>
+      </View>
+      <GroupAvatar size={48} {...this.props} group={group} />
+    </View>
+  </TouchableHighlight>
+);

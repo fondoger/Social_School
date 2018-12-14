@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   StyleSheet,
+  Alert,
   Text,
   View,
   Image,
@@ -12,7 +13,6 @@ import Theme from '../../utils/Theme';
 import API, { timeoutFetch } from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
 import { MyToast, UserAvatar, IconFont } from '../../components';
-
 
 
 function Header(props) {
@@ -106,10 +106,10 @@ export default class MyScreen extends React.Component {
         <View style={[styles.row, styles.rowTools]}>
           <Text style={styles.rowTitle}>教务服务</Text>
           <View style={styles.toolContainer}>
-            {this.renderRowItem('课表', '\ue612', '#ff9800', this.handleCourseOnPress)}
-            {this.renderRowItem('校车', '\ue67a', '#00bcd4', this.handleBusOnPress)}
-            {this.renderRowItem('博雅(内网)', '\ue7a9', '#a671ff', this.handleBoYaOnPress)}
-            {this.renderRowItem('校历', '\ue613', '#2196f3', this.handleCalendarOnPress)}
+            <CellItem title="课表" icon="&#xe612;" color="#ff9800" onPress={this.handleCourseOnPress} />
+            <CellItem title="校车" icon="&#xe67a;" color="#00bcd4" onPress={this.handleBusOnPress} />
+            <CellItem title="图书馆" icon="&#xe7a9;" color="#a671ff" onPress={this.handleBoYaOnPress} />
+            <CellItem title="校历" icon="&#xe613;" color="#2196f3" onPress={this.handleCalendarOnPress} />
           </View>
         </View>
         <RowItem title="聊天" icon="&#xe6eb;" color="#1296db" onPress={() => this.props.navigation.navigate('User_MessagePage')} />
@@ -126,18 +126,54 @@ export default class MyScreen extends React.Component {
       this.props.navigation.navigate('Common_LoginPage');
   }
   handleCourseOnPress = () => {
+    Alert.alert(
+      '提示信息',
+      '本服务由信息北航微信公众号提供。',
+      [
+        {text: '不再显示', onPress: () => console.log('Ask me later pressed')},
+        {text: '我已知晓', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    );
     const timetable = "https://app.buaa.edu.cn/timetable/wap/default/index";
     this.props.navigation.navigate("Common_WebviewPage", {url: timetable});
   }
   handleBusOnPress = () => {
+    Alert.alert(
+      '提示信息',
+      '本服务由信息北航微信公众号提供。',
+      [
+        {text: '不再显示', onPress: () => console.log('Ask me later pressed')},
+        {text: '我已知晓', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    );
     const bus = "https://app.buaa.edu.cn/regularbus/wap/default/index?bus_id=6";
     this.props.navigation.navigate("Common_WebviewPage", {url: bus});
   }
   handleBoYaOnPress = () => {
-    const boya = "http://bykc.buaa.edu.cn";
-    this.props.navigation.navigate("Common_WebviewPage", {url: boya});
+    Alert.alert(
+      '提示信息',
+      '本服务由北航图书馆微信公众号提供。（PS：页面内登陆账号与图书馆网站账号相同）',
+      [
+        {text: '不再显示', onPress: () => console.log('Ask me later pressed')},
+        {text: '我已知晓', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    );
+    const lib = "http://wx.lib.buaa.edu.cn";
+    this.props.navigation.navigate("Common_WebviewPage", {url: lib});
   }
   handleCalendarOnPress = () => {
+    Alert.alert(
+      '提示信息',
+      '本服务由信息北航微信公众号提供。',
+      [
+        {text: '不再显示', onPress: () => console.log('Ask me later pressed')},
+        {text: '我已知晓', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    );
     const calendar = "https://app.buaa.edu.cn/schedule/wap/default/index";
     this.props.navigation.navigate("Common_WebviewPage", {url: calendar});
   }
@@ -151,6 +187,17 @@ const RowItem = ({icon, color, title, onPress}) => (
     </View>
   </TouchableHighlight>
 );
+
+const CellItem = ({icon, color, title, onPress}) => (
+  <TouchableHighlight style={styles.toolItem}
+    onPress={onPress}>
+    <View style={styles.toolItemWrapper}>
+      <IconFont style={styles.toolIcon} size={28} icon={icon} color={color} />
+      <Text style={styles.toolText}>{title}</Text>
+    </View>
+  </TouchableHighlight>
+);
+
 
 const styles = StyleSheet.create({
   container: {

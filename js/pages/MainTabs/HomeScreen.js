@@ -65,9 +65,9 @@ export default class HomeScreenTab extends React.Component {
             backgroundColor: Theme.themeColor, elevation: 1, shadowOpacity: 0}}>
         <View style={{flex: 4, alignItems: 'flex-start', justifyContent:'center'}} >
           <TouchableWithoutFeedback onPress={()=>{this.props.navigation.navigate('Common_SearchPage')}}>
-            <View style={{flexDirection:'row', marginLeft: 8, backgroundColor:'rgba(255,255,255,.25)', borderRadius: 20, paddingVertical: 3, paddingLeft: 6, paddingRight: 10}}>
+            <View style={{flexDirection:'row', marginLeft: 8, backgroundColor:'#58b0f6', borderRadius: 20, paddingVertical: 3, paddingLeft: 6, paddingRight: 10}}>
               <IconFont color='#fff' size={18} icon='&#xe623;' />
-              <Text style={{color:'rgba(255,255,255,.85)', fontSize:15, marginLeft: 4}}>搜索</Text>
+              <Text style={{color:'rgba(255,255,255,.9)', fontSize:15, marginLeft: 4}}>搜索</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
