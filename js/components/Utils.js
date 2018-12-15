@@ -178,7 +178,7 @@ function _UserAvatarView(props) {
       />
       {
         hideLogo ? null :
-          <Image style={{
+          <FastImage style={{
             position: 'absolute', right: -1,
             bottom: -1, width: 13, height: 13
           }}

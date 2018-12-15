@@ -19,7 +19,7 @@ export default class StatusPage extends React.Component {
   static navigationOptions = ({ navigation }) => {
     const status = navigation.state.params.status;
     const name = status.type == API.Status.GROUPSTATUS ? status.group.groupname : status.user.username;
-    const _title = name + (status.type == API.Status.GROUPPOST ? '的帖子' : '的微博');
+    const _title = status.title || (name + '的帖子');
     const title = navigation.state.params.showTitle ? _title : "";
     
     const style = {
@@ -35,6 +35,7 @@ export default class StatusPage extends React.Component {
       title: title,
       headerTintColor: Theme.lightHeaderTintColor,
       headerStyle: style,
+      headerTitleContainerStyle: { left: 40 },
       headerRight: (
         <HeaderRight 
           tintColor={Theme.lightHeaderTintColor} 
