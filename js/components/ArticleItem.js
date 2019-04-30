@@ -138,12 +138,12 @@ export default class StatusesItem extends React.Component {
   renderWeixinContent = (article)=>{
     return (
       <View style={{borderRadius: 5, marginLeft:12, marginRight:14, }}>
-        <Image style={{flex:1, aspectRatio:1.8, borderRadius: 5}} source={{uri: article.linkInfo.pictureUrl}} />
+        <Image style={{flex:1, aspectRatio:1.8, borderRadius: 5}} source={{uri: article.picture, headers: {'Referer': 'https://mp.weixin.qq.com/'}}} />
         <View style={[{top: 0, left: 0, bottom: 0, right: 0, position: 'absolute', 
                        backgroundColor: 'rgba(0,0,0,.2)', borderRadius: 5}, Styles.absoluteFill]} >
           <Text style={{color: 'rgba(255,255,255,.5)', fontSize: 12, padding: 8, alignSelf: 'flex-end'}}>微信公众号</Text>
           <View style={{flex: 1}} />
-          <Text style={{color: '#fff', fontSize: 17, padding: 16, paddingBottom: 8}}>{ article.linkInfo.title }</Text>
+          <Text style={{color: '#fff', fontSize: 17, padding: 16, paddingBottom: 12}}>{ article.title }</Text>
         </View>
       </View>
     )

@@ -10,7 +10,9 @@ export default class WechatArticleCard extends React.Component {
     return (
       <TouchableHighlight {...props} underlayColor='#666666' onPress={this._onPress} >
         <View style={{flexDirection: 'row', backgroundColor: Theme.lightBackgroundColor}}>
-          <View style={{flex: 2, aspectRatio: 1.35}}><Image style={{flex: 1, aspectRatio: 1.35}} source={{uri: article.img_url}} /></View>
+          <View style={{flex: 2, aspectRatio: 1.35}}>
+            <Image style={{flex: 1, aspectRatio: 1.35}} source={{uri: article.img_url, headers: {'Referer': 'https://mp.weixin.qq.com/'}}} />
+          </View>
           <View style={{flex: 3, padding: 10}}>
           <Text style={{color: '#000', fontSize: 16}} numberOfLines={3}>{article.title}</Text>
           <Text style={{color: '#aaa', paddingTop: 4}} >@{article.author}</Text>
@@ -24,7 +26,7 @@ export default class WechatArticleCard extends React.Component {
     return (
       <TouchableHighlight {...props} underlayColor={'#666666'} onPress={this._onPress}>
         <View style={styles.container}>
-          <Image style={styles.image} source={{uri: article.img_url}} />
+          <Image style={styles.image} source={{uri: article.picture, headers: {'Referer': 'https://mp.weixin.qq.com/'}}} />
           <View style={styles.rightColumn}>
               <View style={{flex: 3, justifyContent: 'center'}}>
               <Text style={styles.title} numberOfLines={2}>{article.title}</Text>

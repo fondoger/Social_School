@@ -126,54 +126,22 @@ export default class MyScreen extends React.Component {
       this.props.navigation.navigate('Common_LoginPage');
   }
   handleCourseOnPress = () => {
-    Alert.alert(
-      '提示信息',
-      '本服务由信息北航微信公众号提供。',
-      [
-        {text: '不再显示', onPress: () => console.log('Ask me later pressed')},
-        {text: '我已知晓', onPress: () => console.log('OK Pressed')},
-      ],
-      { cancelable: false }
-    );
+    MyToast.show("由信息北航提供服务");
     const timetable = "https://app.buaa.edu.cn/timetable/wap/default/index";
     this.props.navigation.navigate("Common_WebviewPage", {url: timetable});
   }
   handleBusOnPress = () => {
-    Alert.alert(
-      '提示信息',
-      '本服务由信息北航微信公众号提供。',
-      [
-        {text: '不再显示', onPress: () => console.log('Ask me later pressed')},
-        {text: '我已知晓', onPress: () => console.log('OK Pressed')},
-      ],
-      { cancelable: false }
-    );
+    MyToast.show("由信息北航提供服务");
     const bus = "https://app.buaa.edu.cn/regularbus/wap/default/index?bus_id=6";
     this.props.navigation.navigate("Common_WebviewPage", {url: bus});
   }
   handleBoYaOnPress = () => {
-    Alert.alert(
-      '提示信息',
-      '本服务由北航图书馆微信公众号提供。（PS：页面内登陆账号与图书馆网站账号相同）',
-      [
-        {text: '不再显示', onPress: () => console.log('Ask me later pressed')},
-        {text: '我已知晓', onPress: () => console.log('OK Pressed')},
-      ],
-      { cancelable: false }
-    );
+    MyToast.show("由信息北航提供服务");
     const lib = "http://wx.lib.buaa.edu.cn";
     this.props.navigation.navigate("Common_WebviewPage", {url: lib});
   }
   handleCalendarOnPress = () => {
-    Alert.alert(
-      '提示信息',
-      '本服务由信息北航微信公众号提供。',
-      [
-        {text: '不再显示', onPress: () => console.log('Ask me later pressed')},
-        {text: '我已知晓', onPress: () => console.log('OK Pressed')},
-      ],
-      { cancelable: false }
-    );
+    MyToast.show("由信息北航提供服务");
     const calendar = "https://app.buaa.edu.cn/schedule/wap/default/index";
     this.props.navigation.navigate("Common_WebviewPage", {url: calendar});
   }

@@ -57,15 +57,7 @@ export default class DiscoverScreen extends React.Component {
   }
 
   handleLostFoundOnPress = () => {
-    Alert.alert(
-      '提示信息',
-      '本服务由信息北航微信公众号提供。',
-      [
-        {text: '不再显示', onPress: () => console.log('Ask me later pressed')},
-        {text: '我已知晓', onPress: () => console.log('OK Pressed')},
-      ],
-      { cancelable: false }
-    );
+    MyToast.show("由信息北航提供服务");
     const lostFound = "https://app.buaa.edu.cn/lost/wap/default";
     this.props.navigation.navigate("Common_WebviewPage", {url: lostFound});
   }
