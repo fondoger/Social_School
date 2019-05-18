@@ -60,8 +60,8 @@ export default class ImageCard extends React.Component {
     if (item) {
       return (
         <TouchableWithoutFeedback onPress={()=>{this._onImagePress(item.index);}}>
-          <View style={{flex: 1, aspectRatio: 1, margin: IMAGE_MARGIN, backgroundColor:'#efefef'}} >
-            <Image style={{flex: 1}} source={item.source} />
+          <View style={{flex: 1, aspectRatio: 1, margin: IMAGE_MARGIN, backgroundColor:'#efefef', borderRadius: 2}} >
+            <Image style={{flex: 1, borderRadius: 2, borderWidth: .2, borderColor: 'rgba(0,0,0,.15)'}} source={item.source} />
           </View>
         </TouchableWithoutFeedback>
       )
