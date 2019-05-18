@@ -16,21 +16,6 @@ import { createMaterialTopTabNavigator } from 'react-navigation';
 import { Loading, UserAvatar, IconFont, MyToast, DividingLine, HeaderLeft, ListUserItem } from '../../components';
 import { API, Theme,  Storage } from '../../utils';
 
-const user_A = {
-    "avatar": "http://asserts.fondoger.cn/avatar/168261373d6cb92d80987fce1c9a604c.webp",
-    "followed": 1,
-    "followed_by_me": false,
-    "followers": 0,
-    "gender": 1,
-    "groups_enrolled": 50,
-    "id": 1,
-    "last_seen": "Sat, 31 Mar 2018 10:57:07 GMT",
-    "member_since": "Sat, 31 Mar 2018 10:57:07 GMT",
-    "self_intro": "游走在挂科的边缘",
-    "username": "开发者"
-};
-
-
 
 class UserTab extends React.Component {
   static navigationOptions = { title: '用户' };
@@ -136,8 +121,8 @@ class StatusTab extends React.Component {
 
 
 const SearchResultTabs = createMaterialTopTabNavigator({
-  StatusTab: StatusTab,
   UserTab: UserTab,
+  StatusTab: StatusTab,
 },{
   lazy: true,
   backBehavior: 'none',
@@ -188,11 +173,7 @@ export default class SearchPage extends React.Component {
     Keyboard.dismiss();
     this.updateHistory(this.state.textValue);
   }
-/*
-        <TouchableWithoutFeedback onPress={()=>this.props.navigation.goBack()}>
-          <IconFont icon='&#xe622;' style={{width:60, alignItems:'center', padding:12, paddingTop:13}} size={24} color='#fff' />
-        </TouchableWithoutFeedback>
-        */
+
   renderSearchBar() {
     return (
       <View style={styles.searchBar}>
@@ -277,7 +258,7 @@ export default class SearchPage extends React.Component {
   }
 
   renderInitialPage() {
-    const hot_search = ['新声音量', '毛不易', '石头计划', '镇魂', '乐华七子NEXT', 
+    const hot_search = ['开发者', '用户', '石头计划', '镇魂', '乐华七子NEXT', 
       '忘了牵手', '旅客', 'Everybody Hurts', 'Chanson De Toile', '摩登兄弟'];
     const search_history = this.state.search_history;
     return (
@@ -307,10 +288,6 @@ export default class SearchPage extends React.Component {
     )
   }
 }
-
-
-
-
 
 class Chip extends React.Component {
   setActiveStyle() {
