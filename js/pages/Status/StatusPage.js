@@ -186,7 +186,7 @@ export default class StatusPage extends React.Component {
           onEndReachedThreshold={0.01}
           onScroll={this.handleScroll}
         />
-        <BottomInputBar onSendPress={this.onSendPress.bind(this)} />
+        <BottomInputBar float={true} onSendPress={this.onSendPress.bind(this)} />
       </View>
     )
   }

@@ -65,7 +65,7 @@ export default class ChatPage extends React.Component {
   componentDidMount() {
     const user = this.props.navigation.state.params.user;
     this.setState({load_ing: true, load_err: false});
-    API.Message.get({with_id:user.id}, (responseJson) => {
+    API.Message.get({with_id:user.id, limit: 100}, (responseJson) => {
       this.setState({messages: responseJson, load_ing: false});
       setTimeout(() => {
         this.scrollView.scrollToEnd();
@@ -115,8 +115,10 @@ export default class ChatPage extends React.Component {
     }, (err) => {MyToast.show('发送失败, 稍后再试'); callback(false)});
   }
 
-  _onLayout(e) {
-    this.scrollView.scrollToEnd();
+  _onLayoutChange = (e) => {
+    setTimeout(() => {
+      this.scrollView.scrollToEnd();
+    }, 100);
   }
 
   render() {
@@ -131,7 +133,7 @@ export default class ChatPage extends React.Component {
       )
     }
     return (
-      <View style={{flex:1, backgroundColor:'#f2f4f5'}}>
+      <View style={{flex:1, backgroundColor:'#f2f4f5'}} onLayout={this._onLayoutChange}>
         <FlatList
           data={this.state.messages}
           keyExtractor={((item, index) => `${item.id}`)}
@@ -140,7 +142,7 @@ export default class ChatPage extends React.Component {
           ref={ref => this.scrollView  = ref}
           extraData={this.state}
         />
-        <BottomInputBar {...this.props} onLayout={this._onLayout.bind(this)} onSendPress={this.onSendPress.bind(this)}/>
+        <BottomInputBar {...this.props} onSendPress={this.onSendPress.bind(this)}/>
       </View>
     )
   };

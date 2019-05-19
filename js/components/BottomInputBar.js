@@ -104,8 +104,9 @@ export default class BottomInputBar extends React.Component {
   render() {
     const icon = this.state.showEmojiInput ? '\ue608' : "\ue892";
     const color = this.state.showEmojiInput ? Theme.themeColor : '#888';
+    const style = this.props.float ? { position: 'absolute', left: 0, bottom: 0, right: 0 } : null;
     return (
-      <View style={{ position: 'absolute', left: 0, bottom: 0, right: 0 }}>
+      <View style={style}>
         <View style={styles.container}>
           <TouchableWithoutFeedback onPress={this._onEmojiSwitchPress.bind(this)} >
             <IconFont style={{ padding: 6 }} icon={icon} color={color} size={22} />
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     padding: 8,
     paddingTop: 0,
-    paddingBottom: 4,
+    paddingBottom: 6,
     minHeight: 48,
   },
   textInputWrap: {
