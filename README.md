@@ -5,7 +5,7 @@
 
 ## 下载地址
 
-Android: [点此下载]()
+Android: [点此下载](http://asserts.fondoger.cn/personal/app-release.apk)
 
 **为什么没有 iOS 版本？**因为开发者没有 Mac 和 iPhone 设备。不过，本项目是纯 JS 写的，用到的库全部兼容 iOS 和 Android，本项目稍加调试（主要是样式适配）就能够在运行在 iOS 环境。因此，当具备条件时，该项目能迅速迁移到 iOS 设备上。
 
