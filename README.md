@@ -31,39 +31,39 @@ Android: [点此下载](http://asserts.fondoger.cn/personal/app-release.apk)
 项目截图
 -------
 
-<style>
-  .row {
-  	display: flex; 
-    flex-direction: row;
-  }
-  .card {
-    flex: 1;
-    margin: 5px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    border-radius: 10px;
-  }
-  .img {
-  	width: 100%;
-    height: auto;
-  }
-</style>
-
-
-<div style="width: 100%;">
-    <div class="row">
-        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwahgnj30u01t0qno.jpg"></div>
-        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qruhk1gj30u01t013q.jpg"></div>
-        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrtwsyej30u01t0n7g.jpg"></div>
+<div class="container" style="width: 100%; padding: 50px; background: #2ecc71; box-sizing: border-box;">
+    <div class="row" style="display: flex; flex-direction: row;">
+        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
+            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwahgnj30u01t0qno.jpg">
+        </div>
+        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
+            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qruhk1gj30u01t013q.jpg">
+        </div>
+        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
+            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrtwsyej30u01t0n7g.jpg">
+        </div>
     </div>
-    <div class="row">
-        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrsa7s3j30u01t0tnm.jpg" ></div>
-        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwll2rj30u01t01kx.jpg" height="auto"></div>
-        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrx12q2j30u01t0160.jpg" height="auto"></div>
+    <div class="row" style="display: flex; flex-direction: row;">
+        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
+            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrsa7s3j30u01t0tnm.jpg" >
+        </div>
+        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
+            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwll2rj30u01t01kx.jpg">
+        </div>
+        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
+            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrx12q2j30u01t0160.jpg">
+        </div>
     </div>
-    <div style="display: flex; flex-direction: row;">
-    	<div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spb7511j30u01t00u7.jpg"  height="auto"></div>
-        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrq8qxqj30u01t041m.jpg" height="auto"></div>
-        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spuxfghj30u01t0qci.jpg" height="auto"></div>
+    <div class="row" style="display: flex; flex-direction: row;">
+    	<div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
+            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spb7511j30u01t00u7.jpg">
+        </div>
+        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
+            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrq8qxqj30u01t041m.jpg">
+        </div>
+        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
+            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spuxfghj30u01t0qci.jpg">
+        </div>
     </div>
 </div>
 
