@@ -1,7 +1,7 @@
-[社交北航](http://blog.fondoger.cn/Social_School/)(正式名字未定)
+社交北航(正式名字未定)
 =======
 
-一个类似微博的社交客户端，基于React Native。
+一个类似微博的社交客户端，基于React Native，项目主页地址：[项目主页](http://blog.fondoger.cn/Social_School/)。
 
 这是整个校园社交平台的移动端项目，与之配套的还有另一个基于 Python Flask 的后端应用，你可以[点此查看](https://github.com/fondoger/School).
 
