@@ -31,43 +31,41 @@ Android: [点此下载](http://asserts.fondoger.cn/personal/app-release.apk)
 项目截图
 -------
 
+<style>
+  .row {
+  	display: flex; 
+    flex-direction: row;
+  }
+  .card {
+    flex: 1;
+    margin: 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    border-radius: 10px;
+  }
+  .img {
+  	width: 100%;
+    height: auto;
+  }
+</style>
 
-<div style="width: 100%">
-    <div style="display: flex; flex-direction: row;">
-        <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwahgnj30u01t0qno.jpg"  height="auto">
-        <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qruhk1gj30u01t013q.jpg" height="auto">
-        <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrtwsyej30u01t0n7g.jpg" height="auto">
+
+<div style="width: 100%;">
+    <div class="row">
+        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwahgnj30u01t0qno.jpg"></div>
+        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qruhk1gj30u01t013q.jpg"></div>
+        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrtwsyej30u01t0n7g.jpg"></div>
+    </div>
+    <div class="row">
+        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrsa7s3j30u01t0tnm.jpg" ></div>
+        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwll2rj30u01t01kx.jpg" height="auto"></div>
+        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrx12q2j30u01t0160.jpg" height="auto"></div>
     </div>
     <div style="display: flex; flex-direction: row;">
-        <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrsa7s3j30u01t0tnm.jpg"  height="auto">
-        <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwll2rj30u01t01kx.jpg" height="auto">
-        <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrx12q2j30u01t0160.jpg" height="auto">
-    </div>
-    <div style="display: flex; flex-direction: row;">
-        <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spb7511j30u01t00u7.jpg"  height="auto">
-        <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrq8qxqj30u01t041m.jpg" height="auto">
-        <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spuxfghj30u01t0qci.jpg" height="auto">
+    	<div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spb7511j30u01t00u7.jpg"  height="auto"></div>
+        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrq8qxqj30u01t041m.jpg" height="auto"></div>
+        <div class="card"><img class="img" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spuxfghj30u01t0qci.jpg" height="auto"></div>
     </div>
 </div>
-
-<table style="background: #24292e;">
-    <tr>
-      <td style="padding:0; margin:0; background: #24292e;"><img style="margin:0" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwahgnj30u01t0qno.jpg" width="100%" height="auto"></td>
-      <td style="padding:0; margin:0"><img src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qruhk1gj30u01t013q.jpg" width="100%" height="auto"></td>
-      <td style="padding:0; margin:0"><img src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrtwsyej30u01t0n7g.jpg" width="100%" height="auto"></td>
-    </tr>
-    <tr>
-      <td style="padding:0; margin:0"><img src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrsa7s3j30u01t0tnm.jpg" width="100%" height="auto"></td>
-      <td style="padding:0; margin:0"><img src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwll2rj30u01t01kx.jpg" width="100%" height="auto"></td>
-      <td style="padding:0; margin:0"><img src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrx12q2j30u01t0160.jpg" width="100%" height="auto"></td>
-    </tr>
-    <tr>
-      <td style="padding:0; margin:0"><img src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spb7511j30u01t00u7.jpg" width="100%" height="auto"></td>
-      <td style="padding:0; margin:0"><img src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrq8qxqj30u01t041m.jpg" width="100%" height="auto"></td>
-      <td style="padding:0; margin:0"><img src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spuxfghj30u01t0qci.jpg" width="100%" height="auto"></td>
-    </tr>
-</table>
-
 
 
 ## 诚邀您参与开发
