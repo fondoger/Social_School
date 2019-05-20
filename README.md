@@ -1,11 +1,23 @@
-名字还没想好
+社交北航(正式名字未定)
 =======
 
-一个类似微博的社交客户端，基于React Native。虽然是采用 React Native 开发的，但是实际使用体验不输大部分 Github 上的个人开发的原生应用。
+一个类似微博的社交客户端，基于React Native。虽然是采用 React Native 开发的，但是实际使用体验应该不输大部分 Github 上的个人开发的原生应用。
 
-## 下载地址
+这是整个校园社交平台的移动端项目，与之配套的还有另一个基于 Python Flask 的后端应用，你可以[点此查看](https://github.com/fondoger/School).
+
+这个项目大部分代码是近一年前开发写的，由于 React Native 生态不够完善，社区组件总有各种各样的差强人意，许多基础的组件 (SlideInMenu、Toast、ContextMenu等) 都是自己写动画手撸的(也借鉴了许多开源项目)。
+
+另外，在写这个项目之前，我对 JavaScript 的掌握程度仅仅是勉强能使用 Jquery 和 Ajax，但 React 使用到了 ES6 的内容，因此许多 JS 的代码都是参照官网和Github上源码照猫画虎写的，并非专业前端，代码写的水平不高见笑了。没有使用到 Redux，都是很普通很基础的 JS 代码，稍微了解 ES6 的类及箭头函数就能看懂代码。
+
+由于需要找工作，如果觉得好用的话，请给我一个小星星，谢谢。
+
+## 下载地址 & 试用
 
 Android: [点此下载](http://asserts.fondoger.cn/personal/app-release.apk)
+
+为了方便大家，提供一个试用账号：
+密码：test
+账号：这
 
 **为什么没有 iOS 版本？**
 因为开发者没有 Mac 和 iPhone 设备。不过，本项目是纯 JS 写的，用到的库全部兼容 iOS 和 Android，本项目稍加调试（主要是样式适配）就能够在运行在 iOS 环境。因此，当具备条件时，该项目能迅速迁移到 iOS 设备上。
@@ -18,6 +30,13 @@ Android: [点此下载](http://asserts.fondoger.cn/personal/app-release.apk)
 
 项目截图
 -------
+
+
+<div style="width: 100%">
+    <div style="display: flex;">
+        <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrtwsyej30u01t0n7g.jpg"  height="auto">
+    </div>
+</div>
 
 <table style="background: #24292e;">
     <tr>
