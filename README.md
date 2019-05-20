@@ -1,4 +1,4 @@
-社交北航(正式名字未定)
+[社交北航](http://blog.fondoger.cn/Social_School/)(正式名字未定)
 =======
 
 一个类似微博的社交客户端，基于React Native。虽然是采用 React Native 开发的，但是实际使用体验应该不输大部分 Github 上的个人开发的原生应用。
@@ -11,9 +11,10 @@
 
 由于需要找工作，如果觉得好用的话，请给我一个小星星，谢谢。
 
-## 下载地址 & 试用
+下载地址 & 试用
+-----------
 
-Android: [点此下载](http://asserts.fondoger.cn/personal/app-release.apk)
+Android: [APP下载](http://blog.fondoger.cn/Social_School/)
 
 为了方便大家，提供一个试用账号：
 密码：test
@@ -22,53 +23,23 @@ Android: [点此下载](http://asserts.fondoger.cn/personal/app-release.apk)
 **为什么没有 iOS 版本？**
 因为开发者没有 Mac 和 iPhone 设备。不过，本项目是纯 JS 写的，用到的库全部兼容 iOS 和 Android，本项目稍加调试（主要是样式适配）就能够在运行在 iOS 环境。因此，当具备条件时，该项目能迅速迁移到 iOS 设备上。
 
-## 基本功能介绍
+
+基本功能介绍
+--------
 
 下面图片是该APP的主要功能。整个项目暂时总共写了32个页面，实际功能还是挺多的（当然 Bug 也不少）：
 
 ![基本功能](http://ww1.sinaimg.cn/large/0070O95Yly1g36sx92wojj30ox0io410.jpg)
 
+
 项目截图
--------
+--------
 
-<div class="container" style="width: 100%; padding: 50px; background: #2ecc71; box-sizing: border-box;">
-    <div class="row" style="display: flex; flex-direction: row;">
-        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
-            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwahgnj30u01t0qno.jpg">
-        </div>
-        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
-            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qruhk1gj30u01t013q.jpg">
-        </div>
-        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
-            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrtwsyej30u01t0n7g.jpg">
-        </div>
-    </div>
-    <div class="row" style="display: flex; flex-direction: row;">
-        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
-            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrsa7s3j30u01t0tnm.jpg" >
-        </div>
-        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
-            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwll2rj30u01t01kx.jpg">
-        </div>
-        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
-            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrx12q2j30u01t0160.jpg">
-        </div>
-    </div>
-    <div class="row" style="display: flex; flex-direction: row;">
-    	<div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
-            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spb7511j30u01t00u7.jpg">
-        </div>
-        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
-            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrq8qxqj30u01t041m.jpg">
-        </div>
-        <div class="card" style="flex: 1; margin: 10px; box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); border-radius: 30px;">
-            <img class="img" style="width: 100%; height: auto; border-radius: 30px;" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spuxfghj30u01t0qci.jpg">
-        </div>
-    </div>
-</div>
+请在APP下载页查看：[APP下载](http://blog.fondoger.cn/Social_School/)
 
 
-## 诚邀您参与开发
+诚邀您参与开发
+--------
 
 这个项目是两年前开始的，绝大部分代码是一年多前写好的，由于我比较懒，鸽了一个学期没咋提交代码。因为工程量太大了，一个人单打独斗实在是吃不消。现在想要完善它，希望得到大家的帮助。
 
