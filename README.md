@@ -19,7 +19,7 @@ Android: [点此下载](http://asserts.fondoger.cn/personal/app-release.apk)
 项目截图
 -------
 
-<table>
+<table style="background: #24292e">
     <tr>
       <td style="padding:0; margin:0"><img style="margin:0" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwahgnj30u01t0qno.jpg" width="100%" height="auto"></td>
       <td style="padding:0; margin:0"><img src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qruhk1gj30u01t013q.jpg" width="100%" height="auto"></td>
