@@ -33,17 +33,17 @@ Android: [点此下载](http://asserts.fondoger.cn/personal/app-release.apk)
 
 
 <div style="width: 100%">
-    <div style="display: flex;">
+    <div style="display: flex; flex-direction: row;">
         <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwahgnj30u01t0qno.jpg"  height="auto">
         <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qruhk1gj30u01t013q.jpg" height="auto">
         <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrtwsyej30u01t0n7g.jpg" height="auto">
     </div>
-    <div style="display: flex;">
+    <div style="display: flex; flex-direction: row;">
         <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrsa7s3j30u01t0tnm.jpg"  height="auto">
         <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrwll2rj30u01t01kx.jpg" height="auto">
         <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrx12q2j30u01t0160.jpg" height="auto">
     </div>
-    <div style="display: flex;">
+    <div style="display: flex; flex-direction: row;">
         <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spb7511j30u01t00u7.jpg"  height="auto">
         <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36qrq8qxqj30u01t041m.jpg" height="auto">
         <img style="flex: 1" src="http://ww1.sinaimg.cn/large/0070O95Yly1g36spuxfghj30u01t0qci.jpg" height="auto">
