@@ -1,31 +1,25 @@
 {
-  "name": "Social_BUAA",
+  "name": "SocialSchool",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "start": "react-native start",
+    "test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "base-64": "^0.1.0",
-    "react": "16.3.1",
-    "react-native": "0.55.4",
-    "react-native-fast-image": "^4.0.14",
-    "react-native-image-crop-picker": "^0.20.3",
-    "react-native-image-gallery": "^2.1.5",
-    "react-native-popup-menu": "^0.13.2",
-    "react-native-scrollable-tab-view": "^0.8.0",
-    "react-native-splash-screen": "^3.1.1",
-    "react-native-swiper": "^1.5.13",
-    "react-native-tab-view": "^1.2.0",
-    "react-navigation": "^2.6.2",
-    "spliddit": "^2.1.1"
+    "react": "16.8.6",
+    "react-native": "0.60.4"
   },
   "devDependencies": {
-    "babel-jest": "23.2.0",
-    "babel-preset-react-native": "4.0.0",
-    "jest": "23.3.0",
-    "react-test-renderer": "16.3.1"
+    "@babel/core": "^7.5.5",
+    "@babel/runtime": "^7.5.5",
+    "@react-native-community/eslint-config": "^0.0.5",
+    "babel-jest": "^24.8.0",
+    "eslint": "^6.1.0",
+    "jest": "^24.8.0",
+    "metro-react-native-babel-preset": "^0.55.0",
+    "react-test-renderer": "16.8.6"
   },
   "jest": {
     "preset": "react-native"
