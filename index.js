@@ -2,13 +2,15 @@
  * @format
  */
 'use strict';
-import React from 'react'
+import React, { Fragment } from 'react'
 import {
+  Text,
   View,
   StatusBar,
+  StyleSheet,
   AppRegistry,
 } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createAppContainer, SafeAreaView } from 'react-navigation';
 import MainTabs from './js/pages/MainTabs'
 import Theme from './js/utils/Theme';
 import KebiaoPage from './js/pages/KebiaoPage';
@@ -104,20 +106,19 @@ const AppContainer = createAppContainer(RootStackNavigator);
 class App extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <StatusBar translucent={true} backgroundColor='rgba(0,0,0,0)' barStyle="light-content" />
-        <AppContainer
-          onNavigationStateChange={this.handleNavigationStateChange}
-        />
-        <MyToast ref={(ref) => { MyToast.setInstance(ref); }} />
-        <ContextMenu ref={(ref) => { ContextMenu.setInstance(ref); }} />
-        <SlideInMenu ref={(ref) => { SlideInMenu.setInstance(ref); }} />
-        <ModalMenu ref={(ref) => { ModalMenu.setInstance(ref); }} />
+      <View style={{ flex: 1, backgroundColor: "#4597ec" }}>
+          <StatusBar translucent={true} backgroundColor='rgba(0,0,0,0)' barStyle="light-content" />
+          <AppContainer
+            onNavigationStateChange={this.handleNavigationStateChange}
+          />
+          <MyToast ref={(ref) => { MyToast.setInstance(ref); }} />
+          <ContextMenu ref={(ref) => { ContextMenu.setInstance(ref); }} />
+          <SlideInMenu ref={(ref) => { SlideInMenu.setInstance(ref); }} />
+          <ModalMenu ref={(ref) => { ModalMenu.setInstance(ref); }} />
       </View>
     );
   }
 }
-
 
 import { name as appName } from './app.json';
 AppRegistry.registerComponent(appName, () => App);

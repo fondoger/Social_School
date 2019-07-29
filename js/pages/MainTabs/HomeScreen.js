@@ -1,8 +1,8 @@
 'use strict';
 import React from 'react';
 import {
-  View, 
-  Text, 
+  View,
+  Text,
   Animated,
   StatusBar,
   Dimensions,
@@ -10,7 +10,7 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import { withNavigation, SafeAreaView } from 'react-navigation';
 import Theme from '../../utils/Theme';
 import TimelinePage from './TimelinePage';
 import TrendingPage from './TrendingPage';
@@ -28,7 +28,6 @@ const _TimelinePage = withNavigation(TimelinePage);
  */
 
 export default class HomeScreenTab extends React.Component {
-
 
   static navigationOptions = ({ navigation }) => ({
     header: null,
@@ -53,43 +52,46 @@ export default class HomeScreenTab extends React.Component {
 
   renderTabBar = (props) => {
     return (
-      <View 
-        ref={ref=>this.ref1=ref}
-        style={{flexDirection: 'row', paddingTop: Theme.statusBarHeight, 
-            height: Theme.statusBarHeight + Theme.headerHeight,
-            backgroundColor: Theme.themeColor, elevation: 1, shadowOpacity: 0}}>
-        <View style={{flex: 4, alignItems: 'flex-start', justifyContent:'center'}} >
-          <TouchableWithoutFeedback onPress={()=>{this.props.navigation.navigate('Common_SearchPage')}}>
-            <View style={{flexDirection:'row', marginLeft: 8, backgroundColor:'#58b0f6', borderRadius: 20, paddingVertical: 3, paddingLeft: 6, paddingRight: 10}}>
+      <SafeAreaView
+        forceInset={{ top: 'always' }}
+        ref={ref => this.ref1 = ref}
+        style={{
+          flexDirection: 'row',
+          height: Theme.headerHeight,
+          backgroundColor: Theme.themeColor, elevation: 1, shadowOpacity: 0
+        }}>
+        <View style={{ flex: 4, alignItems: 'flex-start', justifyContent: 'center' }} >
+          <TouchableWithoutFeedback onPress={() => { this.props.navigation.navigate('Common_SearchPage') }}>
+            <View style={{ flexDirection: 'row', marginLeft: 8, backgroundColor: '#58b0f6', borderRadius: 20, paddingVertical: 3, paddingLeft: 6, paddingRight: 10 }}>
               <IconFont color='#fff' size={18} icon='&#xe623;' />
-              <Text style={{color:'rgba(255,255,255,.9)', fontSize:15, marginLeft: 4}}>搜索</Text>
+              <Text style={{ color: 'rgba(255,255,255,.9)', fontSize: 15, marginLeft: 4 }}>搜索</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
-        <TabBar 
+        <TabBar
           {...props}
-          layout={{width: 160, height: Theme.headerHeight, measured: true}}
-          style={styles.tabBar} 
+          layout={{ width: 160, measured: true }}
+          style={styles.tabBar}
           labelStyle={styles.tabLabel}
           indicatorStyle={styles.tabIndicator}
           useNativeDriver={true}
         />
-        <View style={{flex: 4, alignItems: 'flex-end', justifyContent:'center'}} >
-          <TouchableHighlight onPress={()=>{this.props.navigation.navigate('Status_NewStatusPage', {type:API.Status.USERSTATUS})}} >
-            <View style={{flexDirection: 'row', justifyContent: 'center', height: Theme.headerHeight, alignItems:'center', padding: 8, backgroundColor: Theme.themeColor}}>
-              <Text style={{fontSize: 15, color: '#fff', lineHeight: 24}}>发表</Text>
+        <View style={{ flex: 4, alignItems: 'flex-end', justifyContent: 'center' }} >
+          <TouchableHighlight onPress={() => { this.props.navigation.navigate('Status_NewStatusPage', { type: API.Status.USERSTATUS }) }} >
+            <View style={{ flexDirection: 'row', justifyContent: 'center', height: Theme.headerHeight, alignItems: 'center', padding: 8, backgroundColor: Theme.themeColor }}>
+              <Text style={{ fontSize: 15, color: '#fff', lineHeight: 24 }}>发表</Text>
               <IconFont color='#fff' size={24} icon='&#xe66c;' />
             </View>
           </TouchableHighlight>
         </View>
-      </View>  
+      </SafeAreaView>
     );
   }
 
   render() {
     const _this = this;
     return (
-      <TabView 
+      <TabView
         navigationState={this.state}
         // renderScene={SceneMap({
         //   first: _TimelinePage,
@@ -98,12 +100,12 @@ export default class HomeScreenTab extends React.Component {
         renderScene={({ route }) => {
           switch (route.index) {
             case 0: return <TimelinePage {...this.props} setTabFocusListner={this.setTabFocusListner} />;
-            case 1: return <TrendingPage {...this.props} setTabFocusListner={this.setTabFocusListner}/>;
+            case 1: return <TrendingPage {...this.props} setTabFocusListner={this.setTabFocusListner} />;
             default: return null;
           }
-        }} 
-        onIndexChange={(idx)=>{
-          this.setState({index: idx});
+        }}
+        onIndexChange={(idx) => {
+          this.setState({ index: idx });
           if (this.tabFocuslistenrs[idx]) {
             this.tabFocuslistenrs[idx]();
           }
@@ -118,23 +120,23 @@ export default class HomeScreenTab extends React.Component {
 
 const styles = StyleSheet.create({
   tabBar: {
-    width: 140 + 30 + 30, 
-    elevation: 0, 
+    width: 140 + 30 + 30,
+    elevation: 0,
     shadowOpacity: 0,
     paddingLeft: 20,
     paddingRight: 20,
   },
   tabIndicator: {
-    backgroundColor: '#fff', 
+    backgroundColor: '#fff',
     width: 30,
-    marginLeft: 25 + 20, 
-    borderRadius: 1, 
-    height: 1.5, 
+    marginLeft: 25 + 20,
+    borderRadius: 1,
+    height: 1.5,
     marginBottom: 5.5
   },
   tabLabel: {
-    fontSize: 17, 
-    lineHeight: 17, 
+    fontSize: 17,
+    lineHeight: 17,
     paddingTop: 1.5,
   },
 });
