@@ -19,7 +19,6 @@ import {
 } from 'react-native';
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
-import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers, } from 'react-native-popup-menu';
 import { getPassedTime } from '../../utils/Util';
 import Storage from '../../utils/Storage';
 import { MyToast, ImageSelector, ModalMenu, SlideInMenu, IconFont, DividingLine } from '../../components';

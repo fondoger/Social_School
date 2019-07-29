@@ -5,7 +5,6 @@ import {
   View,
   FlatList,
   StyleSheet,
-  PanResponder,
 } from 'react-native';
 import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
@@ -17,7 +16,6 @@ import {
   StatusesItem, 
   GroupPostItem2, 
 } from '../../components';
-import SplashScreen from 'react-native-splash-screen'
 
 const pageTheme = {
   borderColor: '#d8d8d8',
@@ -70,6 +68,7 @@ export default class TimelinePage extends React.Component {
     }, (error)=>{
       this.setState({refreshing: false, load_more_ing:false, load_more_error: true});
       MyToast.show('刷新失败', {type:'warning'});
+      console.log(error)
     });
   };
 

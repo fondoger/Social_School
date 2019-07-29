@@ -5,28 +5,17 @@ import {
   Text, 
   Image, 
   Animated,
-  FlatList,
   Platform,
   StatusBar,
-  ScrollView,
-  StyleSheet,   
   SectionList,
-  TouchableOpacity, 
   TouchableHighlight,
-  TouchableNativeFeedback,
   TouchableWithoutFeedback,
 } from 'react-native';
-import { TabNavigator, TabBarTop } from 'react-navigation';
 import Theme from '../../utils/Theme';
 import API from '../../utils/API_v1';
-import { getGMTTimeDiff } from '../../utils/Util';
-import Swiper from 'react-native-swiper';
-import { Menu, MenuOption, MenuOptions, MenuTrigger, renderers, } from 'react-native-popup-menu';
-import { MyToast, GroupPostItem, StatusesItem, NormalButton, SelectButton, ContextMenu } from '../../components';
+import { MyToast, GroupPostItem, StatusesItem, SelectButton, ContextMenu } from '../../components';
 
-const _window = require('Dimensions').get('window');
-const ScreenWidth = _window.width;
-const ScreenHeight = _window.height;
+const ScreenWidth = require('Dimensions').get('window').width;
 const StatusBarHeight = (Platform.OS === 'ios' ? 20 : StatusBar.currentHeight);
 const headerHeight = Theme.headerHeight + StatusBarHeight;
 

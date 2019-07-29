@@ -17,7 +17,6 @@ import TrendingPage from './TrendingPage';
 import API from '../../utils/API_v1';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { IconFont, MyToast } from '../../components';
-import SplashScreen from 'react-native-splash-screen'
 
 /* Do this out of render method to avoid re-render when switching tabs */
 const _TrendingPage = withNavigation(TrendingPage);
@@ -50,10 +49,6 @@ export default class HomeScreenTab extends React.Component {
 
   setTabFocusListner = (index, listner) => {
     this.tabFocuslistenrs[index] = listner;
-  }
-
-  componentDidMount() {
-    SplashScreen.hide();
   }
 
   renderTabBar = (props) => {

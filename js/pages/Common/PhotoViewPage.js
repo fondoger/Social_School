@@ -3,15 +3,12 @@ import React from 'react';
 import {
   View,
   StatusBar,
-  Text,
   Image,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-import Gallery from 'react-native-image-gallery';
-import Theme from '../../utils/Theme';
+//import Gallery from 'react-native-image-gallery';
 import FastImage from 'react-native-fast-image';
-import { MyToast } from '../../components';
 
 // const _photos = [
 //     "http://asserts.fondoger.cn/status/0cd64564eac3c8e6603791d69eed6ef3.webp",
@@ -102,7 +99,7 @@ export default class PhotoViewPage extends React.Component {
     render() {
       return (
         <View style={styles.container}>
-            <Gallery
+            {/* <Gallery
                 style={styles.gallery}
                 images={this.state.images}
                 initialPage={this.state.initialImage}
@@ -110,7 +107,7 @@ export default class PhotoViewPage extends React.Component {
                 onPageSelected={this.onPageSelected.bind(this)}
                 onSingleTapConfirmed={this.props.navigation.goBack.bind(this)}
                 flatListProps={{showsHorizontalScrollIndicator:false}}
-            />
+            /> */}
             {this.state.images.length > 1 ?this.renderIndicateDots():null}
         </View>
       );
