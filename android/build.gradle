@@ -32,6 +32,11 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
 
+        // for react-native-image-crop-picker
+        maven { url 'https://maven.google.com' }
+        // for react-native-image-crop-picker
+        maven { url "https://jitpack.io" }
+
         google()
         jcenter()
     }
