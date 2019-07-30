@@ -10,6 +10,9 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import "SDImageCodersManager.h"
+#import <SDWebImageWebPCoder/SDImageWebPCoder.h>
+
 
 @implementation AppDelegate
 
@@ -27,6 +30,10 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
+  
+  // Register WebP format support
+  [SDImageCodersManager.sharedManager addCoder:SDImageWebPCoder.sharedCoder];
+  
   return YES;
 }
 

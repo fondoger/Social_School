@@ -155,10 +155,11 @@ export const ListGroupItem = withNavigation(_ListGroupItem);
 
 
 export function PlaceholderImage(props) {
+  console.log(props.source.uri)
   return (
     <View>
       <View style={[{backgroundColor: '#ccc'}, props.style ]} />
-      <FastImage {...props} style={[props.style, {position:'absolute', left:0, right: 0}]} />
+      <FastImage source={{uri: props.source.uri }} style={[props.style, {position:'absolute', left:0, right: 0}]} />
     </View>
   );
 }
@@ -174,7 +175,7 @@ function _UserAvatarView(props) {
           width: size, height: size, borderRadius: size / 2,
           borderWidth: 0.5, borderColor: 'rgba(100,100,100,0.1)'
         }}
-        source={{ uri: user.avatar + '!thumbnail' }} 
+        source={{ uri: user.avatar }} 
       />
       {
         hideLogo ? null :
@@ -212,7 +213,7 @@ function _SquareAvatarView(props) {
         width: size, height: size, borderRadius: borderRadius || 3,
         borderWidth: 0.5, borderColor: 'rgba(200,200,200,0.3)'
       }}
-      source={{ uri: avatar + '!thumbnail' }} 
+      source={{ uri: avatar }} 
     />
   )
 }

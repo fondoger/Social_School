@@ -4,11 +4,8 @@ import {
   View, 
   Text, 
   Image, 
-  StyleSheet, 
-  TouchableOpacity, 
   TouchableHighlight,
   TouchableWithoutFeedback,
-  ScrollView,
 } from 'react-native';
 import Theme from '../utils/Theme';
 import ImageCard from './ImageCard';
