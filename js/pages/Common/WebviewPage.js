@@ -2,13 +2,13 @@
 import React from 'react';
 import {
   View,
-  WebView,
   BackHandler,
   ActivityIndicator,
   TouchableHighlight
  } from 'react-native';
 import { MyToast, IconFont } from '../../components';
 import { Theme } from '../../utils';
+import { WebView } from 'react-native-webview';
 
 export default class WebviewPage extends React.Component {
 
