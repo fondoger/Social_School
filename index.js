@@ -6,6 +6,7 @@ import React, { Fragment } from 'react'
 import {
   Text,
   View,
+  Platform,
   StatusBar,
   StyleSheet,
   AppRegistry,
@@ -52,6 +53,7 @@ import Sale_PersonalPage from './js/pages/Sale/PersonalPage';
 import Sale_EditSalePage from './js/pages/Sale/EditSalePage';
 
 import Other_OfficialAccountPage from './js/pages/Other/OfficialAccountPage';
+
 
 const RootStackNavigator = createStackNavigator({
   MainTabs,

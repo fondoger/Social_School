@@ -2,24 +2,23 @@
 import React from 'react';
 import {
   StyleSheet,
-  Alert,
   Text,
   View,
-  Image,
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from 'react-native';
 import Theme from '../../utils/Theme';
-import API, { timeoutFetch } from '../../utils/API_v1';
+import API from '../../utils/API_v1';
 import Storage from '../../utils/Storage';
 import { MyToast, UserAvatar, IconFont } from '../../components';
+import { SafeAreaView } from 'react-navigation';
 
 
 function Header(props) {
   return (
     <View style={{backgroundColor: Theme.themeColor,
-                  height: Theme.headerHeight + Theme.statusBarHeight, justifyContent: 'center', 
-                  paddingLeft: 16, paddingTop: Theme.statusBarHeight}}>
+                  height: Theme.headerHeight, justifyContent: 'center', 
+                  paddingLeft: 16}}>
       <Text style={{fontSize: 18, color: '#fff'}}>{props.title}</Text>
     </View>
   )
@@ -84,38 +83,40 @@ export default class MyScreen extends React.Component {
   render() {
     const user = this.state.user;
     return (
-      <View style={styles.container}>
-        <Header title="我"/>
-        <View style={{height: 16}} />
-        <TouchableHighlight style={styles.row} underlayColor={Theme.btnActiveBackground}
-          onPress={this.onUserPress}>
-          <View style={styles.rowUser}>
-            {user ? <UserAvatar {...this.props} user={user} size={64} hideLogo={true} /> : null}
-            <View style={styles.userInfo}>
-              <Text style={styles.username}>{user ? user.username : '未登录'}</Text>
-              <Text style={styles.userType}>{user ? '未认证用户' : '登陆畅享更多功能'}</Text>
+      <SafeAreaView style={{backgroundColor: Theme.themeColor, flex: 1}}>
+        <View style={{ backgroundColor: Theme.lightBackgroundColor, flex: 1 }}>
+          <Header title="我"/>
+          <View style={{height: 16}} />
+          <TouchableHighlight style={styles.row} underlayColor={Theme.btnActiveBackground}
+            onPress={this.onUserPress}>
+            <View style={styles.rowUser}>
+              {user ? <UserAvatar {...this.props} user={user} size={64} hideLogo={true} /> : null}
+              <View style={styles.userInfo}>
+                <Text style={styles.username}>{user ? user.username : '未登录'}</Text>
+                <Text style={styles.userType}>{user ? '未认证用户' : '登陆畅享更多功能'}</Text>
+              </View>
+              { user ? 
+                <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('User_QRCodePage', { user })}>
+                  <IconFont style={{ padding: 4 }} icon='&#xe690;' size={26} color='#888' />
+                </TouchableWithoutFeedback>
+                : null
+              }
             </View>
-            { user ? 
-              <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('User_QRCodePage', { user })}>
-                <IconFont style={{ padding: 4 }} icon='&#xe690;' size={26} color='#888' />
-              </TouchableWithoutFeedback>
-              : null
-            }
+          </TouchableHighlight>
+          <View style={[styles.row, styles.rowTools]}>
+            <Text style={styles.rowTitle}>教务服务</Text>
+            <View style={styles.toolContainer}>
+              <CellItem title="课表" icon="&#xe612;" color="#ff9800" onPress={this.handleCourseOnPress} />
+              <CellItem title="校车" icon="&#xe67a;" color="#00bcd4" onPress={this.handleBusOnPress} />
+              <CellItem title="图书馆" icon="&#xe7a9;" color="#a671ff" onPress={this.handleBoYaOnPress} />
+              <CellItem title="校历" icon="&#xe613;" color="#2196f3" onPress={this.handleCalendarOnPress} />
+            </View>
           </View>
-        </TouchableHighlight>
-        <View style={[styles.row, styles.rowTools]}>
-          <Text style={styles.rowTitle}>教务服务</Text>
-          <View style={styles.toolContainer}>
-            <CellItem title="课表" icon="&#xe612;" color="#ff9800" onPress={this.handleCourseOnPress} />
-            <CellItem title="校车" icon="&#xe67a;" color="#00bcd4" onPress={this.handleBusOnPress} />
-            <CellItem title="图书馆" icon="&#xe7a9;" color="#a671ff" onPress={this.handleBoYaOnPress} />
-            <CellItem title="校历" icon="&#xe613;" color="#2196f3" onPress={this.handleCalendarOnPress} />
-          </View>
+          <RowItem title="聊天" icon="&#xe6eb;" color="#1296db" onPress={() => this.props.navigation.navigate('User_MessagePage')} />
+          <RowItem title="收藏" icon="&#xe618;" color="#dd6145" onPress={() => MyToast.show("功能开发中")} />
+          <RowItem title="设置" icon="&#xe656;" color="#3498eb" onPress={() => this.props.navigation.navigate('Common_SettingPage')} />
         </View>
-        <RowItem title="聊天" icon="&#xe6eb;" color="#1296db" onPress={() => this.props.navigation.navigate('User_MessagePage')} />
-        <RowItem title="收藏" icon="&#xe618;" color="#dd6145" onPress={() => MyToast.show("功能开发中")} />
-        <RowItem title="设置" icon="&#xe656;" color="#3498eb" onPress={() => this.props.navigation.navigate('Common_SettingPage')} />
-      </View>
+      </SafeAreaView>
     );
   }
 
@@ -168,10 +169,6 @@ const CellItem = ({icon, color, title, onPress}) => (
 
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Theme.backgroundColorLight,
-    flex: 1,
-  },
   row: {
     backgroundColor: '#fff',
     marginBottom: 16,

@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import {
-  StyleSheet, 
+  StyleSheet,
   Alert,
   Text,
   View,
@@ -13,13 +13,16 @@ import {
 import Theme from '../../utils/Theme';
 import { IconFont } from '../../components';
 import MyToast from '../../components/MyToast';
+import { SafeAreaView } from 'react-navigation';
 
 function Header(props) {
   return (
-    <View style={{backgroundColor: Theme.themeColor,
-                  height: Theme.headerHeight + Theme.statusBarHeight, justifyContent: 'center', 
-                  paddingLeft: 16, paddingTop: Theme.statusBarHeight}}>
-      <Text style={{fontSize: 18, color: '#fff'}}>{props.title}</Text>
+    <View style={{
+      backgroundColor: Theme.themeColor,
+      height: Theme.headerHeight, justifyContent: 'center',
+      paddingLeft: 16
+    }}>
+      <Text style={{ fontSize: 18, color: '#fff' }}>{props.title}</Text>
     </View>
   )
 }
@@ -40,26 +43,28 @@ export default class DiscoverScreen extends React.Component {
     };
   }
 
-  navigateTo = (route_name)=>{
+  navigateTo = (route_name) => {
     this.props.navigation.navigate(route_name);
   }
 
   render() {
     return (
-      <View style={{flex:1, backgroundColor:'#eee'}}>
-        <Header title="发现"/>
-        <RowItem icon="&#xe60c;" color="#dd5145" title="跳蚤市场" onPress={()=>this.navigateTo("Sale_SquarePage")} />
-        <RowItem icon="&#xe736;" color="#f5ab16" title="校园订阅号" onPress={()=>this.navigateTo("Other_OfficialAccountPage")} />
-        <RowItem icon="&#xe626;" color="#7586db" title="失物招领" onPress={this.handleLostFoundOnPress} />
-        <RowItem icon="&#xea22;" color="#10aeff" title="扫一扫" onPress={()=>MyToast.show("修理ing...")} />
-      </View>
+      <SafeAreaView style={{ backgroundColor: Theme.themeColor, flex: 1 }}>
+        <View style={{ backgroundColor: '#eee', flex: 1 }}>
+          <Header title="发现" />
+          <RowItem icon="&#xe60c;" color="#dd5145" title="跳蚤市场" onPress={() => this.navigateTo("Sale_SquarePage")} />
+          <RowItem icon="&#xe736;" color="#f5ab16" title="校园订阅号" onPress={() => this.navigateTo("Other_OfficialAccountPage")} />
+          <RowItem icon="&#xe626;" color="#7586db" title="失物招领" onPress={this.handleLostFoundOnPress} />
+          <RowItem icon="&#xea22;" color="#10aeff" title="扫一扫" onPress={() => MyToast.show("修理ing...")} />
+        </View>
+      </SafeAreaView>
     );
   }
 
   handleLostFoundOnPress = () => {
     MyToast.show("由信息北航提供服务");
     const lostFound = "https://app.buaa.edu.cn/lost/wap/default";
-    this.props.navigation.navigate("Common_WebviewPage", {url: lostFound});
+    this.props.navigation.navigate("Common_WebviewPage", { url: lostFound });
   }
 }
 
@@ -85,10 +90,10 @@ const styles = StyleSheet.create({
   }
 });
 
-const RowItem = ({icon, color, title, onPress}) => (
-  <TouchableHighlight style={{marginTop:20}} underlayColor='#222' onPress={onPress}>
+const RowItem = ({ icon, color, title, onPress }) => (
+  <TouchableHighlight style={{ marginTop: 20 }} underlayColor='#222' onPress={onPress}>
     <View style={styles.item} >
-      <IconFont icon={icon} color={color} size={23} style={{marginHorizontal: 20}} />
+      <IconFont icon={icon} color={color} size={23} style={{ marginHorizontal: 20 }} />
       <Text style={styles.item_text}>{title}</Text>
     </View>
   </TouchableHighlight>

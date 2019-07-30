@@ -53,7 +53,6 @@ export default class HomeScreenTab extends React.Component {
   renderTabBar = (props) => {
     return (
       <SafeAreaView
-        forceInset={{ top: 'always' }}
         ref={ref => this.ref1 = ref}
         style={{
           flexDirection: 'row',

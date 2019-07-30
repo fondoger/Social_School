@@ -75,21 +75,10 @@ export default class TrendingPage extends React.Component {
     }, (error)=>{
       MyToast.show(error.message)
       this.setState({load_more_ing: false, load_more_err: true});
-    })    
+    });
   }
 
   render() {
-    // if (!this.state.pageInitialized) {
-    //   return (
-    //     <View style={{flex: 1, backgroundColor: '#fff',
-    //         justifyContent: 'center', alignItems: 'center'}}>
-    //       <View style={{flexDirection: 'row'}}>
-    //         <ActivityIndicator size='small' color='#ccc' />
-    //         <Text style={{color:'#aaa', fontSize:15, marginLeft: 5}}>Loading...</Text>
-    //       </View>
-    //     </View>
-    //   );
-    // }
     return (
       <View style={{flex:1, backgroundColor:'#eee'}}>
         <FlatList

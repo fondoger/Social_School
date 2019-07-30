@@ -2,6 +2,7 @@
 import React from 'react';
 import {
   Text,
+  View,
 } from 'react-native';
 import Theme from '../../utils/Theme'
 import MyScreen from './MyScreen';
@@ -18,7 +19,7 @@ export default createBottomTabNavigator({
 }, {
     backBehavior: 'none',
     navigationOptions: {
-      header: null,
+      header: <View style={{height: Theme.statusBarHeight, backgroundColor: Theme.themeColor}}></View>,
     },
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
