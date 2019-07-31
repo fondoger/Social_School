@@ -157,7 +157,7 @@ export default class SalePage extends React.Component {
         bigUri: url,
       }
     }));
-    this.props.navigation.navigate('Common_PhotoViewPage', {initialImage: index, images: images});
+    this.props.navigation.navigate('PhotoViewPage', {initialImage: index, images: images});
   }
 
   renderBigPictures = () => {

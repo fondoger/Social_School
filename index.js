@@ -9,6 +9,8 @@ import {
   Platform,
   StatusBar,
   StyleSheet,
+  Animated,
+  Easing,
   AppRegistry,
 } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
@@ -29,7 +31,6 @@ import Common_RegisterPage from './js/pages/Common/RegisterPage';
 import Common_SettingPage from './js/pages/Common/SettingPage';
 import Common_SearchPage from './js/pages/Common/SearchPage';
 import Common_WebviewPage from './js/pages/Common/WebviewPage';
-import Common_PhotoViewPage from './js/pages/Common/PhotoViewPage';
 import Common_MediumTransPage from './js/pages/Common/MediumTransPage';
 
 import Status_StatusPage from './js/pages/Status/StatusPage';
@@ -53,6 +54,7 @@ import Sale_PersonalPage from './js/pages/Sale/PersonalPage';
 import Sale_EditSalePage from './js/pages/Sale/EditSalePage';
 
 import Other_OfficialAccountPage from './js/pages/Other/OfficialAccountPage';
+import { WrapPhotoViewPage } from './js/pages/Common/PhotoViewPage';
 
 
 const RootStackNavigator = createStackNavigator({
@@ -64,7 +66,6 @@ const RootStackNavigator = createStackNavigator({
   Common_SettingPage,
   Common_SearchPage,
   Common_WebviewPage,
-  Common_PhotoViewPage,
   Common_MediumTransPage,
   Status_StatusPage,
   Status_TopicPage,
@@ -105,23 +106,23 @@ const RootStackNavigator = createStackNavigator({
   }
 );
 
-const AppContainer = createAppContainer(RootStackNavigator);
+const RootStack = WrapPhotoViewPage(RootStackNavigator);
+const AppContainer = createAppContainer(RootStack);
 class App extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#4597ec" }}>
-          <StatusBar translucent={true} backgroundColor='rgba(0,0,0,0)' barStyle="light-content" />
-          <AppContainer
-            onNavigationStateChange={this.handleNavigationStateChange}
-          />
-          <MyToast ref={(ref) => { MyToast.setInstance(ref); }} />
-          <ContextMenu ref={(ref) => { ContextMenu.setInstance(ref); }} />
-          <SlideInMenu ref={(ref) => { SlideInMenu.setInstance(ref); }} />
-          <ModalMenu ref={(ref) => { ModalMenu.setInstance(ref); }} />
+      <View style={{ flex: 1 }}>
+        <StatusBar translucent={true} backgroundColor='rgba(0,0,0,0)' barStyle="light-content" />
+        <AppContainer />
+        <MyToast ref={(ref) => { MyToast.setInstance(ref); }} />
+        <ContextMenu ref={(ref) => { ContextMenu.setInstance(ref); }} />
+        <SlideInMenu ref={(ref) => { SlideInMenu.setInstance(ref); }} />
+        <ModalMenu ref={(ref) => { ModalMenu.setInstance(ref); }} />
       </View>
     );
   }
 }
 
 import { name as appName } from './app.json';
+import PhotoViewPage from './js/pages/Common/PhotoViewPage';
 AppRegistry.registerComponent(appName, () => App);

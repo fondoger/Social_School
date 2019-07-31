@@ -75,6 +75,6 @@ export default class ImageCard extends React.Component {
       source: source,
       dimensions: null,
     }))
-    this.props.navigation.navigate('Common_PhotoViewPage', { initialImage: index, images: images });
+    this.props.navigation.navigate('PhotoViewPage', { initialImage: index, images: images });
   }
 }

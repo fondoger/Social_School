@@ -8,7 +8,7 @@ import {
 import Gallery from 'react-native-image-gallery';
 import FastImage from 'react-native-fast-image';
 import { HeaderLeft } from '../../components';
-import { SafeAreaView } from 'react-navigation';
+import { SafeAreaView, createStackNavigator } from 'react-navigation';
 import Theme from '../../utils/Theme';
 
 // const _photos = [
@@ -30,6 +30,22 @@ import Theme from '../../utils/Theme';
     images: [{ source: {uri: <small_image_url>, bigUri <big_image_url> } }, ...]
 
 */
+
+// Usage : this.props.navigation.navigation("PhotoViewPage", images)
+export function WrapPhotoViewPage(navigator) {
+  return createStackNavigator(
+    {
+      navigator,
+      "PhotoViewPage": {
+        screen: PhotoViewPage,
+      },
+    },
+    {
+      mode: 'modal',
+      headerMode: 'none',
+    }
+  );
+}
 
 
 class PlaceholderImage extends React.Component {
@@ -75,7 +91,7 @@ export default class PhotoViewPage extends React.Component {
     }
   }
 
-  onImageLoad(index, width, height) {
+  onImageLoad = (index, width, height) => {
     const images = this.state.images;
     // Important: must creat a new object to force
     // `TransformableImage` to update dimensions
@@ -85,7 +101,7 @@ export default class PhotoViewPage extends React.Component {
     this.setState({ index: index, images: images });
   }
 
-  onPageSelected(index) {
+  onPageSelected = (index) => {
     const images = this.state.images;
     if (images[index].source.bigUri) {
       images[index].source.loadBig = true;
@@ -103,8 +119,8 @@ export default class PhotoViewPage extends React.Component {
           images={this.state.images}
           initialPage={this.state.initialImage}
           imageComponent={image => { return <PlaceholderImage {...image} />; }}
-          onPageSelected={this.onPageSelected.bind(this)}
-          onSingleTapConfirmed={this.props.navigation.goBack.bind(this)}
+          onPageSelected={this.onPageSelected}
+          onSingleTapConfirmed={this.props.navigation.goBack}
           flatListProps={{ showsHorizontalScrollIndicator: false }}
         />
         <View style={{ position: "absolute" }}>
