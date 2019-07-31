@@ -11,7 +11,7 @@ import {
   StyleSheet,
   AppRegistry,
 } from 'react-native';
-import { createStackNavigator, createAppContainer, SafeAreaView } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import MainTabs from './js/pages/MainTabs'
 import Theme from './js/utils/Theme';
 import KebiaoPage from './js/pages/KebiaoPage';
@@ -85,6 +85,7 @@ const RootStackNavigator = createStackNavigator({
   Other_OfficialAccountPage,
 }, {
     headerMode: 'screen',
+    headerLayoutPreset: 'center',
     defaultNavigationOptions: ({ navigation }) => ({
       headerStyle: {
         paddingTop: Theme.statusBarHeight,
@@ -99,7 +100,7 @@ const RootStackNavigator = createStackNavigator({
       },
       headerTintColor: '#ffffff',
       gesturesEnabled: true,
-      headerLeft: HeaderLeft,
+      headerBackImage: HeaderLeft,
     }),
   }
 );

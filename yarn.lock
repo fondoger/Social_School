@@ -5099,7 +5099,7 @@ prompts@^2.0.1:
     kleur "^3.0.2"
     sisteransi "^1.0.0"
 
-prop-types@^15.5.10, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.npm.taobao.org/prop-types/download/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha1-UsQedbjIfnK52TYOAga5ncv/psU=
@@ -5188,6 +5188,14 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npm.taobao.org/react-lifecycles-compat/download/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha1-TxonOv38jzSIqMUWv9p4+HI1I2I=
 
+react-mixin@^3.0.5:
+  version "3.1.1"
+  resolved "https://registry.npm.taobao.org/react-mixin/download/react-mixin-3.1.1.tgz#68749756bfe32699e561372a4aeecb926db72b7f"
+  integrity sha1-aHSXVr/jJpnlYTcqSu7Lkm23K38=
+  dependencies:
+    object-assign "^4.0.1"
+    smart-mixin "^2.0.0"
+
 react-native-fast-image@^7.0.2:
   version "7.0.2"
   resolved "https://registry.npm.taobao.org/react-native-fast-image/download/react-native-fast-image-7.0.2.tgz#e06b21f42f4a9786eaa86f3db35d919070fb8403"
@@ -5206,6 +5214,14 @@ react-native-image-crop-picker@^0.25.0:
   version "0.25.0"
   resolved "https://registry.npm.taobao.org/react-native-image-crop-picker/download/react-native-image-crop-picker-0.25.0.tgz#858fa6fdc857255fe5250252a38d58db347f9067"
   integrity sha1-hY+m/chXJV/lJQJSo41Y2zR/kGc=
+
+"react-native-image-gallery@https://github.com/Frekansapp/react-native-image-gallery":
+  version "2.1.5"
+  resolved "https://github.com/Frekansapp/react-native-image-gallery#3c024f6352d792e6f6e5784ac5a72a84449fb58c"
+  dependencies:
+    prop-types "^15.6.0"
+    react-mixin "^3.0.5"
+    react-timer-mixin "^0.13.3"
 
 react-native-safe-area-view@^0.14.1:
   version "0.14.6"
@@ -5332,6 +5348,11 @@ react-test-renderer@16.8.6:
     prop-types "^15.6.2"
     react-is "^16.8.6"
     scheduler "^0.13.6"
+
+react-timer-mixin@^0.13.3:
+  version "0.13.4"
+  resolved "https://registry.npm.taobao.org/react-timer-mixin/download/react-timer-mixin-0.13.4.tgz#75a00c3c94c13abe29b43d63b4c65a88fc8264d3"
+  integrity sha1-daAMPJTBOr4ptD1jtMZaiPyCZNM=
 
 react-transform-hmr@^1.0.4:
   version "1.0.4"
@@ -5836,6 +5857,11 @@ slide@^1.1.5:
   version "1.1.6"
   resolved "https://registry.npm.taobao.org/slide/download/slide-1.1.6.tgz#56eb027d65b4d2dce6cb2e2d32c4d4afc9e1d707"
   integrity sha1-VusCfWW00tzmyy4tMsTUr8nh1wc=
+
+smart-mixin@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npm.taobao.org/smart-mixin/download/smart-mixin-2.0.0.tgz#a34a1055e32a75b30d2b4e3ca323dc99cb53f437"
+  integrity sha1-o0oQVeMqdbMNK048oyPcmctT9Dc=
 
 snapdragon-node@^2.0.1:
   version "2.1.1"

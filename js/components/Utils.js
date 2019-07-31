@@ -69,7 +69,7 @@ function _HeaderLeft(props) {
   const tintColor = props.tintColor;
   return (
     <TouchableOpacity onPress={()=>props.navigation.goBack()}>
-      <IconFont icon='&#xe622;' style={{ width: 60, alignItems: 'center', padding: 12, paddingTop: 13 }} size={24} color={tintColor} />
+      <IconFont icon='&#xe622;' style={{ width: 48, alignItems: 'center', padding: 12, paddingTop: 13, paddingLeft: 0 }} size={24} color={tintColor} />
     </TouchableOpacity>
   );
 }

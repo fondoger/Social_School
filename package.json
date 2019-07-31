@@ -14,6 +14,7 @@
     "react-native-fast-image": "^7.0.2",
     "react-native-gesture-handler": "^1.3.0",
     "react-native-image-crop-picker": "^0.25.0",
+    "react-native-image-gallery": "https://github.com/Frekansapp/react-native-image-gallery",
     "react-native-swiper": "^1.6.0-nightly.3",
     "react-native-webview": "^5.12.1",
     "react-navigation": "^3.11.1",

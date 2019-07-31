@@ -2,13 +2,14 @@
 import React from 'react';
 import {
   View,
-  StatusBar,
-  Image,
   StyleSheet,
   ActivityIndicator,
 } from 'react-native';
-//import Gallery from 'react-native-image-gallery';
+import Gallery from 'react-native-image-gallery';
 import FastImage from 'react-native-fast-image';
+import { HeaderLeft } from '../../components';
+import { SafeAreaView } from 'react-navigation';
+import Theme from '../../utils/Theme';
 
 // const _photos = [
 //     "http://asserts.fondoger.cn/status/0cd64564eac3c8e6603791d69eed6ef3.webp",
@@ -32,142 +33,140 @@ import FastImage from 'react-native-fast-image';
 
 
 class PlaceholderImage extends React.Component {
-    state = { loading: false, }
-    render() {
-      // Can only access source of image
-      const source = this.props.source;
-      return (
-        <View {...this.props}>
-          {/* TODO: Change Image to FastImage */}
-          <Image {...this.props} 
-                 style={StyleSheet.absoluteFill} 
-                 source={source}/>
-          <FastImage
-              style={{flex:1}} 
-              source={source.loadBig ? {uri: source.bigUri }: null }
-              resizeMode={FastImage.resizeMode.contain}
-              onLoadStart={()=>this.setState({loading:true})}
-              onLoad={(e) => {
-                  source.onImageLoad(source.index, e.nativeEvent.width, e.nativeEvent.height );
-              }}
-              onLoadEnd={()=>{this.setState({loading:false}); }}
-          />
-          <View style={[StyleSheet.absoluteFill, styles.loadingContainer]} >
-              <ActivityIndicator size='large' color='#fff' style={{opacity: this.state.loading ? 0.5 : 0}}/>
-            
-          </View>
+  state = { loading: false, }
+  render() {
+    const source = this.props.source;
+    return (
+      <View {...this.props}>
+        <FastImage {...this.props}
+          style={StyleSheet.absoluteFill}
+          source={source} />
+        <FastImage
+          style={{ flex: 1 }}
+          source={source.loadBig ? { uri: source.bigUri } : null}
+          resizeMode={FastImage.resizeMode.contain}
+          onLoadStart={() => this.setState({ loading: true })}
+          onLoad={(e) => {
+            source.onImageLoad(source.index, e.nativeEvent.width, e.nativeEvent.height);
+          }}
+          onLoadEnd={() => { this.setState({ loading: false }); }}
+        />
+        <View style={[StyleSheet.absoluteFill, styles.loadingContainer]} >
+          <ActivityIndicator size='large' color='#fff' style={{ opacity: this.state.loading ? 0.5 : 0 }} />
+
         </View>
-      )
-    }
+      </View>
+    )
   }
+}
 
 export default class PhotoViewPage extends React.Component {
-    static navigationOptions ={
-      header: null
-    }
-
-    constructor(props) {
-        super(props);
-        const params = props.navigation.state.params;
-        this.state = {
-            initialImage: params.initialImage || 0,
-            images: params.images,
-            index: 0,
-        }
-    }
-
-    onImageLoad(index, width, height) {
-        const images = this.state.images;
-        // Important: must creat a new object to force
-        // `TransformableImage` to update dimensions
-        const image = { ...images[index] };
-        image.dimensions = { width, height };
-        images[index] = image;
-        this.setState({index: index, images: images});
-    }
-
-    onPageSelected(index) {
-        const images = this.state.images;
-        if (images[index].source.bigUri) {
-            images[index].source.loadBig = true;
-            images[index].source.index = index;
-            images[index].source.onImageLoad = this.onImageLoad.bind(this);
-            this.setState({index: index, images: images});
-        }
-    }
-
-    render() {
-      return (
-        <View style={styles.container}>
-            {/* <Gallery
-                style={styles.gallery}
-                images={this.state.images}
-                initialPage={this.state.initialImage}
-                imageComponent={image =>{ return <PlaceholderImage {...image}/>;} }
-                onPageSelected={this.onPageSelected.bind(this)}
-                onSingleTapConfirmed={this.props.navigation.goBack.bind(this)}
-                flatListProps={{showsHorizontalScrollIndicator:false}}
-            /> */}
-            {this.state.images.length > 1 ?this.renderIndicateDots():null}
-        </View>
-      );
-    }
-  
-    componentWillMount() {
-      StatusBar.setHidden(true, 'slide');
-    }
-    componentWillUnmount() {
-      StatusBar.setHidden(false, 'slide');
-    }
-
-    renderIndicateDots() {
-        return (
-          <View style={styles.dotContainerOuter}>
-            <View style={styles.dotContainer}>
-            {
-              this.state.images.map((item, index)=>(
-                <View key={index.toString()} 
-                      style={[styles.dots, {backgroundColor:
-                      this.state.index==index?'#bbb':'#444'}]} 
-                />
-              ))
-            }
-            </View>
-          </View>
-        )
-      }
+  static navigationOptions = {
+    header: null
   }
-  
-  
-  const styles = StyleSheet.create({
-    loadingContainer: {
-      justifyContent:'center', 
-      alignItems:'center',
-    },
-    container: {
-      flex: 1, 
-      width: null, 
-      height: null,
-    },
-    gallery: {
-      flex: 1, 
-      backgroundColor: 'black',
-    },
-    dotContainerOuter: {
-      position:'absolute', 
-      bottom: 16, 
-      flexDirection:'row'
-    },
-    dotContainer: {
-      flex:1, 
-      flexDirection:'row', 
-      justifyContent:'center', 
-      alignItems:'center'
-    },
-    dots: {
-      borderRadius: 3,
-      width: 6,
-      margin: 7,
-      height: 6,
-    },
-  })
+
+  constructor(props) {
+    super(props);
+    const params = props.navigation.state.params;
+    this.state = {
+      initialImage: params.initialImage || 0,
+      images: params.images,
+      index: 0,
+    }
+  }
+
+  onImageLoad(index, width, height) {
+    const images = this.state.images;
+    // Important: must creat a new object to force
+    // `TransformableImage` to update dimensions
+    const image = { ...images[index] };
+    image.dimensions = { width, height };
+    images[index] = image;
+    this.setState({ index: index, images: images });
+  }
+
+  onPageSelected(index) {
+    const images = this.state.images;
+    if (images[index].source.bigUri) {
+      images[index].source.loadBig = true;
+      images[index].source.index = index;
+      images[index].source.onImageLoad = this.onImageLoad.bind(this);
+      this.setState({ index: index, images: images });
+    }
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Gallery
+          style={styles.gallery}
+          images={this.state.images}
+          initialPage={this.state.initialImage}
+          imageComponent={image => { return <PlaceholderImage {...image} />; }}
+          onPageSelected={this.onPageSelected.bind(this)}
+          onSingleTapConfirmed={this.props.navigation.goBack.bind(this)}
+          flatListProps={{ showsHorizontalScrollIndicator: false }}
+        />
+        <View style={{ position: "absolute" }}>
+          <SafeAreaView style={{ paddingTop: Theme.statusBarHeight + 4, paddingLeft: 12 }}>
+            <HeaderLeft tintColor="#fff" />
+          </SafeAreaView>
+        </View>
+        {this.state.images.length > 1 ? this.renderIndicateDots() : null}
+      </View>
+    );
+  }
+
+  renderIndicateDots() {
+    return (
+      <View style={styles.dotContainerOuter}>
+        <View style={styles.dotContainer}>
+          {
+            this.state.images.map((item, index) => (
+              <View key={index.toString()}
+                style={[styles.dots, {
+                  backgroundColor:
+                    this.state.index == index ? '#bbb' : '#444'
+                }]}
+              />
+            ))
+          }
+        </View>
+      </View>
+    )
+  }
+}
+
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
+    flex: 1,
+    width: null,
+    height: null,
+  },
+  gallery: {
+    flex: 1,
+    backgroundColor: 'black',
+  },
+  dotContainerOuter: {
+    position: 'absolute',
+    bottom: 16,
+    flexDirection: 'row'
+  },
+  dotContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  dots: {
+    borderRadius: 3,
+    width: 6,
+    margin: 7,
+    height: 6,
+  },
+})
