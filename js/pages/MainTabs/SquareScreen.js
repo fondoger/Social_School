@@ -1,5 +1,5 @@
 'use strict';
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   StyleSheet,
   Text,
@@ -239,26 +239,30 @@ export default class SquareScreen extends React.Component {
           showsHorizontalScrollIndicator={false}
           horizontal={true}>
           <View style={{ width: 8 }} hint="padding" />
-          {
-            hotPublicGroups.length == 0 || hotGroups.length == 0 ? <GroupCardSkeleton /> :
-              <GroupCard image={require('../../../img/balloon.jpg')} title="热门小组" >
-                <GroupItem group={hotPublicGroups[0]} />
-                <DividingLine paddingLeft={36} color="#ddd" />
-                <GroupItem group={hotPublicGroups[1]} />
-                <DividingLine paddingLeft={36} color="#ddd" />
-                <GroupItem group={hotPublicGroups[2]} />
-              </GroupCard>
-          }
-          {
-            hotPublicGroups.length == 0 || hotGroups.length == 0 ? <GroupCardSkeleton /> :
-              <GroupCard image={require('../../../img/tree.jpg')} title="活跃小组" >
-                <GroupItem group={hotGroups[0]} />
-                <DividingLine paddingLeft={36} color="#ddd" />
-                <GroupItem group={hotGroups[1]} />
-                <DividingLine paddingLeft={36} color="#ddd" />
-                <GroupItem group={hotGroups[2]} />
-              </GroupCard>
-          }
+          <GroupCard image={require('../../../img/balloon.jpg')} title="热门小组" headerColor="#6fa5d8" >
+            {
+              hotPublicGroups.length == 0 || hotGroups.length == 0 ? <GroupCardSkeleton /> :
+                <Fragment>
+                  <GroupItem group={hotPublicGroups[0]} />
+                  <DividingLine paddingLeft={36} color="#ddd" />
+                  <GroupItem group={hotPublicGroups[1]} />
+                  <DividingLine paddingLeft={36} color="#ddd" />
+                  <GroupItem group={hotPublicGroups[2]} />
+                </Fragment>
+            }
+          </GroupCard>
+          <GroupCard image={require('../../../img/tree.jpg')} title="活跃小组" headerColor="#91c3c2" >
+            {
+              hotPublicGroups.length == 0 || hotGroups.length == 0 ? <GroupCardSkeleton /> :
+                <Fragment>
+                  <GroupItem group={hotGroups[0]} />
+                  <DividingLine paddingLeft={36} color="#ddd" />
+                  <GroupItem group={hotGroups[1]} />
+                  <DividingLine paddingLeft={36} color="#ddd" />
+                  <GroupItem group={hotGroups[2]} />
+                </Fragment>
+            }
+          </GroupCard>
           <GroupCard image={require('../../../img/moon.jpg')} title="更多小组" >
             <Text>点此发现更多小组</Text>
           </GroupCard>
@@ -283,26 +287,20 @@ export default class SquareScreen extends React.Component {
   }
 }
 
-const GroupCardSkeleton = ({ skeletonColor = "#eee", }) => (
-  <View style={{
-    borderRadius: 8, width: 240, height: 165, backgroundColor: '#fff',
-    margin: 6, paddingBottom: 8, elevation: 3, paddingHorizontal: 10
-  }}>
-    <View style={{ margin: 9, marginVertical: 12, height: 20, width: 120, backgroundColor: skeletonColor }} />
-    <View style={{}}>
-      <View style={{ backgroundColor: skeletonColor, margin: 9, width: 200, height: 20 }} />
-      <View style={{ backgroundColor: skeletonColor, margin: 9, width: 200, height: 20 }} />
-      <View style={{ backgroundColor: skeletonColor, margin: 9, width: 200, height: 20 }} />
-    </View>
+const GroupCardSkeleton = ({ skeletonColor = "#eee" }) => (
+  <View style={{ paddingTop: 6 }}>
+    <View style={{ backgroundColor: skeletonColor, margin: 9, width: 200, height: 20 }} />
+    <View style={{ backgroundColor: skeletonColor, margin: 9, width: 200, height: 20 }} />
+    <View style={{ backgroundColor: skeletonColor, margin: 9, width: 200, height: 20 }} />
   </View>
 );
 
-const GroupCard = ({ image, title, children }) => (
+const GroupCard = ({ image, title, children, headerColor }) => (
   <View style={{
     borderRadius: 8, width: 240, height: 165, backgroundColor: '#fff',
     margin: 6, paddingBottom: 8, elevation: 3,
   }}>
-    <FastImage style={{ borderRadius: 8, width: 240, height: 45, marginBottom: -10 }}
+    <FastImage style={{ borderRadius: 8, width: 240, height: 45, marginBottom: -10, backgroundColor: headerColor }}
       resizeMode="cover" source={image} />
     <View style={{ flex: 1, height: 10, backgroundColor: '#fff' }} />
     <View style={{ position: 'absolute', left: 10, right: 10, top: 10, bottom: 10 }}>

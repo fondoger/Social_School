@@ -124,5 +124,4 @@ class App extends React.Component {
 }
 
 import { name as appName } from './app.json';
-import PhotoViewPage from './js/pages/Common/PhotoViewPage';
 AppRegistry.registerComponent(appName, () => App);
